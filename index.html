@@ -3,139 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Memojiing - AdMob Info</title>
+  <title>BlackSkull-k Apps</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
-
-    * {
-      box-sizing: border-box;
+    body {
+      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      background: #121212;
+      color: #f1f1f1;
     }
-
-    body {
-      font-family: 'Roboto', sans-serif;
-      background: linear-gradient(135deg, #6a11cb, #2575fc);
-      color: #fff;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
     header {
       text-align: center;
-      padding: 2rem 1rem;
-      background: rgba(0,0,0,0.3);
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      padding: 30px 10px 20px 10px;
+      background: #1e1e1e;
     }
-
-    header h1 {
-      font-size: 2.2rem;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
-      margin-bottom: 0.5rem;
+    header img {
+      max-width: 200px;
+      height: auto;
     }
-
-    header p {
-      font-size: 1rem;
-      color: #ffce00;
-    }
-
     main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      padding: 2rem 1rem;
-    }
-
-    main p {
-      font-size: 1.2rem;
-      margin-bottom: 2rem;
-    }
-
-    .btn {
-      display: inline-block;
-      margin: 0.5rem;
-      padding: 0.9rem 2rem;
-      background-color: #ffce00;
-      color: #000;
-      font-weight: bold;
-      text-decoration: none;
-      border-radius: 12px;
-      box-shadow: 3px 3px 15px rgba(0,0,0,0.4);
-      transition: transform 0.2s, box-shadow 0.2s;
-      font-size: 1rem;
-    }
-
-    .btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
-    }
-
-    .cards {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1rem;
-      margin-top: 1rem;
+      gap: 20px;
+      padding: 20px;
     }
-
     .card {
-      background: rgba(255,255,255,0.1);
-      padding: 1.5rem 2rem;
-      border-radius: 15px;
-      box-shadow: 2px 2px 15px rgba(0,0,0,0.3);
-      width: 250px;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-
-    .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 4px 4px 20px rgba(0,0,0,0.5);
-    }
-
-    .card h3 {
-      margin-bottom: 0.5rem;
-    }
-
-    footer {
+      background: #1f1f1f;
+      padding: 20px;
+      border-radius: 12px;
+      width: 260px;
       text-align: center;
-      padding: 1rem;
-      background: rgba(0,0,0,0.2);
-      font-size: 0.9rem;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: transform 0.2s;
+    }
+    .card:hover {
+      transform: scale(1.05);
+    }
+    .card a {
+      text-decoration: none;
+      color: #00bfff;
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 16px;
+      border: 1px solid #00bfff;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .card a:hover {
+      background: #00bfff;
+      color: #121212;
     }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>Memojiing</h1>
-  <p>Your AdMob app verification site</p>
+  <img src="https://images.app.goo.gl/X7Mdu8sPeQfmx7F68" alt="BlackSkull-k Logo">
 </header>
 
 <main>
-  <p>Welcome! Access the app-ads.txt file or visit the app on Google Play:</p>
-  
-  <div class="cards">
-    <div class="card">
-      <h3>App-ads.txt</h3>
-      <p>Download or view the file for AdMob verification.</p>
-      <a href="https://appadstxt-bsk.netlify.app/app-ads.txt" target="_blank" class="btn">View File</a>
-    </div>
-
-    <div class="card">
-      <h3>Google Play App</h3>
-      <p>Visit your app's page on Google Play Store.</p>
-      <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank" class="btn">Go to App</a>
-    </div>
+  <!-- App-ads.txt card -->
+  <div class="card">
+    <h2>app-ads.txt</h2>
+    <p>Contains the file for AdMob verification.</p>
+    <a href="https://appadstxt-bsk.netlify.app/app-ads.txt" download>Download File</a>
+    <br><br>
+    <a href="https://appadstxt-bsk.netlify.app/app-ads.txt" target="_blank">View File</a>
   </div>
-</main>
 
-<footer>
-  &copy; 2025 Memojiing. All rights reserved.
-</footer>
+  <!-- Main Play Store page -->
+  <div class="card">
+    <h2>Main Play Store Page</h2>
+    <p>All BlackSkull-k apps.</p>
+    <a href="https://play.google.com/store/apps/dev?id=6316655378671230760" target="_blank">Visit Play Store</a>
+  </div>
+
+  <!-- Additional apps -->
+  <div class="card">
+    <h2>App 1</h2>
+    <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank">Open App</a>
+  </div>
+
+  <div class="card">
+    <h2>App 2</h2>
+    <a href="https://play.google.com/store/apps/details?id=ID_ALTRA_APP" target="_blank">Open App</a>
+  </div>
+
+  <!-- Aggiungi altre card app qui copiando il blocco sopra e sostituendo link e nome -->
+</main>
 
 </body>
 </html>
