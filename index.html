@@ -3,19 +3,139 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>App-ads.txt</title>
+  <title>Memojiing - AdMob Info</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
-  <!-- Google Search Console verification meta tag -->
-  <meta name="google-site-verification" content="p3WxNMSzZRIBQIWVgAqcBhdaD6CRG99rZ3fTvgYM1I8" />
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #6a11cb, #2575fc);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      text-align: center;
+      padding: 2rem 1rem;
+      background: rgba(0,0,0,0.3);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+
+    header h1 {
+      font-size: 2.2rem;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+      margin-bottom: 0.5rem;
+    }
+
+    header p {
+      font-size: 1rem;
+      color: #ffce00;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    main p {
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    .btn {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 0.9rem 2rem;
+      background-color: #ffce00;
+      color: #000;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 12px;
+      box-shadow: 3px 3px 15px rgba(0,0,0,0.4);
+      transition: transform 0.2s, box-shadow 0.2s;
+      font-size: 1rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 5px 5px 20px rgba(0,0,0,0.5);
+    }
+
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.1);
+      padding: 1.5rem 2rem;
+      border-radius: 15px;
+      box-shadow: 2px 2px 15px rgba(0,0,0,0.3);
+      width: 250px;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 4px 4px 20px rgba(0,0,0,0.5);
+    }
+
+    .card h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: rgba(0,0,0,0.2);
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 <body>
-  <h1>App-ads.txt File</h1>
-  <p>This site contains the <code>app-ads.txt</code> file for AdMob.</p>
+
+<header>
+  <h1>Memojiing</h1>
+  <p>Your AdMob app verification site</p>
+</header>
+
+<main>
+  <p>Welcome! Access the app-ads.txt file or visit the app on Google Play:</p>
   
-  <!-- Direct link to the app-ads.txt file -->
-  <p>Download or view the file: 
-    <a href="https://appadstxt-bsk.netlify.app/app-ads.txt" target="_blank">app-ads.txt</a>
-  </p>
+  <div class="cards">
+    <div class="card">
+      <h3>App-ads.txt</h3>
+      <p>Download or view the file for AdMob verification.</p>
+      <a href="https://appadstxt-bsk.netlify.app/app-ads.txt" target="_blank" class="btn">View File</a>
+    </div>
+
+    <div class="card">
+      <h3>Google Play App</h3>
+      <p>Visit your app's page on Google Play Store.</p>
+      <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank" class="btn">Go to App</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  &copy; 2025 Memojiing. All rights reserved.
+</footer>
+
 </body>
 </html>
