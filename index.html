@@ -1,121 +1,118 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Black Skull Apps</title>
-<link rel="icon" type="image/png" href="/favicon.png">
-<style>
-    body { margin: 0; font-family: Arial, sans-serif; background: #f4f4f4; display: flex; flex-direction: column; min-height: 100vh; }
-    nav {
-        background: #222;
-        display: flex;
-        justify-content: center;
-        padding: 0.5rem 0;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BlackSkull-k Apps</title>
+
+  <!-- Google Search Console verification -->
+  <meta name="google-site-verification" content="p3WxNMSzZRIBQIWVgAqcBhdaD6CRG99rZ3fTvgYM1I8" />
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      color: #333;
+      margin: 0;
+      padding: 0;
     }
-    nav a {
-        color: white;
-        text-decoration: none;
-        padding: 0.7rem 1.5rem;
-        display: block;
+    header {
+      background: #1e1e1e;
+      color: #fff;
+      text-align: center;
+      padding: 30px 20px;
+      font-size: 2em;
     }
-    nav a:hover { background: #444; }
-    .section { display: none; padding: 2rem; flex: 1; }
-    .active { display: block; }
-    .apps-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1rem;
+    main {
+      max-width: 1000px;
+      margin: 20px auto;
+      padding: 10px;
+    }
+    .section {
+      margin-bottom: 30px;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    h2 {
+      margin-bottom: 15px;
     }
     .card {
-        background: white;
-        padding: 1rem;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        text-align: center;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+      padding: 15px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
     }
-    iframe { width: 100%; height: 500px; border: none; }
-    form { max-width: 400px; margin: auto; background: white; padding: 1rem; border-radius: 10px; }
-    input, textarea {
-        width: 100%; padding: 0.5rem; margin-bottom: 0.8rem; border: 1px solid #ccc; border-radius: 5px;
+    .card a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      font-size: 1em;
+      padding: 6px 12px;
+      border-radius: 5px;
+      margin: 2px;
     }
-    button {
-        background: #222; color: white; padding: 0.7rem 1.5rem;
-        border: none; cursor: pointer; border-radius: 5px;
+    .btn-view { background: #1a73e8; }
+    .btn-download { background: #f57c00; }
+    .btn-open { background: #4caf50; }
+
+    /* Colori delle sezioni */
+    .apps-section { background: #d0e7ff; }
+    .playstore-section { background: #d4f5d4; }
+    .ads-section { background: #ffe5b4; }
+
+    /* Per pulsanti affiancati su mobile */
+    .ads-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
     }
-    button:hover { background: #444; }
-    footer {
-        background: #222;
-        color: #ccc;
-        font-size: 0.8rem;
-        text-align: center;
-        padding: 0.5rem;
-    }
-</style>
+  </style>
 </head>
 <body>
 
-<nav>
-    <a href="#" onclick="showSection('home')">Home</a>
-    <a href="#" onclick="showSection('apps')">Apps</a>
-    <a href="#" onclick="showSection('contacts')">Contacts</a>
-    <a href="#" onclick="showSection('affiliate')">Affiliate Sites</a>
-</nav>
+  <header>BlackSkull-k Apps</header>
 
-<div id="home" class="section active">
-    <h2>Play Store</h2>
-    <iframe src="https://play.google.com/store/apps"></iframe>
-    <h3>Le nostre App</h3>
-    <div class="apps-grid">
-        <div class="card">App 1</div>
-        <div class="card">App 2</div>
-        <div class="card">App 3</div>
+  <main>
+    <!-- Sezione App -->
+    <div class="section apps-section">
+      <h2>All My Apps</h2>
+      <div class="card"><span>Piano 🎹</span> <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" class="btn-open" target="_blank">Open</a></div>
+      <div class="card"><span>Torch Flash Light Plus 🔦</span> <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" class="btn-open" target="_blank">Open</a></div>
+      <div class="card"><span>Memojiing 🎴</span> <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" class="btn-open" target="_blank">Open</a></div>
+      <div class="card"><span>Infinity Jump Rabbit 🐰</span> <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" class="btn-open" target="_blank">Open</a></div>
+      <div class="card"><span>Golf Wild ⛳</span> <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" class="btn-open" target="_blank">Open</a></div>
     </div>
-</div>
 
-<div id="apps" class="section">
-    <h2>Le nostre App</h2>
-    <div class="apps-grid">
-        <div class="card">App 1</div>
-        <div class="card">App 2</div>
-        <div class="card">App 3</div>
-        <div class="card">App 4</div>
+    <!-- Sezione Play Store principale -->
+    <div class="section playstore-section">
+      <h2>My Play Store Profile</h2>
+      <div class="card">
+        <span>Visit my Google Play Store</span>
+        <a href="https://play.google.com/store/apps/dev?id=6316655378671230760" class="btn-open" target="_blank">Open</a>
+      </div>
     </div>
-</div>
 
-<div id="contacts" class="section">
-    <h2>Contattaci</h2>
-    <form action="mailto:Blackskull.k.info@gmail.com" method="post" enctype="text/plain">
-        <input type="text" name="name" placeholder="Il tuo nome" required>
-        <input type="email" name="email" placeholder="La tua email" required>
-        <textarea name="message" placeholder="Il tuo messaggio" rows="5" required></textarea>
-        <button type="submit">Invia</button>
-    </form>
-</div>
-
-<div id="affiliate" class="section">
-    <h2>JFKar</h2>
-    <p>
-        Vendita di auto usato, noleggio, Km 0, acquista o noleggia, finanziamenti e leasing.
-    </p>
-    <p>
-        JFKar offre diversi servizi come finanziamenti e leasing, possibilità di assicurazioni, demolizioni auto.
-        Vendere la tua auto come privato ma con i vantaggi di una concessionaria? Con il nostro servizio di vendita tra privati ora puoi usufruire dei nostri servizi per la vendita come garanzia e pubblicazione annunci.
-        Organizziamo i tuoi appuntamenti, su giorni ed orari concordati, per eliminare stress e chiamate inutili sul tuo numero di telefono, con la possibilità di offrire una garanzia aggiuntiva per poter aumentare le possibilità di vendita.
-    </p>
-    <p><b>Sito Web:</b> <a href="https://www.jfkar.com" target="_blank">www.jfkar.com</a></p>
-</div>
+    <!-- Sezione App-ads.txt -->
+    <div class="section ads-section">
+      <h2>AdMob</h2>
+      <div class="card">
+        <span>app-ads.txt file for AdMob</span>
+        <div class="ads-buttons">
+          <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-view" target="_blank">View</a>
+          <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-download" download>Download</a>
+        </div>
+      </div>
+    </div>
+  </main>
 
 <footer>
     BlackSkull-k ® 2021-2025
 </footer>
-
-<script>
-function showSection(id) {
-    document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-}
-</script>
 
 </body>
 </html>
