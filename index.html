@@ -18,15 +18,36 @@
     }
 
     header {
-      background: #1e1e1e;
-      padding: 0; /* tolto padding per fascia completa */
       text-align: center;
+      position: relative;
     }
 
     header img {
-      width: 100%;   /* fascia a tutta larghezza */
-      height: auto;  /* mantiene proporzioni */
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    }
+
+    /* Navbar */
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #1e1e1e;
+    }
+
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      padding: 15px 25px;
       display: block;
+      font-weight: bold;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    nav a:hover {
+      background: #444;
+      color: #1a73e8;
     }
 
     main {
@@ -76,21 +97,58 @@
     .playstore-section { background: #d4f5d4; }
     .ads-section { background: #ffe5b4; }
 
-    /* Per pulsanti affiancati su mobile */
     .ads-buttons {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
     }
 
-    /* Footer centrato e colore personalizzabile */
+    /* Footer */
     footer {
       text-align: center;
       font-size: 0.8em;
-      color: #fff; /* puoi cambiare il colore */
-      padding: 10px 0;
+      padding: 15px;
+      background: #1e1e1e;
+      color: #fff;
     }
 
+    /* Icone app ridotte */
+    .card img {
+      width: 40px;
+      height: 40px;
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+
+    /* Contact form */
+    #contact form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    #contact input, #contact textarea {
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      width: 100%;
+    }
+
+    #contact button {
+      width: 150px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      background-color: #1a73e8;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    #contact button:hover {
+      background-color: #1558b0;
+    }
   </style>
 </head>
 <body>
@@ -99,19 +157,16 @@
     <img src="images/Logo1.png" alt="BlackSkull-k Logo">
   </header>
 
-  <main>
-    <!-- Sezione App -->
-    <div class="section apps-section">
-      <h2>All My Apps</h2>
-      <div class="card"><span>Piano 🎹</span> <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" class="btn-open" target="_blank">Open</a></div>
-      <div class="card"><span>Torch Flash Light Plus 🔦</span> <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" class="btn-open" target="_blank">Open</a></div>
-      <div class="card"><span>Memojiing 🎴</span> <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" class="btn-open" target="_blank">Open</a></div>
-      <div class="card"><span>Infinity Jump Rabbit 🐰</span> <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" class="btn-open" target="_blank">Open</a></div>
-      <div class="card"><span>Golf Wild ⛳</span> <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" class="btn-open" target="_blank">Open</a></div>
-    </div>
+  <nav>
+    <a href="#home">Home</a>
+    <a href="#apps">Applications</a>
+    <a href="#contact">Contacts</a>
+    <a href="#affiliates">Affiliate Sites</a>
+  </nav>
 
-    <!-- Sezione Play Store principale -->
-    <div class="section playstore-section">
+  <main>
+    <!-- Home Section -->
+    <div id="home" class="section playstore-section">
       <h2>My Play Store Profile</h2>
       <div class="card">
         <span>Visit my Google Play Store</span>
@@ -119,15 +174,47 @@
       </div>
     </div>
 
-    <!-- Sezione App-ads.txt -->
-    <div class="section ads-section">
-      <h2>AdMob</h2>
+    <!-- Applications Section -->
+    <div id="apps" class="section apps-section">
+      <h2>All My Apps</h2>
       <div class="card">
-        <span>app-ads.txt file for AdMob</span>
-        <div class="ads-buttons">
-          <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-view" target="_blank">View</a>
-          <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-download" download>Download</a>
-        </div>
+        <span><img src="images/Pianoicon.png" alt="Piano"> Piano 🎹</span>
+        <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" class="btn-open" target="_blank">Open</a>
+      </div>
+      <div class="card">
+        <span><img src="images/Torchicon.png" alt="Torch Flash Light Plus"> Torch Flash Light Plus 🔦</span>
+        <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" class="btn-open" target="_blank">Open</a>
+      </div>
+      <div class="card">
+        <span><img src="images/Memoicon.png" alt="Memojiing"> Memojiing 🎴</span>
+        <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" class="btn-open" target="_blank">Open</a>
+      </div>
+      <div class="card">
+        <span><img src="images/IJRicon.png" alt="Infinity Jump Rabbit"> Infinity Jump Rabbit 🐰</span>
+        <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" class="btn-open" target="_blank">Open</a>
+      </div>
+      <div class="card">
+        <span><img src="images/Golficon.png" alt="Golf Wild"> Golf Wild ⛳</span>
+        <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" class="btn-open" target="_blank">Open</a>
+      </div>
+    </div>
+
+    <!-- Contacts Section -->
+    <div id="contact" class="section ads-section">
+      <h2>Contact Me</h2>
+      <form action="mailto:blackskull.k.info@gmail.com" method="post" enctype="text/plain">
+        <input type="text" name="name" placeholder="Your Name">
+        <input type="email" name="email" placeholder="Your Email">
+        <textarea name="message" rows="4" placeholder="Your Message"></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </div>
+
+    <!-- Affiliate Sites Section -->
+    <div id="affiliates" class="section playstore-section">
+      <h2>Affiliate Sites</h2>
+      <div class="card">
+        <!-- Vuoto, puoi aggiungere contenuti in seguito -->
       </div>
     </div>
   </main>
