@@ -30,10 +30,11 @@
     }
     .section {
       margin-bottom: 30px;
+      padding: 10px;
+      border-radius: 10px;
     }
     h2 {
-      color: #1a73e8;
-      margin-bottom: 10px;
+      margin-bottom: 15px;
     }
     .card {
       background: #fff;
@@ -41,21 +42,25 @@
       box-shadow: 0 3px 6px rgba(0,0,0,0.1);
       padding: 15px;
       margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     .card a {
       text-decoration: none;
-      color: #1a73e8;
-      font-weight: bold;
-    }
-    .download-btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 8px 15px;
-      background: #1a73e8;
       color: #fff;
+      font-weight: bold;
+      font-size: 1em;
+      padding: 6px 12px;
       border-radius: 5px;
-      text-decoration: none;
     }
+    .btn-view { background: #1a73e8; }
+    .btn-download { background: #f57c00; }
+    .btn-open { background: #4caf50; }
+    /* Colori delle sezioni */
+    .apps-section { background: #d0e7ff; }
+    .playstore-section { background: #d4f5d4; }
+    .ads-section { background: #ffe5b4; }
   </style>
 </head>
 <body>
@@ -64,27 +69,33 @@
 
   <main>
     <!-- Sezione App -->
-    <div class="section">
+    <div class="section apps-section">
       <h2>All My Apps</h2>
-      <div class="card"><a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" target="_blank">PianoBlackskullk</a></div>
-      <div class="card"><a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" target="_blank">TorchFlashLightPlusBlackskullk</a></div>
-      <div class="card"><a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank">MemoJingBlackSkullK</a></div>
-      <div class="card"><a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" target="_blank">InfinityJumpRabbit</a></div>
-      <div class="card"><a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" target="_blank">GolfWildBlackSkullK</a></div>
+      <div class="card"><span>PianoBlackskullk</span> <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" class="btn-open" target="_blank">Open</a></div>
+      <div class="card"><span>TorchFlashLightPlusBlackskullk</span> <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" class="btn-open" target="_blank">Open</a></div>
+      <div class="card"><span>MemoJingBlackSkullK</span> <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" class="btn-open" target="_blank">Open</a></div>
+      <div class="card"><span>InfinityJumpRabbit</span> <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" class="btn-open" target="_blank">Open</a></div>
+      <div class="card"><span>GolfWildBlackSkullK</span> <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" class="btn-open" target="_blank">Open</a></div>
     </div>
 
     <!-- Sezione Play Store principale -->
-    <div class="section">
+    <div class="section playstore-section">
       <h2>My Play Store Profile</h2>
-      <div class="card"><a href="https://play.google.com/store/apps/dev?id=6316655378671230760" target="_blank">Visit my Google Play Store</a></div>
+      <div class="card">
+        <span>Visit my Google Play Store</span>
+        <a href="https://play.google.com/store/apps/dev?id=6316655378671230760" class="btn-open" target="_blank">Open</a>
+      </div>
     </div>
 
     <!-- Sezione App-ads.txt -->
-    <div class="section">
+    <div class="section ads-section">
       <h2>AdMob app-ads.txt</h2>
       <div class="card">
-        <p>Download or view the <code>app-ads.txt</code> file for AdMob:</p>
-        <a href="https://appadstxt-bsk.netlify.app/app-ads.txt" class="download-btn" download>Download app-ads.txt</a>
+        <span>app-ads.txt file for AdMob</span>
+        <div>
+          <a href="https://appadstxt-bsk.netlify.app/app-ads.txt" class="btn-view" target="_blank">View</a>
+          <a href="https://appadstxt-bsk.netlify.app/app-ads.txt" class="btn-download" download>Download</a>
+        </div>
       </div>
     </div>
   </main>
