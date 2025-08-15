@@ -11,16 +11,16 @@
 <meta name="google-site-verification" content="p3WxNMSzZRIBQIWVgAqcBhdaD6CRG99rZ3fTvgYM1I8" />
 
 <!-- =======================
-     AD MOB
-======================= -->
-<meta name="admob-app-id" content="ca-app-pub-6870698456420623~YOUR_APP_ID">
-
-<!-- =======================
-     META SEO
+     SEO
 ======================= -->
 <meta name="description" content="Scopri tutte le app di BlackSkull-k">
 <meta name="keywords" content="app, applicazioni, giochi, BlackSkull-k, affiliati, Android, utility, giochi gratuiti">
 <meta name="author" content="BlackSkull-k">
+
+<!-- =======================
+     AD MOB
+======================= -->
+<meta name="admob-app-id" content="ca-app-pub-6870698456420623~YOUR_APP_ID">
 
 <!-- =======================
      FAVICONS
@@ -39,7 +39,9 @@
   body { font-family: Arial, sans-serif; margin:0; padding:0; background:#9d9f9f; color:#333;}
   header img { width:100%; max-height:200px; object-fit:cover; box-shadow:0 4px 10px rgba(0,0,0,0.5);}
   main { max-width:1000px; margin:20px auto; padding:10px;}
-  .section { margin-bottom:30px; padding:10px; border-radius:10px; }
+
+  .section { margin-bottom:30px; padding:10px; }
+  .divider { height:2px; background:#222; margin:20px 0; border-radius:2px; }
 
   /* =======================
      TITOLI PRINCIPALI
@@ -54,54 +56,34 @@
      CARDS APP
   ======================= */
   .apps-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: center;
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:15px;
   }
 
   .card {
-    background: #fff;
-    border-radius: 10px;
-    padding: 15px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 180px;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    background:#fff; 
+    border-radius:10px; 
+    width:180px; 
+    padding:15px; 
+    display:flex; 
+    flex-direction:column; 
+    align-items:center; 
+    box-shadow:0 3px 6px rgba(0,0,0,0.1); 
     transition: all 0.3s ease;
-    text-align: center;
-  }
-
-  .card img {
-    width: 60px;
-    height: 60px;
-    margin: 10px 0;
-  }
-
-  .card span {
-    font-weight: bold;
-    margin-bottom: 10px;
-    display: block;
-  }
-
-  .card a {
-    color: #fff;
-    background: #28a745; /* verde pulsante app */
-    padding: 6px 12px;
-    border-radius:5px;
-    font-weight:bold;
-    text-decoration:none;
-  }
-
-  .card a:hover {
-    background: #218838;
   }
 
   .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    transform: translateY(-8px);
+    box-shadow:0 10px 20px rgba(0,0,0,0.25);
+    background: #f7f7f7;
   }
+
+  .card img { width:80px; height:80px; margin-bottom:10px; }
+  .card span { font-weight:bold; margin-bottom:10px; text-align:center; }
+  .card a { text-decoration:none; color:#fff; background:#28a745; padding:6px 12px; border-radius:5px; font-weight:bold; }
+  .card a:hover { background:#218838; }
 
   /* =======================
      CONTATTI
@@ -117,11 +99,11 @@
      PULSANTI ADS
   ======================= */
   .ads-buttons { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
-  .btn-view { background:#ffc107; } /* giallo */
-  .btn-download { background:#fd7e14; } /* arancione */
+  .btn-view { background:#fcd116; } /* giallo */
+  .btn-download { background:#f57c00; } /* arancione */
   .btn-view, .btn-download { color:#fff; text-decoration:none; padding:6px 12px; border-radius:5px; font-weight:bold; }
-  .btn-view:hover { background:#e0a800; }
-  .btn-download:hover { background:#e06d00; }
+  .btn-view:hover { background:#e6c200; }
+  .btn-download:hover { background:#d26900; }
 
   /* =======================
      FOOTER
@@ -138,6 +120,23 @@
   .affiliate-card-content p { margin:5px 0; }
   .affiliate-card-content a { color:#1a73e8; font-weight:bold; text-decoration:none; }
   .affiliate-card-content a:hover { text-decoration:underline; }
+
+  /* =======================
+     ADMOB CARD
+  ======================= */
+  .admob-card {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 3px 6px rgba(0,0,0,0.1);
+    max-width:300px;
+    margin:0 auto;
+    transition: all 0.3s ease;
+  }
+  .admob-card:hover { transform: translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.25);}
 </style>
 </head>
 <body>
@@ -153,13 +152,35 @@
   <div class="section" id="applications">
     <h2>All My Apps</h2>
     <div class="apps-grid">
-      <div class="card"><span>Piano</span><img src="images/Pianoicon.png" alt="Piano"><a href="#" target="_blank">Open</a></div>
-      <div class="card"><span>Torch Flash Light Plus</span><img src="images/Torchicon.png" alt="Torch Flash Light Plus"><a href="#" target="_blank">Open</a></div>
-      <div class="card"><span>Memojiing</span><img src="images/Memoicon.png" alt="Memojiing"><a href="#" target="_blank">Open</a></div>
-      <div class="card"><span>Infinity Jump Rabbit</span><img src="images/IJRicon.png" alt="Infinity Jump Rabbit"><a href="#" target="_blank">Open</a></div>
-      <div class="card"><span>Golf Wild</span><img src="images/Golficon.png" alt="Golf Wild"><a href="#" target="_blank">Open</a></div>
+      <div class="card">
+        <span>Piano</span>
+        <img src="images/Pianoicon.png" alt="Piano">
+        <a href="#" target="_blank">Open</a>
+      </div>
+      <div class="card">
+        <span>Torch Flash Light Plus</span>
+        <img src="images/Torchicon.png" alt="Torch Flash Light Plus">
+        <a href="#" target="_blank">Open</a>
+      </div>
+      <div class="card">
+        <span>Memojiing</span>
+        <img src="images/Memoicon.png" alt="Memojiing">
+        <a href="#" target="_blank">Open</a>
+      </div>
+      <div class="card">
+        <span>Infinity Jump Rabbit</span>
+        <img src="images/IJRicon.png" alt="Infinity Jump Rabbit">
+        <a href="#" target="_blank">Open</a>
+      </div>
+      <div class="card">
+        <span>Golf Wild</span>
+        <img src="images/Golficon.png" alt="Golf Wild">
+        <a href="#" target="_blank">Open</a>
+      </div>
     </div>
   </div>
+
+  <div class="divider"></div>
 
   <!-- =======================
        SEZIONE CONTATTI
@@ -168,6 +189,8 @@
     <h2>Contact</h2>
     <p>Email: <a href="mailto:blackskull.k.info@gmail.com">blackskull.k.info@gmail.com</a></p>
   </div>
+
+  <div class="divider"></div>
 
   <!-- =======================
        SEZIONE SITI AFFILIATI
@@ -187,12 +210,14 @@
 
   </div>
 
+  <div class="divider"></div>
+
   <!-- =======================
        SEZIONE APP-ADS.TXT
   ======================= -->
   <div class="section" id="ads">
     <h2>AdMob</h2>
-    <div class="card" style="flex-direction:column; align-items:center;">
+    <div class="admob-card">
       <span>app-ads.txt file for AdMob</span>
       <div class="ads-buttons">
         <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-view" target="_blank">View</a>
