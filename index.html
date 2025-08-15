@@ -39,7 +39,6 @@
   body { font-family: Arial, sans-serif; margin:0; padding:0; background:#9d9f9f; color:#333;}
   header img { width:100%; max-height:200px; object-fit:cover; box-shadow:0 4px 10px rgba(0,0,0,0.5);}
   main { max-width:1000px; margin:20px auto; padding:10px;}
-
   .section { margin-bottom:30px; padding:10px; }
   .divider { height:2px; background:#222; margin:20px 0; border-radius:2px; }
 
@@ -49,7 +48,7 @@
   h2 { 
     margin-bottom:15px; 
     text-align:center; 
-    color:#0b47a1; /* blu scuro */
+    color:#0b47a1; 
   }
 
   /* =======================
@@ -71,13 +70,20 @@
     flex-direction:column; 
     align-items:center; 
     box-shadow:0 3px 6px rgba(0,0,0,0.1); 
-    transition: all 0.3s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.5s ease;
+    opacity: 0;               /* inizialmente invisibile */
+    transform: translateY(20px); /* leggero spostamento verso il basso */
   }
 
-  .card:hover {
-    transform: translateY(-8px);
-    box-shadow:0 10px 20px rgba(0,0,0,0.25);
-    background: #f7f7f7;
+  .card.visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+
+  .card:hover, .card:active {
+    transform: scale(1.05);
+    box-shadow:0 15px 25px rgba(0,0,0,0.35);
   }
 
   .card img { width:80px; height:80px; margin-bottom:10px; }
@@ -85,22 +91,25 @@
   .card a { text-decoration:none; color:#fff; background:#28a745; padding:6px 12px; border-radius:5px; font-weight:bold; }
   .card a:hover { background:#218838; }
 
+  @media (max-width: 600px) {
+    .card { width:45%; padding:12px; }
+    .card img { width:70px; height:70px; }
+    .card span { font-size:0.9em; }
+    .card:active { transform: scale(1.08); box-shadow:0 20px 30px rgba(0,0,0,0.4); }
+  }
+
   /* =======================
      CONTATTI
   ======================= */
-  .contact a { 
-    color:#1a73e8; 
-    text-decoration:none; 
-    font-weight:bold; 
-  }
+  .contact a { color:#1a73e8; text-decoration:none; font-weight:bold; }
   .contact a:hover { text-decoration:underline; }
 
   /* =======================
      PULSANTI ADS
   ======================= */
   .ads-buttons { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
-  .btn-view { background:#fcd116; } /* giallo */
-  .btn-download { background:#f57c00; } /* arancione */
+  .btn-view { background:#fcd116; } 
+  .btn-download { background:#f57c00; } 
   .btn-view, .btn-download { color:#fff; text-decoration:none; padding:6px 12px; border-radius:5px; font-weight:bold; }
   .btn-view:hover { background:#e6c200; }
   .btn-download:hover { background:#d26900; }
@@ -230,6 +239,18 @@
 <footer>
   BlackSkull-k ® 2021-2025
 </footer>
+
+<script>
+  // Animazione fade-in + slide delle card
+  document.addEventListener("DOMContentLoaded", function() {
+    const cards = document.querySelectorAll(".card");
+    cards.forEach((card, index) => {
+      setTimeout(() => {
+        card.classList.add("visible");
+      }, index * 150); // ogni card appare con 150ms di ritardo
+    });
+  });
+</script>
 
 </body>
 </html>
