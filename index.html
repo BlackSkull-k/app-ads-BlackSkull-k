@@ -6,13 +6,6 @@
 <title>BlackSkull-k Apps</title>
 
 <!-- =======================
-     SEO META TAGS
-======================= -->
-<meta name="description" content="Scopri tutte le app di BlackSkull-k">
-<meta name="keywords" content="app, applicazioni, giochi, BlackSkull-k, affiliati, Android, utility, giochi gratuiti">
-<meta name="author" content="BlackSkull-k">
-
-<!-- =======================
      GOOGLE SITE VERIFICATION
 ======================= -->
 <meta name="google-site-verification" content="p3WxNMSzZRIBQIWVgAqcBhdaD6CRG99rZ3fTvgYM1I8" />
@@ -21,6 +14,13 @@
      AD MOB
 ======================= -->
 <meta name="admob-app-id" content="ca-app-pub-6870698456420623~YOUR_APP_ID">
+
+<!-- =======================
+     SEO META TAGS
+======================= -->
+<meta name="description" content="Scopri tutte le app di BlackSkull-k">
+<meta name="keywords" content="app, applicazioni, giochi, BlackSkull-k, affiliati, Android, utility, giochi gratuiti">
+<meta name="author" content="BlackSkull-k">
 
 <!-- =======================
      FAVICONS
@@ -33,59 +33,69 @@
 <link rel="apple-touch-icon" sizes="180x180" href="images/bskFavicon180x.png">
 
 <style>
-  /* =======================
-     STILE GENERALE
-  ======================= */
   body { font-family: Arial, sans-serif; margin:0; padding:0; background:#9d9f9f; color:#333;}
   header img { width:100%; max-height:200px; object-fit:cover; box-shadow:0 4px 10px rgba(0,0,0,0.5);}
   main { max-width:1000px; margin:20px auto; padding:10px;}
-  .section { margin-bottom:30px; padding:10px; border-radius:10px; }
+
+  h2 { margin-bottom:15px; text-align:center; color:#0b47a1; }
 
   /* =======================
-     TITOLI PRINCIPALI
-  ======================= */
-  h2 { 
-    margin-bottom:15px; 
-    text-align:center; 
-    color:#0b47a1; /* blu scuro */
+     CARD GRID APPS
+  ======================== */
+  .app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    justify-items: center;
   }
 
-  /* =======================
-     CARDS APP
-  ======================= */
-  .card { background:#fff; border-radius:10px; padding:15px; margin-bottom:10px; display:flex; align-items:center; justify-content:space-between; box-shadow:0 3px 6px rgba(0,0,0,0.1); }
-  .card img { width:40px; height:40px; margin-right:8px; }
-  .card a { text-decoration:none; color:#fff; background:#1a73e8; padding:6px 12px; border-radius:5px; font-weight:bold; }
-  .card a:hover { background:#1558b0; }
+  .app-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 220px;
+    justify-content: space-between;
+  }
+
+  .app-card img {
+    width: 70px;
+    height: 70px;
+    margin: 10px 0;
+  }
+
+  .app-card h3 {
+    margin: 0;
+    font-size: 1em;
+    color: #0b47a1;
+  }
+
+  .app-card a {
+    text-decoration: none;
+    color: #fff;
+    background: #1a73e8;
+    padding: 6px 12px;
+    border-radius: 5px;
+    font-weight: bold;
+  }
+
+  .app-card a:hover {
+    background: #1558b0;
+  }
 
   /* =======================
      CONTATTI
-  ======================= */
-  .contact a { 
-    color:#1a73e8; 
-    text-decoration:none; 
-    font-weight:bold; 
-  }
+  ======================== */
+  .contact a { color:#1a73e8; text-decoration:none; font-weight:bold; }
   .contact a:hover { text-decoration:underline; }
 
   /* =======================
-     PULSANTI ADS
-  ======================= */
-  .ads-buttons { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
-  .btn-view { background:#1a73e8; }
-  .btn-download { background:#f57c00; }
-  .btn-view, .btn-download { color:#fff; text-decoration:none; padding:6px 12px; border-radius:5px; font-weight:bold; }
-  .btn-view:hover { background:#1558b0; }
-  .btn-download:hover { background:#b45c00; }
-
-  /* =======================
-     FOOTER
-  ======================= */
-  footer { text-align:center; margin-top:30px; font-size:0.9em; color:#fff; padding:10px; }
-
-  /* =======================
      CARD AFFILIATI
-  ======================= */
+  ======================== */
   .affiliate-card { background:#fff; border-radius:10px; padding:15px; margin-bottom:15px; box-shadow:0 3px 6px rgba(0,0,0,0.1); display:flex; gap:15px; align-items:flex-start; }
   .affiliate-card img { width:60px; height:60px; border-radius:8px; }
   .affiliate-card-content { flex:1; }
@@ -93,6 +103,9 @@
   .affiliate-card-content p { margin:5px 0; }
   .affiliate-card-content a { color:#1a73e8; font-weight:bold; text-decoration:none; }
   .affiliate-card-content a:hover { text-decoration:underline; }
+
+  footer { text-align:center; margin-top:30px; font-size:0.9em; color:#fff; padding:10px; }
+
 </style>
 </head>
 <body>
@@ -104,19 +117,41 @@
 <main>
   <!-- =======================
        SEZIONE APPLICAZIONI
-  ======================= -->
+  ======================== -->
   <div class="section" id="applications">
     <h2>All My Apps</h2>
-    <div class="card"><span><img src="images/Pianoicon.png" alt="Piano"> Piano</span><a href="#" target="_blank">Open</a></div>
-    <div class="card"><span><img src="images/Torchicon.png" alt="Torch Flash Light Plus"> Torch Flash Light Plus</span><a href="#" target="_blank">Open</a></div>
-    <div class="card"><span><img src="images/Memoicon.png" alt="Memojiing"> Memojiing</span><a href="#" target="_blank">Open</a></div>
-    <div class="card"><span><img src="images/IJRicon.png" alt="Infinity Jump Rabbit"> Infinity Jump Rabbit</span><a href="#" target="_blank">Open</a></div>
-    <div class="card"><span><img src="images/Golficon.png" alt="Golf Wild"> Golf Wild</span><a href="#" target="_blank">Open</a></div>
+    <div class="app-grid">
+      <div class="app-card">
+        <h3>Piano</h3>
+        <img src="images/Pianoicon.png" alt="Piano">
+        <a href="#" target="_blank">Open</a>
+      </div>
+      <div class="app-card">
+        <h3>Torch Flash Light Plus</h3>
+        <img src="images/Torchicon.png" alt="Torch Flash Light Plus">
+        <a href="#" target="_blank">Open</a>
+      </div>
+      <div class="app-card">
+        <h3>Memojiing</h3>
+        <img src="images/Memoicon.png" alt="Memojiing">
+        <a href="#" target="_blank">Open</a>
+      </div>
+      <div class="app-card">
+        <h3>Infinity Jump Rabbit</h3>
+        <img src="images/IJRicon.png" alt="Infinity Jump Rabbit">
+        <a href="#" target="_blank">Open</a>
+      </div>
+      <div class="app-card">
+        <h3>Golf Wild</h3>
+        <img src="images/Golficon.png" alt="Golf Wild">
+        <a href="#" target="_blank">Open</a>
+      </div>
+    </div>
   </div>
 
   <!-- =======================
        SEZIONE CONTATTI
-  ======================= -->
+  ======================== -->
   <div class="section contact" id="contact">
     <h2>Contact</h2>
     <p>Email: <a href="mailto:blackskull.k.info@gmail.com">blackskull.k.info@gmail.com</a></p>
@@ -124,10 +159,9 @@
 
   <!-- =======================
        SEZIONE SITI AFFILIATI
-  ======================= -->
+  ======================== -->
   <div class="section" id="affiliates">
     <h2>Affiliate Sites</h2>
-
     <div class="affiliate-card">
       <img src="images/jfkicon1.png" alt="JFKar Auto">
       <div class="affiliate-card-content">
@@ -137,15 +171,14 @@
         <p>Sito Web: <a href="https://www.jfkar.com" target="_blank">www.jfkar.com</a></p>
       </div>
     </div>
-
   </div>
 
   <!-- =======================
        SEZIONE APP-ADS.TXT
-  ======================= -->
+  ======================== -->
   <div class="section" id="ads">
     <h2>AdMob</h2>
-    <div class="card" style="flex-direction:column; align-items:center;">
+    <div class="app-card">
       <span>app-ads.txt file for AdMob</span>
       <div class="ads-buttons">
         <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-view" target="_blank">View</a>
@@ -153,6 +186,7 @@
       </div>
     </div>
   </div>
+
 </main>
 
 <footer>
