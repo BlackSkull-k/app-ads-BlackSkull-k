@@ -3,102 +3,84 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BlackSkull-k</title>
-
-  <!-- Google Search Console verification -->
+  <title>BlackSkull-k Apps</title>
   <meta name="google-site-verification" content="p3WxNMSzZRIBQIWVgAqcBhdaD6CRG99rZ3fTvgYM1I8" />
 
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f2f2f2;
+      background-color: #f4f4f9;
       color: #333;
       margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #1e1e1e;
-      color: #fff;
+      padding: 20px;
       text-align: center;
-      padding: 30px 20px;
-      font-size: 2em;
     }
-    main {
-      max-width: 1000px;
-      margin: 20px auto;
-      padding: 10px;
+    h1 {
+      margin-bottom: 20px;
+      color: #222;
     }
-    .section {
-      margin-bottom: 30px;
-      padding: 10px;
-      border-radius: 10px;
-    }
-    h2 {
-      margin-bottom: 15px;
-    }
-    .card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-      padding: 15px;
-      margin-bottom: 10px;
+    .apps-container {
       display: flex;
-      justify-content: space-between;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .app-box {
+      width: 120px;
+      height: 120px;
+      background-color: #fffae6;
+      border: 2px solid #f0c040;
+      border-radius: 10px;
+      display: flex;
       align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 10px;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
     }
-    .card a {
+    .app-box:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+    .ads-box {
+      margin-top: 30px;
+      background-color: #e6f7ff;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+    .ads-box a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 15px;
+      background-color: #007bff;
+      color: white;
       text-decoration: none;
-      color: #fff;
-      font-weight: bold;
-      font-size: 1em;
-      padding: 6px 12px;
       border-radius: 5px;
+      transition: background-color 0.2s;
     }
-    .btn-view { background: #1a73e8; }
-    .btn-download { background: #f57c00; }
-    .btn-open { background: #4caf50; }
-    /* Colori delle sezioni */
-    .apps-section { background: #d0e7ff; }
-    .playstore-section { background: #d4f5d4; }
-    .ads-section { background: #ffe5b4; }
+    .ads-box a:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
+  <h1>BlackSkull-k Apps</h1>
 
-  <header>BlackSkull-k</header>
+  <div class="apps-container">
+    <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" class="app-box">Piano BlackSkullk</a>
+    <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" class="app-box">Torch FlashLight Plus</a>
+    <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" class="app-box">MemoJing</a>
+    <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" class="app-box">Infinity Jump Rabbit</a>
+    <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" class="app-box">Golf Wild</a>
+  </div>
 
-  <main>
-    <!-- Sezione App -->
-    <div class="section apps-section">
-      <h2>All My Apps</h2>
-      <div class="card"><span>PianoBlackskullk</span> <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" class="btn-open" target="_blank">Open</a></div>
-      <div class="card"><span>TorchFlashLightPlusBlackskullk</span> <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" class="btn-open" target="_blank">Open</a></div>
-      <div class="card"><span>MemoJingBlackSkullK</span> <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" class="btn-open" target="_blank">Open</a></div>
-      <div class="card"><span>InfinityJumpRabbit</span> <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" class="btn-open" target="_blank">Open</a></div>
-      <div class="card"><span>GolfWildBlackSkullK</span> <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" class="btn-open" target="_blank">Open</a></div>
-    </div>
-
-    <!-- Sezione Play Store principale -->
-    <div class="section playstore-section">
-      <h2>My Play Store Profile</h2>
-      <div class="card">
-        <span>Visit my Google Play Store</span>
-        <a href="https://play.google.com/store/apps/dev?id=6316655378671230760" class="btn-open" target="_blank">Open</a>
-      </div>
-    </div>
-
-    <!-- Sezione App-ads.txt -->
-    <div class="section ads-section">
-      <h2>AdMob app-ads.txt</h2>
-      <div class="card">
-        <span>app-ads.txt file for AdMob</span>
-        <div>
-          <a href="https://appadstxt-bsk.netlify.app/app-ads.txt" class="btn-view" target="_blank">View</a>
-          <a href="https://appadstxt-bsk.netlify.app/app-ads.txt" class="btn-download" download>Download</a>
-        </div>
-      </div>
-    </div>
-  </main>
-
+  <div class="ads-box">
+    <p>App-ads.txt for AdMob</p>
+    <a href="https://appadstxt-bsk.netlify.app/app-ads.txt" target="_blank" download>Download app-ads.txt</a>
+    <a href="https://appadstxt-bsk.netlify.app/app-ads.txt" target="_blank">View app-ads.txt</a>
+  </div>
 </body>
 </html>
