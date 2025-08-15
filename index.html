@@ -57,10 +57,51 @@
     .btn-view { background: #1a73e8; }
     .btn-download { background: #f57c00; }
     .btn-open { background: #4caf50; }
+
     /* Colori delle sezioni */
     .apps-section { background: #d0e7ff; }
     .playstore-section { background: #d4f5d4; }
     .ads-section { background: #ffe5b4; }
+
+    /* ===================== */
+    /* CSS responsive per ads-section */
+    /* ===================== */
+    .ads-section .card {
+      display: flex;
+      flex-direction: column; /* Stack verticale per mobile */
+      gap: 10px;
+    }
+
+    .ads-section .card span {
+      font-weight: bold;
+    }
+
+    .ads-section .card div {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap; /* Permette ai pulsanti di andare a capo */
+    }
+
+    .ads-section .card div a {
+      flex: 1 1 auto;
+      text-align: center;
+      padding: 6px 12px;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    /* Media query per smartphone più piccoli */
+    @media (max-width: 480px) {
+      .card {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .card div a {
+        flex: 1 1 100%;
+      }
+    }
   </style>
 </head>
 <body>
