@@ -269,7 +269,7 @@ let score = 0;
 let d = "RIGHT";
 let gameRunning = false;
 let lastTime = 0, speed = 5;
-let borderFlash = false; // per lampeggio bordo
+let borderFlash = false;
 
 function resizeCanvas() {
   const size = Math.min(window.innerWidth * 0.9, 400);
@@ -282,7 +282,6 @@ function resizeCanvas() {
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
-// Frecce non scrollano la pagina
 document.addEventListener("keydown", e => {
   if(e.key === "ArrowUp" && d !== "DOWN") { d="UP"; e.preventDefault(); }
   else if(e.key === "ArrowDown" && d !== "UP") { d="DOWN"; e.preventDefault(); }
@@ -301,11 +300,10 @@ function randomFood() {
 }
 
 function draw() {
-  // Sfondo nero
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Bordo: lampeggia se borderFlash è true
+  // Bordo lampeggiante
   ctx.strokeStyle = borderFlash ? "#f00" : "#fff";
   ctx.lineWidth = 2;
   ctx.strokeRect(0, 0, canvas.width, canvas.height);
@@ -326,22 +324,14 @@ function draw() {
     if(s.life<=0) sparks.splice(i,1);
   });
 
-  // Movimento snake
   let head = { ...snake[0] };
   if(d==="LEFT") head.x -= box;
   else if(d==="RIGHT") head.x += box;
   else if(d==="UP") head.y -= box;
   else if(d==="DOWN") head.y += box;
 
-  // Collisione muri o snake
   if(head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || snake.some(s=>s.x===head.x && s.y===head.y)){
-    borderFlash = true;
-    draw(); // ridisegna con bordo lampeggiante
-    setTimeout(() => {
-      borderFlash = false;
-      alert("Game Over! Score: " + score);
-      gameRunning = false;
-    }, 200); // lampeggio per 200ms
+    flashBorderAndGameOver();
   } else {
     snake.unshift(head);
     if(head.x === food.x && head.y === food.y){
@@ -358,7 +348,25 @@ function draw() {
   }
 }
 
-// Pulsante avvia
+// Lampeggio ripetuto 3 volte
+function flashBorderAndGameOver(){
+  let flashes = 0;
+  function flash() {
+    borderFlash = !borderFlash;
+    draw();
+    flashes++;
+    if(flashes < 6){ // 3 cicli ON/OFF = 6 cambi
+      setTimeout(flash, 150);
+    } else {
+      borderFlash = false;
+      draw();
+      alert("Game Over! Score: " + score);
+      gameRunning = false;
+    }
+  }
+  flash();
+}
+
 document.getElementById("startBtn").addEventListener("click", () => {
   snake = [{x:0,y:0}];
   score = 0;
@@ -370,7 +378,6 @@ document.getElementById("startBtn").addEventListener("click", () => {
   requestAnimationFrame(gameLoop);
 });
 
-// Game loop
 function gameLoop(time){
   if(!gameRunning) return;
   if(time - lastTime > 1000/speed){
