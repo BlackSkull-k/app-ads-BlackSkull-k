@@ -287,12 +287,13 @@ let d = "RIGHT";       // direzione corrente
 let nextD = "RIGHT";   // direzione da applicare al prossimo frame
 let gameRunning = false;
 let lastTime = 0, speed = 5;
+let flashing = 0;      // contatore per bordo rosso
 
 function resizeCanvas() {
   const size = Math.min(window.innerWidth * 0.9, 400);
-  canvas.width = size;
-  canvas.height = size;
   box = Math.floor(size / gridSize);
+  canvas.width = box * gridSize;
+  canvas.height = box * gridSize;
   food = randomFood();
 }
 window.addEventListener("resize", resizeCanvas);
@@ -320,8 +321,17 @@ function randomFood() {
 }
 
 function draw() {
+  // sfondo nero
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // bordo rosso lampeggiante se morto
+  if(flashing > 0) {
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 4;
+    ctx.strokeRect(0,0,canvas.width,canvas.height);
+    flashing--;
+  }
 
   // Snake
   ctx.fillStyle = "#0f0";
@@ -342,22 +352,36 @@ function draw() {
   // Aggiorna direzione corrente
   d = nextD;
 
-  // Movimento snake con coordinate intere
+  // Movimento snake
   let head = { ...snake[0] };
-  if(d==="LEFT") head.x = Math.round(head.x - box);
-  else if(d==="RIGHT") head.x = Math.round(head.x + box);
-  else if(d==="UP") head.y = Math.round(head.y - box);
-  else if(d==="DOWN") head.y = Math.round(head.y + box);
+  if(d==="LEFT") head.x -= box;
+  else if(d==="RIGHT") head.x += box;
+  else if(d==="UP") head.y -= box;
+  else if(d==="DOWN") head.y += box;
 
-  // Collisione muri o snake
-  if(head.x<0 || head.x>=canvas.width || head.y<0 || head.y>=canvas.height || snake.some(s=>s.x===head.x && s.y===head.y)){
-    alert("Game Over! Score: " + score);
+  // Collisione
+  if(head.x<0 || head.x>=canvas.width || head.y<0 || head.y>=canvas.height || 
+     snake.some(s=>s.x===head.x && s.y===head.y)){
     gameRunning = false;
+    flashing = 6;  // lampeggio 3 volte (2 frame per lampeggio)
+    setTimeout(() => {
+      snake = [{x:0,y:0}];
+      score = 0;
+      d = "RIGHT";
+      nextD = "RIGHT";
+      sparks = [];
+      food = randomFood();
+      gameRunning = true;
+      lastTime = 0;
+      requestAnimationFrame(gameLoop);
+    }, 500); // delay prima del restart
   } else {
     snake.unshift(head);
     if(head.x === food.x && head.y === food.y){
       score++;
-      sparks.push(...Array(20).fill().map(()=>({x:food.x+box/2, y:food.y+box/2, life:10, dx:Math.random()*2-1, dy:Math.random()*2-1})));
+      sparks.push(...Array(20).fill().map(()=>({
+        x:food.x+box/2, y:food.y+box/2, life:10, dx:Math.random()*2-1, dy:Math.random()*2-1
+      })));
       food = randomFood();
     } else snake.pop();
   }
@@ -397,7 +421,7 @@ canvas.addEventListener("touchstart", e => {
 });
 
 canvas.addEventListener("touchmove", e => {
-  e.preventDefault(); // evita scroll involontario
+  e.preventDefault(); 
 }, { passive: false });
 
 canvas.addEventListener("touchend", e => {
