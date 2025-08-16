@@ -329,10 +329,10 @@ function draw() {
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // punteggio
+  // punteggio sempre sopra al gioco
   ctx.fillStyle = "#fff";
   ctx.font = `${box}px Arial`;
-  ctx.fillText("Score: "+score, box, box*1.2);
+  ctx.fillText("Score: " + score, box, box*1.2);
 
   // bordo rosso lampeggiante se morto
   if(flashing > 0) {
@@ -355,7 +355,7 @@ function draw() {
     ctx.fillStyle = `rgba(255,255,0,${s.life/10})`;
     ctx.fillRect(s.x, s.y, 2, 2);
     s.x += s.dx; s.y += s.dy; s.life--;
-    if(s.life<=0) sparks.splice(i,1);
+    if(s.life <= 0) sparks.splice(i,1);
   });
 
   // Aggiorna direzione corrente
@@ -385,14 +385,14 @@ function draw() {
       gameRunning = true;
       lastTime = 0;
       requestAnimationFrame(gameLoop);
-    }, 1200); // delay restart 1.2 secondi
+    }, 1200); // restart 1.2 secondi
   } else {
     snake.unshift(head);
     if(head.x === food.x && head.y === food.y){
       score++;
       eatSound.currentTime = 0;
       eatSound.play();
-      sparks.push(...Array(20).fill().map(()=>({
+      sparks.push(...Array(20).fill().map(() => ({
         x:food.x+box/2, y:food.y+box/2, life:10, dx:Math.random()*2-1, dy:Math.random()*2-1
       })));
       food = randomFood();
