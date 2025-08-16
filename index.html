@@ -385,6 +385,34 @@ function gameLoop(time){
   }
   requestAnimationFrame(gameLoop);
 }
+
+// ===== TOUCH SWIPE =====
+let touchStartX = 0;
+let touchStartY = 0;
+
+canvas.addEventListener("touchstart", e => {
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+});
+
+canvas.addEventListener("touchmove", e => {
+  e.preventDefault(); // evita scroll involontario
+}, { passive: false });
+
+canvas.addEventListener("touchend", e => {
+  const touch = e.changedTouches[0];
+  const dx = touch.clientX - touchStartX;
+  const dy = touch.clientY - touchStartY;
+
+  if(Math.abs(dx) > Math.abs(dy)) {
+    if(dx > 0 && d !== "LEFT") nextD = "RIGHT";
+    else if(dx < 0 && d !== "RIGHT") nextD = "LEFT";
+  } else {
+    if(dy > 0 && d !== "UP") nextD = "DOWN";
+    else if(dy < 0 && d !== "DOWN") nextD = "UP";
+  }
+});
 </script>
   
 </body>
