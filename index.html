@@ -54,14 +54,20 @@ html, body {
   display: flex;
   flex-direction: column;
 }
-header img { width:100%; max-height:200px; object-fit:cover; box-shadow:0 4px 10px rgba(0,0,0,0.5);}
+header img { 
+  width:100%; 
+  max-height:200px; 
+  object-fit:cover; 
+  box-shadow:0 4px 10px rgba(0,0,0,0.5);
+  margin-bottom: 10px; /* Aggiunto per coerenza con applications.html */
+}
 
 /* Navbar scrollabile con freccette */
 .navbar-container {
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center; /* Centra il contenuto */
+  justify-content: center;
   background-color: #2c3e50;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
   padding: 10px 0;
