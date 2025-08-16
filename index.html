@@ -272,9 +272,11 @@ let lastTime = 0, speed = 5;
 
 function resizeCanvas() {
   const size = Math.min(window.innerWidth * 0.9, 400);
-  canvas.width = size;
-  canvas.height = size;
-  box = size / gridSize;
+  // Forza il canvas a essere multiplo di gridSize
+  const adjustedSize = size - (size % gridSize);
+  canvas.width = adjustedSize;
+  canvas.height = adjustedSize;
+  box = adjustedSize / gridSize;
   food = randomFood();
 }
 window.addEventListener("resize", resizeCanvas);
@@ -326,14 +328,20 @@ function draw() {
   else if(d==="DOWN") head.y += box;
 
   // Collisione muri o snake
-  if(head.x<0 || head.x>=canvas.width || head.y<0 || head.y>=canvas.height || snake.some(s=>s.x===head.x && s.y===head.y)){
+  if(head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || snake.some(s=>s.x===head.x && s.y===head.y)){
     alert("Game Over! Score: " + score);
     gameRunning = false;
   } else {
     snake.unshift(head);
     if(head.x === food.x && head.y === food.y){
       score++;
-      sparks.push(...Array(20).fill().map(()=>({x:food.x+box/2, y:food.y+box/2, life:10, dx:Math.random()*2-1, dy:Math.random()*2-1})));
+      sparks.push(...Array(20).fill().map(()=>({
+        x:food.x + box/2,
+        y:food.y + box/2,
+        life:10,
+        dx:Math.random()*2-1,
+        dy:Math.random()*2-1
+      })));
       food = randomFood();
     } else snake.pop();
   }
