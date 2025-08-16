@@ -47,7 +47,7 @@
   <!-- AdMob -->
   <meta name="admob-app-id" content="ca-app-pub-6870698456420623~YOUR_APP_ID">
 </head>
-
+  
 <!-- FAVICONS -->
 <link rel="icon" type="image/png" sizes="32x32" href="images/bskFavicon32x.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/bskFavicon180x.png">
@@ -183,6 +183,7 @@
 
 <div class="section" id="snake-game">
   <h2>Snake Game</h2>
+  <button id="startBtn">Avvia Gioco</button>
   <canvas id="gameCanvas"></canvas>
 </div>
   
@@ -254,6 +255,8 @@ let food;
 let sparks = [];
 let score = 0;
 let d = "RIGHT";
+let gameRunning = false; // controllo del gioco
+let lastTime = 0, speed = 5;
 
 function resizeCanvas() {
   const size = Math.min(window.innerWidth * 0.9, 400);
@@ -265,23 +268,12 @@ function resizeCanvas() {
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
+// Frecce non scrollano la pagina
 document.addEventListener("keydown", e => {
-  if(e.key === "ArrowUp" && d !== "DOWN") {
-    d="UP";
-    e.preventDefault();
-  }
-  else if(e.key === "ArrowDown" && d !== "UP") {
-    d="DOWN";
-    e.preventDefault();
-  }
-  else if(e.key === "ArrowLeft" && d !== "RIGHT") {
-    d="LEFT";
-    e.preventDefault();
-  }
-  else if(e.key === "ArrowRight" && d !== "LEFT") {
-    d="RIGHT";
-    e.preventDefault();
-  }
+  if(e.key === "ArrowUp" && d !== "DOWN") { d="UP"; e.preventDefault(); }
+  else if(e.key === "ArrowDown" && d !== "UP") { d="DOWN"; e.preventDefault(); }
+  else if(e.key === "ArrowLeft" && d !== "RIGHT") { d="LEFT"; e.preventDefault(); }
+  else if(e.key === "ArrowRight" && d !== "LEFT") { d="RIGHT"; e.preventDefault(); }
 });
 
 function randomFood() {
@@ -324,7 +316,7 @@ function draw() {
   // Collisione muri o snake
   if(head.x<0 || head.x>=canvas.width || head.y<0 || head.y>=canvas.height || snake.some(s=>s.x===head.x && s.y===head.y)){
     alert("Game Over! Score: " + score);
-    snake = [{x:0,y:0}]; score=0; d="RIGHT"; food=randomFood(); sparks=[];
+    gameRunning = false;
   } else {
     snake.unshift(head);
     if(head.x === food.x && head.y === food.y){
@@ -335,16 +327,27 @@ function draw() {
   }
 }
 
+// Pulsante avvia
+document.getElementById("startBtn").addEventListener("click", () => {
+  snake = [{x:0,y:0}];
+  score = 0;
+  d = "RIGHT";
+  sparks = [];
+  food = randomFood();
+  gameRunning = true;
+  lastTime = 0;
+  requestAnimationFrame(gameLoop);
+});
+
 // Game loop
-let lastTime = 0, speed = 5;
 function gameLoop(time){
+  if(!gameRunning) return;
   if(time - lastTime > 1000/speed){
     draw();
     lastTime = time;
   }
   requestAnimationFrame(gameLoop);
 }
-requestAnimationFrame(gameLoop);
 </script>
   
 </body>
