@@ -275,7 +275,7 @@ let food;
 let sparks = [];
 let score = 0;
 let d = "RIGHT";
-let gameRunning = false;
+let gameRunning = false; // controllo del gioco
 let lastTime = 0, speed = 5;
 
 function resizeCanvas() {
@@ -287,9 +287,6 @@ function resizeCanvas() {
 }
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
-
-// Mostra punteggio
-const scoreDisplay = document.getElementById("score");
 
 // Frecce non scrollano la pagina
 document.addEventListener("keydown", e => {
@@ -326,11 +323,9 @@ function draw() {
     ctx.fillStyle = `rgba(255,255,0,${s.life/10})`;
     ctx.fillRect(s.x, s.y, 2, 2);
     s.x += s.dx; s.y += s.dy; s.life--;
-    if(s.life <= 0) sparks.splice(i,1);
+    if(s.life<=0) sparks.splice(i,1);
   });
-}
 
-function update() {
   // Movimento snake
   let head = { ...snake[0] };
   if(d==="LEFT") head.x -= box;
@@ -338,22 +333,17 @@ function update() {
   else if(d==="UP") head.y -= box;
   else if(d==="DOWN") head.y += box;
 
-  // Collisione bordi e snake
-  if(head.x < 0 || head.x + box > canvas.width || head.y < 0 || head.y + box > canvas.height || snake.some(s => s.x === head.x && s.y === head.y)) {
+  // Collisione muri o snake
+  if(head.x<0 || head.x>=canvas.width || head.y<0 || head.y>=canvas.height || snake.some(s=>s.x===head.x && s.y===head.y)){
     alert("Game Over! Score: " + score);
     gameRunning = false;
-    return;
-  }
-
-  snake.unshift(head);
-
-  if(head.x === food.x && head.y === food.y){
-    score++;
-    scoreDisplay.innerText = score;
-    sparks.push(...Array(20).fill().map(()=>({x:food.x+box/2, y:food.y+box/2, life:10, dx:Math.random()*2-1, dy:Math.random()*2-1})));
-    food = randomFood();
   } else {
-    snake.pop();
+    snake.unshift(head);
+    if(head.x === food.x && head.y === food.y){
+      score++;
+      sparks.push(...Array(20).fill().map(()=>({x:food.x+box/2, y:food.y+box/2, life:10, dx:Math.random()*2-1, dy:Math.random()*2-1})));
+      food = randomFood();
+    } else snake.pop();
   }
 }
 
@@ -361,7 +351,6 @@ function update() {
 document.getElementById("startBtn").addEventListener("click", () => {
   snake = [{x:0,y:0}];
   score = 0;
-  scoreDisplay.innerText = score;
   d = "RIGHT";
   sparks = [];
   food = randomFood();
@@ -374,7 +363,6 @@ document.getElementById("startBtn").addEventListener("click", () => {
 function gameLoop(time){
   if(!gameRunning) return;
   if(time - lastTime > 1000/speed){
-    update();
     draw();
     lastTime = time;
   }
