@@ -266,10 +266,22 @@ window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
 document.addEventListener("keydown", e => {
-  if(e.key === "ArrowUp" && d !== "DOWN") d="UP";
-  else if(e.key === "ArrowDown" && d !== "UP") d="DOWN";
-  else if(e.key === "ArrowLeft" && d !== "RIGHT") d="LEFT";
-  else if(e.key === "ArrowRight" && d !== "LEFT") d="RIGHT";
+  if(e.key === "ArrowUp" && d !== "DOWN") {
+    d="UP";
+    e.preventDefault();
+  }
+  else if(e.key === "ArrowDown" && d !== "UP") {
+    d="DOWN";
+    e.preventDefault();
+  }
+  else if(e.key === "ArrowLeft" && d !== "RIGHT") {
+    d="LEFT";
+    e.preventDefault();
+  }
+  else if(e.key === "ArrowRight" && d !== "LEFT") {
+    d="RIGHT";
+    e.preventDefault();
+  }
 });
 
 function randomFood() {
