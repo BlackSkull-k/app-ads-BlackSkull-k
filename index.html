@@ -260,7 +260,7 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
-let gridSize = 25;
+let gridSize = 23;
 let box;
 let snake = [{x: 0, y: 0}];
 let food;
@@ -268,7 +268,7 @@ let sparks = [];
 let score = 0;
 let d = "RIGHT";
 let gameRunning = false; // controllo del gioco
-let lastTime = 0, speed = 5;
+let lastTime = 0, speed = 6;
 
 function resizeCanvas() {
   const size = Math.min(window.innerWidth * 0.9, 400);
