@@ -145,22 +145,25 @@
 }
 
 #startBtn {
-  background-color: #4CAF50;
-  color: white;
+  background-color: #1e2db6;
+  color: #ffffff;  /* testo bianco */
   border: none;
   padding: 10px 20px;
   font-size: 16px;
   border-radius: 12px;
   cursor: pointer;
-  transition: background 0.3s;
-  margin-top: 16px; /* distanza dal canvas sopra */
-  display: block;    /* utile se vuoi che sia centrato sotto il canvas */
+  transition: all 0.3s;
+  margin-top: 20px;
+  display: block;
   margin-left: auto;
   margin-right: auto;
+  /* Ombra pulsante */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
 }
 
 #startBtn:hover {
-  background-color: #45a049;
+  background-color: #162090; /* blu più scuro al passaggio del mouse */
+  box-shadow: 0 6px 12px rgba(0,0,0,0.5); /* ombra più intensa al passaggio del mouse */
 }
 
 </style>
