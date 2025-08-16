@@ -274,6 +274,10 @@
 </script>
 
   <script>
+<canvas id="gameCanvas"></canvas>
+<button id="startBtn">Start</button>
+
+<script>
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -287,11 +291,15 @@ let snake = [{x: 0, y: 0}];
 let food;
 let sparks = [];
 let score = 0;
-let d = "RIGHT";       // direzione corrente
-let nextD = "RIGHT";   // direzione da applicare al prossimo frame
+
+// recupero bestScore dal localStorage (se esiste)
+let bestScore = localStorage.getItem("bestScore") ? parseInt(localStorage.getItem("bestScore")) : 0;
+
+let d = "RIGHT";
+let nextD = "RIGHT";
 let gameRunning = false;
-let lastTime = 0, speed = 4;  // velocità iniziale 4
-let flashing = 0;      // contatore per bordo rosso
+let lastTime = 0, speed = 4;
+let flashing = 0;
 
 function resizeCanvas() {
   const size = Math.min(window.innerWidth * 0.9, 400);
@@ -329,10 +337,11 @@ function draw() {
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // punteggio sempre sopra al gioco
+  // punteggio
   ctx.fillStyle = "#fff";
   ctx.font = `${box}px Arial`;
   ctx.fillText("Score: " + score, box, box*1.2);
+  ctx.fillText("Best: " + bestScore, box, box*2.3);
 
   // bordo rosso lampeggiante se morto
   if(flashing > 0) {
@@ -374,18 +383,16 @@ function draw() {
     gameOverSound.currentTime = 0;
     gameOverSound.play();
     gameRunning = false;
-    flashing = 6;  // lampeggio 3 volte (2 frame per lampeggio)
-    setTimeout(() => {
-      snake = [{x:0,y:0}];
-      score = 0;
-      d = "RIGHT";
-      nextD = "RIGHT";
-      sparks = [];
-      food = randomFood();
-      gameRunning = true;
-      lastTime = 0;
-      requestAnimationFrame(gameLoop);
-    }, 1200); // restart 1.2 secondi
+    flashing = 6;
+
+    // aggiorna best
+    if(score > bestScore) {
+      bestScore = score;
+      localStorage.setItem("bestScore", bestScore);
+    }
+
+    document.getElementById("startBtn").textContent = "Restart";
+
   } else {
     snake.unshift(head);
     if(head.x === food.x && head.y === food.y){
@@ -410,6 +417,7 @@ document.getElementById("startBtn").addEventListener("click", () => {
   food = randomFood();
   gameRunning = true;
   lastTime = 0;
+  document.getElementById("startBtn").textContent = "Restart";
   requestAnimationFrame(gameLoop);
 });
 
