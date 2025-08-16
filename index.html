@@ -267,12 +267,12 @@ let food;
 let sparks = [];
 let score = 0;
 let d = "RIGHT";
-let gameRunning = false;
+let gameRunning = false; // controllo del gioco
 let lastTime = 0, speed = 5;
-let borderFlash = false; // per lampeggio bordo
 
 function resizeCanvas() {
   const size = Math.min(window.innerWidth * 0.9, 400);
+  // Forza il canvas a essere multiplo di gridSize
   const adjustedSize = size - (size % gridSize);
   canvas.width = adjustedSize;
   canvas.height = adjustedSize;
@@ -301,14 +301,8 @@ function randomFood() {
 }
 
 function draw() {
-  // Sfondo nero
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  // Bordo: lampeggia se borderFlash è true
-  ctx.strokeStyle = borderFlash ? "#f00" : "#fff";
-  ctx.lineWidth = 2;
-  ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
   // Snake
   ctx.fillStyle = "#0f0";
@@ -335,13 +329,8 @@ function draw() {
 
   // Collisione muri o snake
   if(head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || snake.some(s=>s.x===head.x && s.y===head.y)){
-    borderFlash = true;
-    draw(); // ridisegna con bordo lampeggiante
-    setTimeout(() => {
-      borderFlash = false;
-      alert("Game Over! Score: " + score);
-      gameRunning = false;
-    }, 200); // lampeggio per 200ms
+    alert("Game Over! Score: " + score);
+    gameRunning = false;
   } else {
     snake.unshift(head);
     if(head.x === food.x && head.y === food.y){
