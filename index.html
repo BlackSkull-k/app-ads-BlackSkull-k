@@ -166,6 +166,35 @@
   box-shadow: 0 6px 12px rgba(0,0,0,0.5); /* ombra più intensa al passaggio del mouse */
 }
 
+ <title>Index</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #fff; /* sfondo pagina */
+        }
+
+        /* Barra inferiore fissa */
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #2a2a2a; /* stesso colore barra Applications */
+            color: #f0f0f0; /* colore testo simile a Applications */
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        /* Contenuto principale per evitare sovrapposizione */
+        .content {
+            padding-bottom: 50px; /* spazio per la barra inferiore */
+        }
+    </style>
+  
 </style>
  <title>NavBar Orizzontale</title>
 <style>
@@ -307,9 +336,10 @@ header img {
   </div>
 </main>
 
-<footer>
-  BlackSkull-k ® 2021-2025
-</footer>
+<!-- Barra inferiore -->
+<div class="bottom-bar">
+    BlasckSkull-k 2021 2025
+</div>
 
 <script>
   // Animazione fade-in + slide delle card
