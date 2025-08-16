@@ -73,7 +73,25 @@
       .card:active { transform: scale(1.08); box-shadow:0 20px 30px rgba(0,0,0,0.4); }
     }
 
-    footer { text-align:center; font-size:0.9em; color:#fff; padding:10px; background:#2c3e50; }
+    .bottom-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #2c3e50;
+    color: #f0f0f0;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 14px;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
+    z-index: 1000;
+}
+
+/* Per evitare che il contenuto venga coperto dalla barra */
+.content {
+    padding-bottom: 50px;
+}
+
   </style>
 </head>
 <body>
@@ -126,9 +144,10 @@
   </div>
 </main>
 
-<footer>
-  BlackSkull-k ® 2021-2025
-</footer>
+<!-- Barra inferiore -->
+<div class="bottom-bar">
+    BlasckSkull-k 2021 2025
+</div>
 
 <script>
   // Animazione fade-in delle card
