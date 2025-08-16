@@ -254,47 +254,23 @@
   BlackSkull-k ® 2021-2025
 </footer>
 
-<script>
-  // Animazione fade-in + slide delle card
-  document.addEventListener("DOMContentLoaded", function() {
-    const cards = document.querySelectorAll(".card");
-    cards.forEach((card, index) => {
-      setTimeout(() => card.classList.add("visible"), index * 150);
-    });
-  });
-</script>
+<canvas id="snakeCanvas" width="400" height="400" style="border:1px solid #000"></canvas>
+<div>Punteggio: <span id="score">0</span></div>  
+<button id="startBtn">Start</button>
 
-  <script>
-const canvas = document.getElementById("gameCanvas");
+<script>
+const canvas = document.getElementById("snakeCanvas");
 const ctx = canvas.getContext("2d");
 
 let gridSize = 20;
-let box;
+let box = canvas.width / gridSize;
 let snake = [{x: 0, y: 0}];
-let food;
+let food = randomFood();
 let sparks = [];
 let score = 0;
 let d = "RIGHT";
-let gameRunning = false; // controllo del gioco
+let gameRunning = false;
 let lastTime = 0, speed = 5;
-
-function resizeCanvas() {
-  const size = Math.min(window.innerWidth * 0.9, 400);
-  canvas.width = size;
-  canvas.height = size;
-  box = size / gridSize;
-  food = randomFood();
-}
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
-
-// Frecce non scrollano la pagina
-document.addEventListener("keydown", e => {
-  if(e.key === "ArrowUp" && d !== "DOWN") { d="UP"; e.preventDefault(); }
-  else if(e.key === "ArrowDown" && d !== "UP") { d="DOWN"; e.preventDefault(); }
-  else if(e.key === "ArrowLeft" && d !== "RIGHT") { d="LEFT"; e.preventDefault(); }
-  else if(e.key === "ArrowRight" && d !== "LEFT") { d="RIGHT"; e.preventDefault(); }
-});
 
 function randomFood() {
   let valid = false;
@@ -305,6 +281,13 @@ function randomFood() {
   }
   return newFood;
 }
+
+document.addEventListener("keydown", e => {
+  if(e.key === "ArrowUp" && d !== "DOWN") { d="UP"; e.preventDefault(); }
+  else if(e.key === "ArrowDown" && d !== "UP") { d="DOWN"; e.preventDefault(); }
+  else if(e.key === "ArrowLeft" && d !== "RIGHT") { d="LEFT"; e.preventDefault(); }
+  else if(e.key === "ArrowRight" && d !== "LEFT") { d="RIGHT"; e.preventDefault(); }
+});
 
 function draw() {
   ctx.fillStyle = "#000";
@@ -318,39 +301,42 @@ function draw() {
   ctx.fillStyle = "#f00";
   ctx.fillRect(food.x, food.y, box, box);
 
-  // Scintille
-  sparks.forEach((s, i) => {
+  // Sparks
+  sparks.forEach((s,i)=>{
     ctx.fillStyle = `rgba(255,255,0,${s.life/10})`;
-    ctx.fillRect(s.x, s.y, 2, 2);
-    s.x += s.dx; s.y += s.dy; s.life--;
+    ctx.fillRect(s.x,s.y,2,2);
+    s.x+=s.dx; s.y+=s.dy; s.life--;
     if(s.life<=0) sparks.splice(i,1);
   });
+}
 
-  // Movimento snake
+function update() {
   let head = { ...snake[0] };
   if(d==="LEFT") head.x -= box;
   else if(d==="RIGHT") head.x += box;
   else if(d==="UP") head.y -= box;
   else if(d==="DOWN") head.y += box;
 
-  // Collisione muri o snake
   if(head.x<0 || head.x>=canvas.width || head.y<0 || head.y>=canvas.height || snake.some(s=>s.x===head.x && s.y===head.y)){
     alert("Game Over! Score: " + score);
     gameRunning = false;
-  } else {
-    snake.unshift(head);
-    if(head.x === food.x && head.y === food.y){
-      score++;
-      sparks.push(...Array(20).fill().map(()=>({x:food.x+box/2, y:food.y+box/2, life:10, dx:Math.random()*2-1, dy:Math.random()*2-1})));
-      food = randomFood();
-    } else snake.pop();
+    return;
   }
+
+  snake.unshift(head);
+
+  if(head.x === food.x && head.y === food.y){
+    score++;
+    document.getElementById("score").innerText = score;
+    sparks.push(...Array(20).fill().map(()=>({x:food.x+box/2,y:food.y+box/2,life:10,dx:Math.random()*2-1,dy:Math.random()*2-1})));
+    food = randomFood();
+  } else snake.pop();
 }
 
-// Pulsante avvia
 document.getElementById("startBtn").addEventListener("click", () => {
   snake = [{x:0,y:0}];
   score = 0;
+  document.getElementById("score").innerText = score;
   d = "RIGHT";
   sparks = [];
   food = randomFood();
@@ -359,10 +345,10 @@ document.getElementById("startBtn").addEventListener("click", () => {
   requestAnimationFrame(gameLoop);
 });
 
-// Game loop
 function gameLoop(time){
   if(!gameRunning) return;
   if(time - lastTime > 1000/speed){
+    update();
     draw();
     lastTime = time;
   }
