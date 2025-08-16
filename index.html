@@ -277,6 +277,10 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+// Suoni
+const gameOverSound = new Audio("https://freesound.org/data/previews/109/109662_945474-lq.mp3");
+const eatSound = new Audio("https://freesound.org/data/previews/256/256113_3263906-lq.mp3");
+
 let gridSize = 21;
 let box;
 let snake = [{x: 0, y: 0}];
@@ -286,7 +290,7 @@ let score = 0;
 let d = "RIGHT";       // direzione corrente
 let nextD = "RIGHT";   // direzione da applicare al prossimo frame
 let gameRunning = false;
-let lastTime = 0, speed = 5;
+let lastTime = 0, speed = 4;  // velocità iniziale 4
 let flashing = 0;      // contatore per bordo rosso
 
 function resizeCanvas() {
@@ -325,6 +329,11 @@ function draw() {
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+  // punteggio
+  ctx.fillStyle = "#fff";
+  ctx.font = `${box}px Arial`;
+  ctx.fillText("Score: "+score, box, box*1.2);
+
   // bordo rosso lampeggiante se morto
   if(flashing > 0) {
     ctx.strokeStyle = "red";
@@ -362,6 +371,8 @@ function draw() {
   // Collisione
   if(head.x<0 || head.x>=canvas.width || head.y<0 || head.y>=canvas.height || 
      snake.some(s=>s.x===head.x && s.y===head.y)){
+    gameOverSound.currentTime = 0;
+    gameOverSound.play();
     gameRunning = false;
     flashing = 6;  // lampeggio 3 volte (2 frame per lampeggio)
     setTimeout(() => {
@@ -374,11 +385,13 @@ function draw() {
       gameRunning = true;
       lastTime = 0;
       requestAnimationFrame(gameLoop);
-    }, 500); // delay prima del restart
+    }, 1200); // delay restart 1.2 secondi
   } else {
     snake.unshift(head);
     if(head.x === food.x && head.y === food.y){
       score++;
+      eatSound.currentTime = 0;
+      eatSound.play();
       sparks.push(...Array(20).fill().map(()=>({
         x:food.x+box/2, y:food.y+box/2, life:10, dx:Math.random()*2-1, dy:Math.random()*2-1
       })));
