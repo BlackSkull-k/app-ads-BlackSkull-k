@@ -266,16 +266,16 @@ let snake = [{x: 0, y: 0}];
 let food;
 let sparks = [];
 let score = 0;
-let d = "RIGHT";
+let d = "RIGHT";       // direzione corrente
+let nextD = "RIGHT";   // direzione da applicare al prossimo frame
 let gameRunning = false;
 let lastTime = 0, speed = 5;
 
 function resizeCanvas() {
   const size = Math.min(window.innerWidth * 0.9, 400);
-  const adjustedSize = size - (size % gridSize); // assicura multiplo di gridSize
-  canvas.width = adjustedSize;
-  canvas.height = adjustedSize;
-  box = adjustedSize / gridSize; // ora sempre intero
+  canvas.width = size;
+  canvas.height = size;
+  box = Math.floor(size / gridSize);
   food = randomFood();
 }
 window.addEventListener("resize", resizeCanvas);
@@ -283,17 +283,20 @@ resizeCanvas();
 
 // Frecce non scrollano la pagina
 document.addEventListener("keydown", e => {
-  if(e.key === "ArrowUp" && d !== "DOWN") { d="UP"; e.preventDefault(); }
-  else if(e.key === "ArrowDown" && d !== "UP") { d="DOWN"; e.preventDefault(); }
-  else if(e.key === "ArrowLeft" && d !== "RIGHT") { d="LEFT"; e.preventDefault(); }
-  else if(e.key === "ArrowRight" && d !== "LEFT") { d="RIGHT"; e.preventDefault(); }
+  if(e.key === "ArrowUp" && d !== "DOWN") { nextD="UP"; e.preventDefault(); }
+  else if(e.key === "ArrowDown" && d !== "UP") { nextD="DOWN"; e.preventDefault(); }
+  else if(e.key === "ArrowLeft" && d !== "RIGHT") { nextD="LEFT"; e.preventDefault(); }
+  else if(e.key === "ArrowRight" && d !== "LEFT") { nextD="RIGHT"; e.preventDefault(); }
 });
 
 function randomFood() {
   let valid = false;
   let newFood;
   while(!valid){
-    newFood = { x: Math.floor(Math.random()*gridSize)*box, y: Math.floor(Math.random()*gridSize)*box };
+    newFood = { 
+      x: Math.floor(Math.random()*gridSize)*box, 
+      y: Math.floor(Math.random()*gridSize)*box 
+    };
     valid = !snake.some(segment => segment.x === newFood.x && segment.y === newFood.y);
   }
   return newFood;
@@ -319,22 +322,25 @@ function draw() {
     if(s.life<=0) sparks.splice(i,1);
   });
 
-  // Movimento snake
+  // Aggiorna direzione corrente
+  d = nextD;
+
+  // Movimento snake con coordinate intere
   let head = { ...snake[0] };
-  if(d==="LEFT") head.x -= box;
-  else if(d==="RIGHT") head.x += box;
-  else if(d==="UP") head.y -= box;
-  else if(d==="DOWN") head.y += box;
+  if(d==="LEFT") head.x = Math.round(head.x - box);
+  else if(d==="RIGHT") head.x = Math.round(head.x + box);
+  else if(d==="UP") head.y = Math.round(head.y - box);
+  else if(d==="DOWN") head.y = Math.round(head.y + box);
 
   // Collisione muri o snake
-  if(head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height || snake.some(s => s.x === head.x && s.y === head.y)){
+  if(head.x<0 || head.x>=canvas.width || head.y<0 || head.y>=canvas.height || snake.some(s=>s.x===head.x && s.y===head.y)){
     alert("Game Over! Score: " + score);
     gameRunning = false;
   } else {
     snake.unshift(head);
     if(head.x === food.x && head.y === food.y){
       score++;
-      sparks.push(...Array(20).fill().map(() => ({x:food.x+box/2, y:food.y+box/2, life:10, dx:Math.random()*2-1, dy:Math.random()*2-1})));
+      sparks.push(...Array(20).fill().map(()=>({x:food.x+box/2, y:food.y+box/2, life:10, dx:Math.random()*2-1, dy:Math.random()*2-1})));
       food = randomFood();
     } else snake.pop();
   }
@@ -345,6 +351,7 @@ document.getElementById("startBtn").addEventListener("click", () => {
   snake = [{x:0,y:0}];
   score = 0;
   d = "RIGHT";
+  nextD = "RIGHT";
   sparks = [];
   food = randomFood();
   gameRunning = true;
