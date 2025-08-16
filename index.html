@@ -5,61 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BlackSkull-k Apps</title>
 
-<!-- =======================
-     GOOGLE SITE VERIFICATION
-======================= -->
+<!-- GOOGLE SITE VERIFICATION -->
 <meta name="google-site-verification" content="p3WxNMSzZRIBQIWVgAqcBhdaD6CRG99rZ3fTvgYM1I8" />
 
-<!-- =======================
-     SEO
-======================= -->
-<meta name="description" content="Scopri tutte le app di BlackSkull-k">
+<!-- SEO -->
+<meta name="description" content="Scopri tutte le app di BlackSkull-k, giochi e utility Android gratuiti.">
 <meta name="keywords" content="app, applicazioni, giochi, BlackSkull-k, affiliati, Android, utility, giochi gratuiti">
 <meta name="author" content="BlackSkull-k">
 
-<!-- =======================
-     AD MOB
-======================= -->
+<!-- ADMOB -->
 <meta name="admob-app-id" content="ca-app-pub-6870698456420623~YOUR_APP_ID">
 
-<!-- =======================
-     FAVICONS
-======================= -->
-<link rel="icon" type="image/png" sizes="16x16" href="images/bskFavicon16x.png">
+<!-- FAVICONS -->
 <link rel="icon" type="image/png" sizes="32x32" href="images/bskFavicon32x.png">
-<link rel="icon" type="image/png" sizes="48x48" href="images/bskFavicon48x.png">
-<link rel="icon" type="image/png" sizes="64x64" href="images/bskFavicon64x.png">
-<link rel="icon" type="image/png" sizes="96x96" href="images/bskFavicon96x.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/bskFavicon180x.png">
 
 <style>
-  /* =======================
-     STILE GENERALE
-  ======================= */
+  /* STILE GENERALE */
   body { font-family: Arial, sans-serif; margin:0; padding:0; background:#9d9f9f; color:#333;}
   header img { width:100%; max-height:200px; object-fit:cover; box-shadow:0 4px 10px rgba(0,0,0,0.5);}
   main { max-width:1000px; margin:20px auto; padding:10px;}
   .section { margin-bottom:30px; padding:10px; }
   .divider { height:2px; background:#222; margin:20px 0; border-radius:2px; }
 
-  /* =======================
-     TITOLI PRINCIPALI
-  ======================= */
-  h2 { 
-    margin-bottom:15px; 
-    text-align:center; 
-    color:#0b47a1; 
-  }
+  h2 { margin-bottom:15px; text-align:center; color:#0b47a1; }
 
-  /* =======================
-     CARDS APP
-  ======================= */
-  .apps-grid {
-    display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
-    gap:15px;
-  }
+  /* CARDS APP */
+  .apps-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; }
 
   .card {
     background:#fff; 
@@ -70,22 +42,12 @@
     flex-direction:column; 
     align-items:center; 
     box-shadow:0 3px 6px rgba(0,0,0,0.1); 
-    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.5s ease;
-    opacity: 0;               /* inizialmente invisibile */
-    transform: translateY(20px); /* leggero spostamento verso il basso */
+    transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+    opacity: 0; transform: translateY(20px);
   }
 
-  .card.visible {
-    opacity: 1;
-    transform: translateY(0);
-    transition: transform 0.5s ease, opacity 0.5s ease;
-  }
-
-  .card:hover, .card:active {
-    transform: scale(1.05);
-    box-shadow:0 15px 25px rgba(0,0,0,0.35);
-  }
-
+  .card.visible { opacity:1; transform: translateY(0); }
+  .card:hover, .card:active { transform: scale(1.05); box-shadow:0 15px 25px rgba(0,0,0,0.35); }
   .card img { width:80px; height:80px; margin-bottom:10px; }
   .card span { font-weight:bold; margin-bottom:10px; text-align:center; }
   .card a { text-decoration:none; color:#fff; background:#28a745; padding:6px 12px; border-radius:5px; font-weight:bold; }
@@ -98,15 +60,11 @@
     .card:active { transform: scale(1.08); box-shadow:0 20px 30px rgba(0,0,0,0.4); }
   }
 
-  /* =======================
-     CONTATTI
-  ======================= */
+  /* CONTATTI */
   .contact a { color:#1a73e8; text-decoration:none; font-weight:bold; }
   .contact a:hover { text-decoration:underline; }
 
-  /* =======================
-     PULSANTI ADS
-  ======================= */
+  /* PULSANTI ADS */
   .ads-buttons { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
   .btn-view { background:#fcd116; } 
   .btn-download { background:#f57c00; } 
@@ -114,14 +72,10 @@
   .btn-view:hover { background:#e6c200; }
   .btn-download:hover { background:#d26900; }
 
-  /* =======================
-     FOOTER
-  ======================= */
+  /* FOOTER */
   footer { text-align:center; margin-top:30px; font-size:0.9em; color:#fff; padding:10px; }
 
-  /* =======================
-     CARD AFFILIATI
-  ======================= */
+  /* CARD AFFILIATI */
   .affiliate-card { background:#fff; border-radius:10px; padding:15px; margin-bottom:15px; box-shadow:0 3px 6px rgba(0,0,0,0.1); display:flex; gap:15px; align-items:flex-start; }
   .affiliate-card img { width:60px; height:60px; border-radius:8px; }
   .affiliate-card-content { flex:1; }
@@ -130,9 +84,7 @@
   .affiliate-card-content a { color:#1a73e8; font-weight:bold; text-decoration:none; }
   .affiliate-card-content a:hover { text-decoration:underline; }
 
-  /* =======================
-     ADMOB CARD
-  ======================= */
+  /* ADMOB CARD */
   .admob-card {
     display:flex;
     flex-direction:column;
@@ -155,65 +107,54 @@
 </header>
 
 <main>
-  <!-- =======================
-       SEZIONE APPLICAZIONI
-  ======================= -->
+  <!-- SEZIONE APPLICAZIONI -->
   <div class="apps-grid">
-  <div class="card">
-    <span>Piano</span>
-    <img src="images/Pianoicon.png" alt="Piano">
-    <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" target="_blank">Open</a>
-  </div>
+    <div class="card">
+      <span>Piano</span>
+      <img src="images/Pianoicon.png" alt="Piano">
+      <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" target="_blank">Open</a>
+    </div>
 
-  <div class="card">
-    <span>Torch Flash Light Plus</span>
-    <img src="images/Torchicon.png" alt="Torch Flash Light Plus">
-    <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" target="_blank">Open</a>
-  </div>
+    <div class="card">
+      <span>Torch Flash Light Plus</span>
+      <img src="images/Torchicon.png" alt="Torch Flash Light Plus">
+      <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" target="_blank">Open</a>
+    </div>
 
-  <div class="card">
-    <span>Memojiing</span>
-    <img src="images/Memoicon.png" alt="Memojiing">
-    <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank">Open</a>
-  </div>
+    <div class="card">
+      <span>Memojiing</span>
+      <img src="images/Memoicon.png" alt="Memojiing">
+      <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank">Open</a>
+    </div>
 
-  <div class="card">
-    <span>Infinity Jump Rabbit</span>
-    <img src="images/IJRicon.png" alt="Infinity Jump Rabbit">
-    <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" target="_blank">Open</a>
-  </div>
+    <div class="card">
+      <span>Infinity Jump Rabbit</span>
+      <img src="images/IJRicon.png" alt="Infinity Jump Rabbit">
+      <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" target="_blank">Open</a>
+    </div>
 
-  <div class="card">
-    <span>Golf Wild</span>
-    <img src="images/Golficon.png" alt="Golf Wild">
-    <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" target="_blank">Open</a>
-  </div>
-</div>
-
+    <div class="card">
+      <span>Golf Wild</span>
+      <img src="images/Golficon.png" alt="Golf Wild">
+      <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" target="_blank">Open</a>
+    </div>
   </div>
 
   <div class="divider"></div>
 
-  <!-- =======================
-       SEZIONE CONTATTI
-  ======================= -->
+  <!-- SEZIONE CONTATTI -->
   <div class="section contact" id="contact">
-  <h2>Email Contact</h2>
-  <p></p>
+    <h2>Email Contact</h2>
+    <div class="admob-card" style="max-width:400px;">
+      <a href="mailto:blackskull.k.info@gmail.com" style="color:inherit; text-decoration:none;">
+        blackskull.k.info@gmail.com
+      </a>
+    </div>
+  </div>
 
-  <!-- Casella bianca con email -->
-  <div class="admob-card" style="max-width:400px;">
-  <a href="mailto:blackskull.k.info@gmail.com" style="color:inherit; text-decoration:none;">
-    blackskull.k.info@gmail.com
-  </a>
-</div>
-
-  <!-- =======================
-       SEZIONE SITI AFFILIATI
-  ======================= -->
+  <!-- SEZIONE SITI AFFILIATI -->
   <div class="section" id="affiliates">
     <h2>Affiliate Sites</h2>
-
     <div class="affiliate-card">
       <img src="images/jfkicon1.png" alt="JFKar Auto">
       <div class="affiliate-card-content">
@@ -223,14 +164,11 @@
         <p>Sito Web: <a href="https://www.jfkar.com" target="_blank">www.jfkar.com</a></p>
       </div>
     </div>
-
   </div>
 
   <div class="divider"></div>
 
-  <!-- =======================
-       SEZIONE APP-ADS.TXT
-  ======================= -->
+  <!-- SEZIONE APP-ADS.TXT -->
   <div class="section" id="ads">
     <h2>AdMob</h2>
     <div class="admob-card">
@@ -252,9 +190,7 @@
   document.addEventListener("DOMContentLoaded", function() {
     const cards = document.querySelectorAll(".card");
     cards.forEach((card, index) => {
-      setTimeout(() => {
-        card.classList.add("visible");
-      }, index * 150); // ogni card appare con 150ms di ritardo
+      setTimeout(() => card.classList.add("visible"), index * 150);
     });
   });
 </script>
