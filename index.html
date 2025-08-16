@@ -53,6 +53,39 @@
 <link rel="apple-touch-icon" sizes="180x180" href="images/bskFavicon180x.png">
 
 <style>
+  /* BARRA MENU ORIZZONTALE */
+.main-menu {
+  background-color: #222; /* colore sfondo barra */
+  text-align: center;     /* centra i link */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+.main-menu ul {
+  list-style: none;       /* togli i pallini */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* menu centrato */
+  gap: 20px;               /* spazio tra i link */
+}
+
+.main-menu li {
+}
+
+.main-menu a {
+  display: block;
+  padding: 12px 20px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.main-menu a:hover {
+  background-color: #0b47a1; /* colore hover */
+  border-radius: 5px;
+}
+
   /* STILE GENERALE */
   body { font-family: Arial, sans-serif; margin:0; padding:0; background:#9d9f9f; color:#333;}
   header img { width:100%; max-height:200px; object-fit:cover; box-shadow:0 4px 10px rgba(0,0,0,0.5);}
@@ -174,6 +207,15 @@
 
 <header>
   <img src="images/Logo1.png" alt="BlackSkull-k Logo">
+  <!-- BARRA MENU -->
+  <nav class="menu-bar">
+    <ul>
+      <li><a href="#applications">Applications</a></li>
+      <li><a href="#flashgames">Flash Games</a></li>
+      <li><a href="#contact">Contacts</a></li>
+      <li><a href="#affiliates">Affiliate Sites</a></li>
+    </ul>
+  </nav>
 </header>
 
 <main>
