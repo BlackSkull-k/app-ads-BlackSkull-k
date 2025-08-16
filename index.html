@@ -274,10 +274,6 @@
 </script>
 
   <script>
-<canvas id="gameCanvas"></canvas>
-<button id="startBtn">Start</button>
-
-<script>
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -291,16 +287,14 @@ let snake = [{x: 0, y: 0}];
 let food;
 let sparks = [];
 let score = 0;
-
-// recupero bestScore dal localStorage (se esiste)
-let bestScore = localStorage.getItem("bestScore") ? parseInt(localStorage.getItem("bestScore")) : 0;
-
+let bestScore = 0;   // nuovo record
 let d = "RIGHT";
 let nextD = "RIGHT";
 let gameRunning = false;
 let lastTime = 0, speed = 4;
 let flashing = 0;
 
+// resize canvas
 function resizeCanvas() {
   const size = Math.min(window.innerWidth * 0.9, 400);
   box = Math.floor(size / gridSize);
@@ -311,7 +305,7 @@ function resizeCanvas() {
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
-// Frecce non scrollano la pagina
+// prevenzione scroll frecce
 document.addEventListener("keydown", e => {
   if(e.key === "ArrowUp" && d !== "DOWN") { nextD="UP"; e.preventDefault(); }
   else if(e.key === "ArrowDown" && d !== "UP") { nextD="DOWN"; e.preventDefault(); }
@@ -319,6 +313,7 @@ document.addEventListener("keydown", e => {
   else if(e.key === "ArrowRight" && d !== "LEFT") { nextD="RIGHT"; e.preventDefault(); }
 });
 
+// genera cibo
 function randomFood() {
   let valid = false;
   let newFood;
@@ -332,18 +327,18 @@ function randomFood() {
   return newFood;
 }
 
+// disegno
 function draw() {
-  // sfondo nero
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // punteggio
+  // punteggi
   ctx.fillStyle = "#fff";
   ctx.font = `${box}px Arial`;
   ctx.fillText("Score: " + score, box, box*1.2);
   ctx.fillText("Best: " + bestScore, box, box*2.3);
 
-  // bordo rosso lampeggiante se morto
+  // bordo rosso lampeggiante
   if(flashing > 0) {
     ctx.strokeStyle = "red";
     ctx.lineWidth = 4;
@@ -367,17 +362,17 @@ function draw() {
     if(s.life <= 0) sparks.splice(i,1);
   });
 
-  // Aggiorna direzione corrente
+  // direzione
   d = nextD;
 
-  // Movimento snake
+  // movimento testa
   let head = { ...snake[0] };
   if(d==="LEFT") head.x -= box;
   else if(d==="RIGHT") head.x += box;
   else if(d==="UP") head.y -= box;
   else if(d==="DOWN") head.y += box;
 
-  // Collisione
+  // collisione
   if(head.x<0 || head.x>=canvas.width || head.y<0 || head.y>=canvas.height || 
      snake.some(s=>s.x===head.x && s.y===head.y)){
     gameOverSound.currentTime = 0;
@@ -386,10 +381,7 @@ function draw() {
     flashing = 6;
 
     // aggiorna best
-    if(score > bestScore) {
-      bestScore = score;
-      localStorage.setItem("bestScore", bestScore);
-    }
+    if(score > bestScore) bestScore = score;
 
     document.getElementById("startBtn").textContent = "Restart";
 
@@ -407,7 +399,7 @@ function draw() {
   }
 }
 
-// Pulsante avvia
+// pulsante start/restart
 document.getElementById("startBtn").addEventListener("click", () => {
   snake = [{x:0,y:0}];
   score = 0;
@@ -421,7 +413,7 @@ document.getElementById("startBtn").addEventListener("click", () => {
   requestAnimationFrame(gameLoop);
 });
 
-// Game loop
+// loop
 function gameLoop(time){
   if(!gameRunning) return;
   if(time - lastTime > 1000/speed){
@@ -431,20 +423,17 @@ function gameLoop(time){
   requestAnimationFrame(gameLoop);
 }
 
-// ===== TOUCH SWIPE =====
+// swipe touch
 let touchStartX = 0;
 let touchStartY = 0;
-
 canvas.addEventListener("touchstart", e => {
   const touch = e.touches[0];
   touchStartX = touch.clientX;
   touchStartY = touch.clientY;
 });
-
 canvas.addEventListener("touchmove", e => {
   e.preventDefault(); 
 }, { passive: false });
-
 canvas.addEventListener("touchend", e => {
   const touch = e.changedTouches[0];
   const dx = touch.clientX - touchStartX;
