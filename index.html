@@ -149,38 +149,45 @@
 
 <main>
   <!-- SEZIONE APPLICAZIONI -->
-  <div class="apps-grid">
-    <div class="card">
-      <span>Piano</span>
-      <img src="images/Pianoicon.png" alt="Piano">
-      <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" target="_blank">Open</a>
-    </div>
-
-    <div class="card">
-      <span>Torch Flash Light Plus</span>
-      <img src="images/Torchicon.png" alt="Torch Flash Light Plus">
-      <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" target="_blank">Open</a>
-    </div>
-
-    <div class="card">
-      <span>Memojiing</span>
-      <img src="images/Memoicon.png" alt="Memojiing">
-      <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank">Open</a>
-    </div>
-
-    <div class="card">
-      <span>Infinity Jump Rabbit</span>
-      <img src="images/IJRicon.png" alt="Infinity Jump Rabbit">
-      <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" target="_blank">Open</a>
-    </div>
-
-    <div class="card">
-      <span>Golf Wild</span>
-      <img src="images/Golficon.png" alt="Golf Wild">
-      <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" target="_blank">Open</a>
-    </div>
+<div class="apps-grid">
+  <div class="card">
+    <span>Piano</span>
+    <img src="images/Pianoicon.png" alt="Piano">
+    <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" target="_blank">Open</a>
   </div>
+  <!-- altre card... -->
+</div>
 
+<!-- SEZIONE SNAKE GAME -->
+<div class="section" id="snake-game" style="text-align:center; margin-top:20px;">
+  <h2>Snake Game</h2>
+
+  <!-- Punteggio -->
+  <div id="scoreDisplay" style="
+      font-family: Arial, sans-serif;
+      font-weight:bold;
+      font-size:18px;
+      color:#1E90FF;
+      margin-bottom:10px;
+  ">Score: 0</div>
+
+  <!-- Canvas -->
+  <canvas id="gameCanvas"></canvas>
+
+  <!-- Pulsante Start -->
+  <div style="margin-top:10px;">
+    <button id="startBtn" style="
+        background-color:#1E90FF; 
+        color:#fff; 
+        font-size:16px; 
+        font-weight:bold;
+        padding:10px 20px; 
+        border:none; 
+        border-radius:10px; 
+        box-shadow: 0 4px #999;
+        cursor:pointer;
+        transition: all 0.1s ease; 
+  
 <div class="section" id="snake-game">
   <h2>Snake Game</h2>
   <button id="startBtn">Start</button>
@@ -255,9 +262,10 @@ let food;
 let sparks = [];
 let score = 0;
 let d = "RIGHT";
-let gameRunning = false; // controllo del gioco
+let gameRunning = false;
 let lastTime = 0, speed = 5;
 
+// Ridimensionamento canvas
 function resizeCanvas() {
   const size = Math.min(window.innerWidth * 0.9, 400);
   canvas.width = size;
@@ -276,6 +284,7 @@ document.addEventListener("keydown", e => {
   else if(e.key === "ArrowRight" && d !== "LEFT") { d="RIGHT"; e.preventDefault(); }
 });
 
+// Genera cibo casuale
 function randomFood() {
   let valid = false;
   let newFood;
@@ -286,6 +295,12 @@ function randomFood() {
   return newFood;
 }
 
+// Aggiorna punteggio
+function updateScoreDisplay() {
+  document.getElementById("scoreDisplay").textContent = "Score: " + score;
+}
+
+// Disegna canvas
 function draw() {
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -294,7 +309,7 @@ function draw() {
   ctx.fillStyle = "#0f0";
   snake.forEach(segment => ctx.fillRect(segment.x, segment.y, box, box));
 
-  // Food
+  // Cibo
   ctx.fillStyle = "#f00";
   ctx.fillRect(food.x, food.y, box, box);
 
@@ -313,7 +328,7 @@ function draw() {
   else if(d==="UP") head.y -= box;
   else if(d==="DOWN") head.y += box;
 
-  // Collisione muri o snake
+  // Collisioni
   if(head.x<0 || head.x>=canvas.width || head.y<0 || head.y>=canvas.height || snake.some(s=>s.x===head.x && s.y===head.y)){
     alert("Game Over! Score: " + score);
     gameRunning = false;
@@ -321,14 +336,39 @@ function draw() {
     snake.unshift(head);
     if(head.x === food.x && head.y === food.y){
       score++;
-      sparks.push(...Array(20).fill().map(()=>({x:food.x+box/2, y:food.y+box/2, life:10, dx:Math.random()*2-1, dy:Math.random()*2-1})));
+      sparks.push(...Array(20).fill().map(()=>({
+        x: food.x + box/2,
+        y: food.y + box/2,
+        life: 10,
+        dx: Math.random()*2-1,
+        dy: Math.random()*2-1
+      })));
       food = randomFood();
     } else snake.pop();
   }
+
+  updateScoreDisplay();
 }
 
-// Pulsante avvia
-document.getElementById("startBtn").addEventListener("click", () => {
+// Pulsante Start blu con effetto pressione
+const startBtn = document.getElementById("startBtn");
+
+startBtn.addEventListener("mousedown", () => {
+  startBtn.style.transform = "translateY(2px)";
+  startBtn.style.boxShadow = "0 2px #666";
+});
+
+startBtn.addEventListener("mouseup", () => {
+  startBtn.style.transform = "translateY(0)";
+  startBtn.style.boxShadow = "0 4px #999";
+});
+
+startBtn.addEventListener("mouseleave", () => {
+  startBtn.style.transform = "translateY(0)";
+  startBtn.style.boxShadow = "0 4px #999";
+});
+
+startBtn.addEventListener("click", () => {
   snake = [{x:0,y:0}];
   score = 0;
   d = "RIGHT";
@@ -339,7 +379,7 @@ document.getElementById("startBtn").addEventListener("click", () => {
   requestAnimationFrame(gameLoop);
 });
 
-// Game loop
+// Loop del gioco
 function gameLoop(time){
   if(!gameRunning) return;
   if(time - lastTime > 1000/speed){
