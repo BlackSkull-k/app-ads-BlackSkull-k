@@ -804,6 +804,7 @@ let tetrisScore = 0;
 let tetrisLines = 0;
 let tetrisGameLoop;
 let tetrisPaused = false;
+let tetrisGameRunning = false;
 let tetrisLastDropTime = 0;
 let tetrisDropInterval = 1000;
 
@@ -909,7 +910,7 @@ function dropPiece() {
 }
 
 function gameLoop(time) {
-    if (tetrisPaused) {
+    if (!tetrisGameRunning || tetrisPaused) {
         return;
     }
     
@@ -927,6 +928,7 @@ function gameLoop(time) {
 
 function gameOver() {
     cancelAnimationFrame(tetrisGameLoop);
+    tetrisGameRunning = false;
     tetrisGameOver.style.display = "flex";
     tetrisFinalScoreSpan.textContent = tetrisScore;
     
@@ -943,12 +945,14 @@ function startGame() {
     tetrisScoreSpan.textContent = 0;
     tetrisLinesSpan.textContent = 0;
     tetrisPaused = false;
+    tetrisGameRunning = true;
     tetrisGameOver.style.display = "none";
     tetrisStartOverlay.style.display = "none";
     tetrisGameLoop = requestAnimationFrame(gameLoop);
 }
 
 tetrisPauseBtn.addEventListener("click", () => {
+    if (!tetrisGameRunning) return;
     tetrisPaused = !tetrisPaused;
     tetrisPauseBtn.textContent = tetrisPaused ? "Resume" : "Pause";
     if (!tetrisPaused) {
@@ -965,7 +969,7 @@ tetrisRestartBtn.addEventListener("click", () => {
 });
 
 document.addEventListener("keydown", e => {
-    if (tetrisPaused || tetrisGameOver.style.display === "flex") return;
+    if (tetrisPaused || !tetrisGameRunning) return;
     if (e.key === "ArrowLeft") {
         if (isValidMove(tetrisPiece.x - 1, tetrisPiece.y, tetrisPiece.shape)) tetrisPiece.x--;
     } else if (e.key === "ArrowRight") {
@@ -978,15 +982,19 @@ document.addEventListener("keydown", e => {
 });
 
 document.getElementById("tetris-left").addEventListener("click", () => {
+    if (!tetrisGameRunning) return;
     if (isValidMove(tetrisPiece.x - 1, tetrisPiece.y, tetrisPiece.shape)) tetrisPiece.x--;
 });
 document.getElementById("tetris-right").addEventListener("click", () => {
+    if (!tetrisGameRunning) return;
     if (isValidMove(tetrisPiece.x + 1, tetrisPiece.y, tetrisPiece.shape)) tetrisPiece.x++;
 });
 document.getElementById("tetris-rotate").addEventListener("click", () => {
+    if (!tetrisGameRunning) return;
     rotatePiece();
 });
 document.getElementById("tetris-down").addEventListener("click", () => {
+    if (!tetrisGameRunning) return;
     dropPiece();
 });
 
