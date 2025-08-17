@@ -423,10 +423,13 @@ function startGame(initialSpeed) {
 
 // Gestione input tastiera
 document.addEventListener("keydown", e => {
-  if (e.key === "ArrowUp" && d !== "DOWN") { nextD = "UP"; e.preventDefault(); }
-  else if (e.key === "ArrowDown" && d !== "UP") { nextD = "DOWN"; e.preventDefault(); }
-  else if (e.key === "ArrowLeft" && d !== "RIGHT") { nextD = "LEFT"; e.preventDefault(); }
-  else if (e.key === "ArrowRight" && d !== "LEFT") { nextD = "RIGHT"; e.preventDefault(); }
+  if (e.key.startsWith("Arrow")) {
+    e.preventDefault();
+  }
+  if (e.key === "ArrowUp" && d !== "DOWN") { nextD = "UP"; }
+  else if (e.key === "ArrowDown" && d !== "UP") { nextD = "DOWN"; }
+  else if (e.key === "ArrowLeft" && d !== "RIGHT") { nextD = "LEFT"; }
+  else if (e.key === "ArrowRight" && d !== "LEFT") { nextD = "RIGHT"; }
 });
 
 // Controlli mobili
