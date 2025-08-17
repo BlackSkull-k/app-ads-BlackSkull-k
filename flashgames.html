@@ -144,10 +144,13 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
 #snake-btn { background-color: #27ae60; }
 #tetris-btn { background-color: #2980b9; }
 
-/* STILE DEL GIOCO SNAKE */
+/* STILE DEI GIOCHI */
+#snake-game, #tetris-game {
+    display: none; /* Nascondi per impostazione predefinita */
+}
+
 #snake-game {
   text-align: center;
-  display: none; /* Nascondi per impostazione predefinita */
 }
 
 #snakeGameCanvas {
@@ -285,12 +288,11 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
 }
 
 /* STILE DEL GIOCO TETRIS */
-.tetris-game {
+.tetris-game-layout {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 20px;
-    display: none; /* Nascondi per impostazione predefinita */
 }
 .tetris-container {
     display: flex;
@@ -409,7 +411,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
     </div>
   
     <div id="tetris-game">
-      <div class="section tetris-game" id="tetris-game-container">
+      <div class="section tetris-game-layout" id="tetris-game-container">
         <div class="tetris-container">
             <canvas id="tetrisCanvas" width="200" height="400"></canvas>
             <div class="tetris-info">
