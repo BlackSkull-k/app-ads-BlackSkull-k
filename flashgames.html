@@ -339,6 +339,30 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
   font-size: 0.7em;
   cursor: pointer;
 }
+#tetrisStartOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 99;
+}
+#tetrisStartBtn {
+  background-color: #3498db;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
 </style>
 </head>
 <body>
@@ -408,7 +432,10 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
         <div id="tetrisGameOver" style="display:none;">
           <div>Game Over</div>
           <div>Score: <span id="tetrisFinalScoreSpan">0</span></div>
-          <button onclick="location.reload()">Restart</button>
+          <button id="tetrisRestartBtn">Play Again</button>
+        </div>
+        <div id="tetrisStartOverlay">
+          <button id="tetrisStartBtn">Start Game</button>
         </div>
       </div>
       <div class="tetris-controls">
@@ -724,6 +751,9 @@ const tetrisScoreSpan = document.getElementById("tetrisScoreSpan");
 const tetrisLinesSpan = document.getElementById("tetrisLinesSpan");
 const tetrisPauseBtn = document.getElementById("tetrisPauseBtn");
 const tetrisGameOver = document.getElementById("tetrisGameOver");
+const tetrisStartOverlay = document.getElementById("tetrisStartOverlay");
+const tetrisStartBtn = document.getElementById("tetrisStartBtn");
+const tetrisRestartBtn = document.getElementById("tetrisRestartBtn");
 const tetrisFinalScoreSpan = document.getElementById("tetrisFinalScoreSpan");
 
 const T_COLS = 10;
@@ -898,6 +928,7 @@ function startGame() {
     tetrisLinesSpan.textContent = 0;
     tetrisPaused = false;
     tetrisGameOver.style.display = "none";
+    tetrisStartOverlay.style.display = "none";
     tetrisGameLoop = requestAnimationFrame(gameLoop);
 }
 
@@ -907,6 +938,14 @@ tetrisPauseBtn.addEventListener("click", () => {
     if (!tetrisPaused) {
         gameLoop();
     }
+});
+
+tetrisStartBtn.addEventListener("click", () => {
+    startGame();
+});
+
+tetrisRestartBtn.addEventListener("click", () => {
+    startGame();
 });
 
 document.addEventListener("keydown", e => {
@@ -935,8 +974,6 @@ document.getElementById("tetris-down").addEventListener("click", () => {
     dropPiece();
 });
 
-// Avvia il gioco di Tetris all'apertura della pagina
-startGame();
 </script>
 
 </body>
