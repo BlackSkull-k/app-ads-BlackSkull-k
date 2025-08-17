@@ -91,6 +91,21 @@ main {
   padding: 10px;
 }
 h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
+.tetris-title {
+    text-align: center;
+    margin-bottom: 15px;
+    font-size: 2em;
+    font-weight: bold;
+}
+.tetris-title span {
+    font-family: 'Arial Black', sans-serif;
+}
+.tetris-t { color: #00F; } /* Blue */
+.tetris-e { color: #FF0; } /* Yellow */
+.tetris-t2 { color: #800080; } /* Purple */
+.tetris-r { color: #0F0; } /* Green */
+.tetris-i { color: #F00; } /* Red */
+.tetris-s { color: #FFA500; } /* Orange */
 
 .content { padding-bottom: 60px; }
 
@@ -420,7 +435,9 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
   </div>
 
   <div class="white-card">
-    <h2>Tetris</h2>
+    <div class="tetris-title">
+      <span class="tetris-t">T</span><span class="tetris-e">E</span><span class="tetris-t2">T</span><span class="tetris-r">R</span><span class="tetris-i">I</span><span class="tetris-s">S</span>
+    </div>
     <div class="section" id="tetris-game">
       <div id="tetris-container" style="position:relative;">
         <div id="tetris-ui">
