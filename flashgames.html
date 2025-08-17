@@ -256,6 +256,83 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
   box-shadow: 0 3px 6px rgba(0,0,0,0.1);
   text-align: center;
 }
+
+/* STILE DEL GIOCO TETRIS */
+#tetris-game {
+    display: none; /* Inizialmente nascosto */
+    text-align: center;
+    position: relative;
+    padding: 10px;
+}
+
+#tetrisCanvas {
+  display: block;
+  margin: 0 auto;
+  background: #000;
+  border: 2px solid #222;
+  border-radius: 10px;
+}
+
+.tetris-info {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 10px;
+}
+
+.tetris-sidebar {
+  background: #111;
+  color: #eee;
+  padding: 10px;
+  border-radius: 8px;
+  text-align: left;
+  min-width: 100px;
+}
+
+.tetris-sidebar h3 {
+  margin-top: 0;
+  margin-bottom: 5px;
+  font-size: 1em;
+}
+
+.tetris-sidebar #nextPieceCanvas {
+  border: 1px solid #444;
+  background: #222;
+  margin-top: 5px;
+}
+
+.tetris-sidebar p {
+  margin: 5px 0;
+  font-size: 0.9em;
+}
+
+/* Overlay di game over per Tetris */
+#tetrisGameOverOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  display: none; /* Inizialmente nascosto */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  font-size: 2em;
+  text-align: center;
+}
+#tetrisGameOverOverlay button {
+  margin-top: 20px;
+  background-color: #0b47a1;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 0.7em;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -279,6 +356,14 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
 <main class="content">
 
   <div class="white-card">
+    <h2>Select Game</h2>
+    <div style="display:flex; justify-content:center; gap:20px;">
+      <button onclick="selectGame('snake')" style="padding:10px 20px; background-color:#1E8449; color:white; border:none; border-radius:5px;">Snake</button>
+      <button onclick="selectGame('tetris')" style="padding:10px 20px; background-color:#1E8449; color:white; border:none; border-radius:5px;">Tetris</button>
+    </div>
+  </div>
+
+  <div class="white-card" id="snake-game-container">
     <h2>Snake Game</h2>
     <div class="section" id="snake-game">
       <div id="game-container" style="position:relative;">
@@ -308,6 +393,39 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
           <button id="control-right" class="control-btn">&#9654;</button>
           <button id="control-down" class="control-btn">&#9660;</button>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="white-card" id="tetris-game-container" style="display:none;">
+    <h2>Tetris Game</h2>
+    <div class="section" id="tetris-game">
+      <div style="position:relative;">
+          <div style="display: flex; flex-direction: column; align-items: center;">
+            <div style="display:flex; justify-content:center; align-items:flex-start; gap: 20px;">
+              <canvas id="tetrisCanvas" width="200" height="400"></canvas>
+              <div class="tetris-sidebar">
+                <h3>Next</h3>
+                <canvas id="nextPieceCanvas" width="80" height="80"></canvas>
+                <p>Score: <span id="tetrisScoreSpan">0</span></p>
+                <p>Lines: <span id="tetrisLinesSpan">0</span></p>
+                <p>Level: <span id="tetrisLevelSpan">1</span></p>
+                <button id="tetrisPauseBtn" style="width:100%; margin-top:10px; background-color: #e67e22; color: #fff; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">Pause</button>
+              </div>
+            </div>
+            <div class="controls" style="margin-top: 20px;">
+                <button id="tetris-control-up" class="control-btn" style="grid-area: up;">&#8635;</button>
+                <button id="tetris-control-left" class="control-btn" style="grid-area: left;">&#9664;</button>
+                <div id="tetris-control-center" style="grid-area: center; visibility: hidden;"></div>
+                <button id="tetris-control-right" class="control-btn" style="grid-area: right;">&#9654;</button>
+                <button id="tetris-control-down" class="control-btn" style="grid-area: down;">&#9660;</button>
+            </div>
+          </div>
+          <div id="tetrisGameOverOverlay">
+            <div>Game Over</div>
+            <div>Score: <span id="tetrisFinalScoreSpan">0</span></div>
+            <button onclick="startTetris()">Restart</button>
+          </div>
       </div>
     </div>
   </div>
@@ -344,7 +462,21 @@ nav.addEventListener('scroll', updateArrows);
 window.addEventListener('resize', updateArrows);
 window.addEventListener('load', updateArrows);
 
+// Selettore dei giochi
+const snakeContainer = document.getElementById('snake-game-container');
+const tetrisContainer = document.getElementById('tetris-game-container');
 
+function selectGame(game) {
+  if (game === 'snake') {
+    snakeContainer.style.display = 'block';
+    tetrisContainer.style.display = 'none';
+  } else if (game === 'tetris') {
+    snakeContainer.style.display = 'none';
+    tetrisContainer.style.display = 'block';
+    startTetris(); // Avvia il Tetris quando selezionato
+  }
+}
+// -------------------- GIOCO SNAKE --------------------
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 const scoreSpan = document.getElementById("scoreSpan");
@@ -607,6 +739,307 @@ canvas.addEventListener("touchend", e => {
     else if (dy < 0 && d !== "DOWN") nextD = "UP";
   }
 });
+
+
+// -------------------- GIOCO TETRIS --------------------
+const tetrisCanvas = document.getElementById("tetrisCanvas");
+const tetrisCtx = tetrisCanvas.getContext("2d");
+const nextPieceCanvas = document.getElementById("nextPieceCanvas");
+const nextPieceCtx = nextPieceCanvas.getContext("2d");
+const tetrisScoreSpan = document.getElementById("tetrisScoreSpan");
+const tetrisLinesSpan = document.getElementById("tetrisLinesSpan");
+const tetrisLevelSpan = document.getElementById("tetrisLevelSpan");
+const tetrisGameOverOverlay = document.getElementById("tetrisGameOverOverlay");
+const tetrisPauseBtn = document.getElementById("tetrisPauseBtn");
+const tetrisFinalScoreSpan = document.getElementById("tetrisFinalScoreSpan");
+
+const TILE_SIZE = 20;
+const ROWS = 20;
+const COLS = 10;
+let board = [];
+let tetrisScore = 0;
+let lines = 0;
+let level = 1;
+let dropCounter = 0;
+let dropInterval = 1000;
+let lastTimeTetris = 0;
+let tetrisPaused = false;
+let tetrisGameOver = false;
+
+// Tetrominoes
+const PIECES = [
+  [[1, 1, 1, 1]], // I
+  [[1, 1], [1, 1]], // O
+  [[0, 1, 0], [1, 1, 1]], // T
+  [[0, 1, 1], [1, 1, 0]], // S
+  [[1, 1, 0], [0, 1, 1]], // Z
+  [[1, 0, 0], [1, 1, 1]], // J
+  [[0, 0, 1], [1, 1, 1]], // L
+];
+const COLORS = ['cyan', 'yellow', 'purple', 'lime', 'red', 'blue', 'orange'];
+
+let currentPiece = null;
+let nextPiece = null;
+
+// Initialize board
+function createBoard() {
+  board = Array.from({ length: ROWS }, () => Array(COLS).fill(0));
+}
+
+function getRandomPiece() {
+  const index = Math.floor(Math.random() * PIECES.length);
+  return {
+    matrix: PIECES[index],
+    color: COLORS[index],
+    x: Math.floor(COLS / 2) - Math.floor(PIECES[index][0].length / 2),
+    y: 0,
+  };
+}
+
+function drawBoard() {
+  tetrisCtx.fillStyle = '#000';
+  tetrisCtx.fillRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
+  for (let r = 0; r < ROWS; r++) {
+    for (let c = 0; c < COLS; c++) {
+      if (board[r][c]) {
+        drawBlock(c, r, board[r][c]);
+      }
+    }
+  }
+}
+
+function drawBlock(x, y, color) {
+  tetrisCtx.fillStyle = color;
+  tetrisCtx.fillRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+  tetrisCtx.strokeStyle = '#222';
+  tetrisCtx.lineWidth = 1;
+  tetrisCtx.strokeRect(x * TILE_SIZE, y * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+}
+
+function drawPiece(piece, ctx, offsetX = 0, offsetY = 0) {
+  piece.matrix.forEach((row, r) => {
+    row.forEach((value, c) => {
+      if (value) {
+        drawBlock(piece.x + c + offsetX, piece.y + r + offsetY, piece.color);
+      }
+    });
+  });
+}
+
+function draw() {
+  drawBoard();
+  if (currentPiece) {
+    drawPiece(currentPiece, tetrisCtx);
+  }
+  // Draw next piece
+  nextPieceCtx.fillStyle = '#222';
+  nextPieceCtx.fillRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
+  if (nextPiece) {
+      const scale = TILE_SIZE / 2;
+      nextPieceCtx.save();
+      nextPieceCtx.scale(0.5, 0.5);
+      drawPiece(nextPiece, nextPieceCtx, (nextPieceCanvas.width/scale - nextPiece.matrix[0].length)/2 * 2, (nextPieceCanvas.height/scale - nextPiece.matrix.length)/2 * 2);
+      nextPieceCtx.restore();
+  }
+}
+
+function collide(piece, board) {
+  for (let r = 0; r < piece.matrix.length; r++) {
+    for (let c = 0; c < piece.matrix[r].length; c++) {
+      if (piece.matrix[r][c] !== 0) {
+        const x = piece.x + c;
+        const y = piece.y + r;
+        if (
+          x < 0 || x >= COLS ||
+          y >= ROWS ||
+          (y >= 0 && board[y][x] !== 0)
+        ) {
+          return true;
+        }
+      }
+    }
+  }
+  return false;
+}
+
+function merge(piece, board) {
+  piece.matrix.forEach((row, r) => {
+    row.forEach((value, c) => {
+      if (value) {
+        board[piece.y + r][piece.x + c] = piece.color;
+      }
+    });
+  });
+}
+
+function rotate(matrix) {
+  const N = matrix.length - 1;
+  const result = matrix.map((row, i) =>
+    row.map((val, j) => matrix[N - j][i])
+  );
+  return result;
+}
+
+function clearLines() {
+  let clearedLines = 0;
+  for (let r = ROWS - 1; r >= 0; r--) {
+    if (board[r].every(value => value !== 0)) {
+      board.splice(r, 1);
+      board.unshift(Array(COLS).fill(0));
+      clearedLines++;
+      r++; // Check the new line at the same row
+    }
+  }
+  if (clearedLines > 0) {
+    lines += clearedLines;
+    tetrisLinesSpan.textContent = lines;
+    // Punteggio basato sul numero di linee
+    tetrisScore += [0, 100, 300, 500, 800][clearedLines];
+    tetrisScoreSpan.textContent = tetrisScore;
+
+    // Aumento della velocità
+    level = Math.floor(lines / 10) + 1;
+    tetrisLevelSpan.textContent = level;
+    dropInterval = 1000 - (level - 1) * 75;
+  }
+}
+
+function updateTetris(time = 0) {
+  if (tetrisGameOver || tetrisPaused) {
+    if (tetrisPaused) {
+      tetrisCtx.fillStyle = "rgba(0, 0, 0, 0.5)";
+      tetrisCtx.fillRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
+      tetrisCtx.fillStyle = "#fff";
+      tetrisCtx.font = "20px Arial";
+      tetrisCtx.textAlign = "center";
+      tetrisCtx.fillText("PAUSED", tetrisCanvas.width / 2, tetrisCanvas.height / 2);
+    }
+    return;
+  }
+  
+  const deltaTime = time - lastTimeTetris;
+  lastTimeTetris = time;
+  dropCounter += deltaTime;
+
+  if (dropCounter > dropInterval) {
+    currentPiece.y++;
+    if (collide(currentPiece, board)) {
+      currentPiece.y--;
+      merge(currentPiece, board);
+      clearLines();
+      currentPiece = nextPiece;
+      nextPiece = getRandomPiece();
+      if (collide(currentPiece, board)) {
+        tetrisGameOver = true;
+        tetrisGameOverOverlay.style.display = "flex";
+        tetrisFinalScoreSpan.textContent = tetrisScore;
+        return;
+      }
+    }
+    dropCounter = 0;
+  }
+  draw();
+  requestAnimationFrame(updateTetris);
+}
+
+function startTetris() {
+  createBoard();
+  currentPiece = getRandomPiece();
+  nextPiece = getRandomPiece();
+  tetrisScore = 0;
+  lines = 0;
+  level = 1;
+  tetrisScoreSpan.textContent = tetrisScore;
+  tetrisLinesSpan.textContent = lines;
+  tetrisLevelSpan.textContent = level;
+  dropInterval = 1000;
+  tetrisGameOver = false;
+  tetrisPaused = false;
+  tetrisGameOverOverlay.style.display = "none";
+  tetrisPauseBtn.textContent = "Pause";
+  requestAnimationFrame(updateTetris);
+}
+
+// Tetris controls
+document.addEventListener("keydown", e => {
+  if (tetrisContainer.style.display !== 'block') return; // Only listen if Tetris is active
+  if (e.key === 'ArrowLeft') {
+    const p = { ...currentPiece };
+    p.x--;
+    if (!collide(p, board)) {
+      currentPiece.x--;
+    }
+  } else if (e.key === 'ArrowRight') {
+    const p = { ...currentPiece };
+    p.x++;
+    if (!collide(p, board)) {
+      currentPiece.x++;
+    }
+  } else if (e.key === 'ArrowDown') {
+    currentPiece.y++;
+    if (collide(currentPiece, board)) {
+      currentPiece.y--;
+      merge(currentPiece, board);
+      clearLines();
+      currentPiece = nextPiece;
+      nextPiece = getRandomPiece();
+    }
+  } else if (e.key === 'ArrowUp') {
+    const p = { ...currentPiece };
+    p.matrix = rotate(p.matrix);
+    if (!collide(p, board)) {
+      currentPiece.matrix = p.matrix;
+    }
+  }
+  draw();
+});
+
+// Tetris mobile controls
+document.getElementById("tetris-control-left").addEventListener("click", () => {
+  const p = { ...currentPiece };
+  p.x--;
+  if (!collide(p, board)) {
+    currentPiece.x--;
+    draw();
+  }
+});
+document.getElementById("tetris-control-right").addEventListener("click", () => {
+  const p = { ...currentPiece };
+  p.x++;
+  if (!collide(p, board)) {
+    currentPiece.x++;
+    draw();
+  }
+});
+document.getElementById("tetris-control-down").addEventListener("click", () => {
+  currentPiece.y++;
+  if (collide(currentPiece, board)) {
+    currentPiece.y--;
+    merge(currentPiece, board);
+    clearLines();
+    currentPiece = nextPiece;
+    nextPiece = getRandomPiece();
+  }
+  draw();
+});
+document.getElementById("tetris-control-up").addEventListener("click", () => {
+  const p = { ...currentPiece };
+  p.matrix = rotate(p.matrix);
+  if (!collide(p, board)) {
+    currentPiece.matrix = p.matrix;
+    draw();
+  }
+});
+
+// Tetris Pause Button
+tetrisPauseBtn.addEventListener("click", () => {
+  tetrisPaused = !tetrisPaused;
+  tetrisPauseBtn.textContent = tetrisPaused ? "Resume" : "Pause";
+  if (!tetrisPaused && !tetrisGameOver) {
+    requestAnimationFrame(updateTetris);
+  }
+});
+
 </script>
 
 </body>
