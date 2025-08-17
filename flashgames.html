@@ -298,22 +298,26 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
     display: flex;
     gap: 20px;
     justify-content: center;
+    flex-wrap: wrap; /* Rimosso per schermi ampi, aggiunto via media query per mobile */
+}
+
+/* Nuovi stili per un layout ottimizzato */
+.tetris-game-layout {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 20px;
     flex-wrap: wrap;
 }
-#tetrisCanvas {
-    background: #111;
-    border: 2px solid #444;
-    border-radius: 5px;
-    box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-    touch-action: none;
-}
-.tetris-info {
+
+.tetris-sidebar {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    align-items: flex-start;
-    color: #333;
+    width: 200px; /* Larghezza fissa per la sidebar */
 }
+
 .tetris-info-panel {
     background: #eee;
     padding: 15px;
@@ -347,6 +351,18 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
     border: 1px solid #555;
     border-radius: 4px;
     margin-top: 5px;
+}
+
+/* Media Query per smartphone */
+@media (max-width: 600px) {
+    .tetris-game-layout {
+        flex-direction: column;
+        align-items: center;
+    }
+    .tetris-sidebar {
+        width: 100%;
+        max-width: 250px;
+    }
 }
 </style>
 </head>
@@ -411,10 +427,11 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
     </div>
   
     <div id="tetris-game">
-      <div class="section tetris-game-layout" id="tetris-game-container">
-        <div class="tetris-container">
+      <h2>Tetris Game</h2>
+      <div class="section">
+        <div class="tetris-game-layout">
             <canvas id="tetrisCanvas" width="200" height="400"></canvas>
-            <div class="tetris-info">
+            <div class="tetris-sidebar">
                 <div class="tetris-info-panel">
                     <h3>Score: <span id="tetrisScore">0</span></h3>
                     <p>Lines: <span id="tetrisLines">0</span></p>
@@ -943,7 +960,7 @@ function tetrisLoop(time = 0) {
 function drawTetrisNextPiece() {
     nextPieceCtx.clearRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
     nextPieceCtx.fillStyle = '#222';
-    nextPieceCtx.fillRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
+    nextPieceCtx.fillRect(0, 0, nextPieceCanvas.width, nextPieceCtx.height);
 
     const pieceSize = tetrisNextPiece.shape.length;
     let xOffset = (nextPieceCanvas.width - pieceSize * BLOCK_SIZE) / 2;
