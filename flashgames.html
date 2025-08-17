@@ -287,9 +287,10 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
 }
 #tetris-controls {
   margin-top: 10px;
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-areas: ". rotate ." "left down right";
   gap: 10px;
+  justify-content: center;
 }
 #tetris-controls .control-btn {
   background-color: #1e2db6;
@@ -307,6 +308,10 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
   font-size: 24px;
 }
 #tetris-controls .control-btn:hover { background-color: #162090; }
+#tetris-control-left { grid-area: left; }
+#tetris-control-right { grid-area: right; }
+#tetris-control-down { grid-area: down; }
+#tetris-control-rotate { grid-area: rotate; }
 
 </style>
 </head>
@@ -380,10 +385,10 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
           <button id="tetrisRestartBtn">Restart</button>
         </div>
         <div id="tetris-controls" class="controls">
+          <button id="tetris-control-rotate" class="control-btn">&#8635;</button>
           <button id="tetris-control-left" class="control-btn">&#9664;</button>
           <button id="tetris-control-down" class="control-btn">&#9660;</button>
           <button id="tetris-control-right" class="control-btn">&#9654;</button>
-          <button id="tetris-control-rotate" class="control-btn">&#8635;</button>
         </div>
       </div>
     </div>
