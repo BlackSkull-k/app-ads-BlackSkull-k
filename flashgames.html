@@ -419,6 +419,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
                     <h3>Score: <span id="tetrisScore">0</span></h3>
                     <p>Lines: <span id="tetrisLines">0</span></p>
                     <p>Level: <span id="tetrisLevel">1</span></p>
+                    <p>Best Score: <span id="tetrisBestScore">0</span></p>
                 </div>
                 <div class="tetris-info-panel">
                     <p>Next Piece:</p>
@@ -750,6 +751,7 @@ const nextPieceCtx = nextPieceCanvas.getContext('2d');
 const tetrisScoreSpan = document.getElementById('tetrisScore');
 const tetrisLinesSpan = document.getElementById('tetrisLines');
 const tetrisLevelSpan = document.getElementById('tetrisLevel');
+const tetrisBestScoreSpan = document.getElementById('tetrisBestScore'); // Nuovo
 const tetrisStartBtn = document.getElementById('tetrisStartBtn');
 const tetrisPauseBtn = document.getElementById('tetrisPauseBtn');
 
@@ -763,6 +765,7 @@ let tetrisNextPiece;
 let tetrisScore = 0;
 let tetrisLines = 0;
 let tetrisLevel = 1;
+let tetrisBestScore = localStorage.getItem('tetrisBestScore') || 0; // Nuovo
 let tetrisDropCounter = 0;
 let tetrisDropInterval = 1000;
 let tetrisLastTime = 0;
@@ -910,6 +913,14 @@ function tetrisLoop(time = 0) {
                 tetrisGameRunning = false;
                 alert("Game Over! Final Score: " + tetrisScore);
                 tetrisStartBtn.textContent = "Restart Game";
+
+                // Nuovo codice per salvare il punteggio migliore
+                if (tetrisScore > tetrisBestScore) {
+                  tetrisBestScore = tetrisScore;
+                  localStorage.setItem('tetrisBestScore', tetrisBestScore);
+                  tetrisBestScoreSpan.textContent = tetrisBestScore;
+                }
+                
                 return;
             }
         }
@@ -983,6 +994,7 @@ tetrisStartBtn.addEventListener('click', () => {
     tetrisScoreSpan.textContent = tetrisScore;
     tetrisLinesSpan.textContent = tetrisLines;
     tetrisLevelSpan.textContent = tetrisLevel;
+    tetrisBestScoreSpan.textContent = localStorage.getItem('tetrisBestScore') || 0; // Nuovo
     tetrisCurrentPiece = getTetrisRandomPiece();
     tetrisNextPiece = getTetrisRandomPiece();
     drawTetrisNextPiece();
