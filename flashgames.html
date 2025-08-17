@@ -431,6 +431,12 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
                 </div>
             </div>
         </div>
+        <div class="controls">
+          <button id="tetris-control-left" class="control-btn">&#9664;</button>
+          <button id="tetris-control-rotate" class="control-btn">&#8635;</button>
+          <button id="tetris-control-right" class="control-btn">&#9654;</button>
+          <button id="tetris-control-down" class="control-btn">&#9660;</button>
+        </div>
       </div>
     </div>
   </div>
@@ -755,6 +761,13 @@ const tetrisBestScoreSpan = document.getElementById('tetrisBestScore'); // Nuovo
 const tetrisStartBtn = document.getElementById('tetrisStartBtn');
 const tetrisPauseBtn = document.getElementById('tetrisPauseBtn');
 
+// Nuovi pulsanti per Tetris
+const tetrisControlLeft = document.getElementById('tetris-control-left');
+const tetrisControlRight = document.getElementById('tetris-control-right');
+const tetrisControlRotate = document.getElementById('tetris-control-rotate');
+const tetrisControlDown = document.getElementById('tetris-control-down');
+
+
 const COLS = 10;
 const ROWS = 20;
 const BLOCK_SIZE = 20;
@@ -981,6 +994,37 @@ document.addEventListener('keydown', e => {
         }
     }
 });
+
+// Event listeners per i nuovi pulsanti touch
+tetrisControlLeft.addEventListener('click', () => {
+    if (!tetrisGameRunning || tetrisPaused) return;
+    if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x - 1, tetrisCurrentPiece.y)) {
+        tetrisCurrentPiece.x--;
+    }
+});
+tetrisControlRight.addEventListener('click', () => {
+    if (!tetrisGameRunning || tetrisPaused) return;
+    if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x + 1, tetrisCurrentPiece.y)) {
+        tetrisCurrentPiece.x++;
+    }
+});
+tetrisControlRotate.addEventListener('click', () => {
+    if (!tetrisGameRunning || tetrisPaused) return;
+    const oldShape = tetrisCurrentPiece.shape;
+    const newShape = oldShape[0].map((val, index) => oldShape.map(row => row[index]).reverse());
+    const tempPiece = { ...tetrisCurrentPiece, shape: newShape };
+    if (!isTetrisColliding(tempPiece, tetrisBoard, tempPiece.x, tempPiece.y)) {
+        tetrisCurrentPiece.shape = newShape;
+    }
+});
+tetrisControlDown.addEventListener('click', () => {
+    if (!tetrisGameRunning || tetrisPaused) return;
+    if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x, tetrisCurrentPiece.y + 1)) {
+        tetrisCurrentPiece.y++;
+        tetrisDropCounter = 0;
+    }
+});
+
 
 // Start/Restart button
 tetrisStartBtn.addEventListener('click', () => {
