@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE ahtml>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -6,7 +6,9 @@
 <title>BlackSkull-k Apps - Flash Games</title>
 <link rel="icon" type="image/png" sizes="32x32" href="images/bskFavicon32x.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/bskFavicon180x.png">
+<link rel="manifest" href="/manifest.json">
 <style>
+/* STILE GENERALE */
 html, body {
   height: 100%;
   margin: 0;
@@ -106,6 +108,40 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
   box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
   z-index: 1000;
 }
+
+/* STILE DEL GIOCO SNAKE */
+#gameCanvas {
+  display: block;
+  margin: 0 auto;
+  background: #000;
+  border: 2px solid #222;
+  border-radius: 10px;
+}
+
+#snake-game {
+  text-align: center;
+}
+
+#startBtn {
+  background-color: #1e2db6;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+}
+
+#startBtn:hover {
+  background-color: #162090;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.5);
+}
 </style>
 </head>
 <body>
@@ -121,14 +157,19 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
     <a href="applications.html">Applications</a>
     <a href="flashgames.html" class="active">Flash Games</a>
     <a href="contacts.html">Contacts</a>
-    <a href="affiliate.html">Affiliate Sites</a>
+    <a href="affiliatesites.html">Affiliate Sites</a>
   </div>
   <div class="nav-arrow nav-right">&#10095;</div>
 </div>
 
 <main class="content">
   <h2>Flash Games</h2>
-  </main>
+  <div class="section" id="snake-game">
+    <h2>Snake Game</h2>
+    <canvas id="gameCanvas"></canvas>
+    <button id="startBtn">Start</button>
+  </div>
+</main>
 
 <div class="bottom-bar">
     BlackSkull-k 2021 2025
@@ -160,6 +201,182 @@ rightArrow.addEventListener('click', () => {
 nav.addEventListener('scroll', updateArrows);
 window.addEventListener('resize', updateArrows);
 window.addEventListener('load', updateArrows);
+</script>
+
+<script>
+const canvas = document.getElementById("gameCanvas");
+const ctx = canvas.getContext("2d");
+
+// Suoni
+const gameOverSound = new Audio("https://www.myinstants.com/media/sounds/snake-death-scream.mp3");
+const eatSound = new Audio("https://www.myinstants.com/media/sounds/snake-game-food.mp3");
+
+let gridSize = 21;
+let box;
+let snake = [{x: 0, y: 0}];
+let food;
+let sparks = [];
+let score = 0;
+let bestScore = 0;
+let d = "RIGHT";
+let nextD = "RIGHT";
+let gameRunning = false;
+let lastTime = 0, speed = 4;
+let flashing = 0;
+
+// resize canvas
+function resizeCanvas() {
+  const size = Math.min(window.innerWidth * 0.9, 400);
+  box = Math.floor(size / gridSize);
+  canvas.width = box * gridSize;
+  canvas.height = box * gridSize;
+  food = randomFood();
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+// prevenzione scroll frecce
+document.addEventListener("keydown", e => {
+  if(e.key === "ArrowUp" && d !== "DOWN") { nextD="UP"; e.preventDefault(); }
+  else if(e.key === "ArrowDown" && d !== "UP") { nextD="DOWN"; e.preventDefault(); }
+  else if(e.key === "ArrowLeft" && d !== "RIGHT") { nextD="LEFT"; e.preventDefault(); }
+  else if(e.key === "ArrowRight" && d !== "LEFT") { nextD="RIGHT"; e.preventDefault(); }
+});
+
+// genera cibo
+function randomFood() {
+  let valid = false;
+  let newFood;
+  while(!valid){
+    newFood = { 
+      x: Math.floor(Math.random()*gridSize)*box, 
+      y: Math.floor(Math.random()*gridSize)*box 
+    };
+    valid = !snake.some(segment => segment.x === newFood.x && segment.y === newFood.y);
+  }
+  return newFood;
+}
+
+// disegno
+function draw() {
+  ctx.fillStyle = "#000";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // punteggi
+  ctx.fillStyle = "#fff";
+  ctx.font = `${box}px Arial`;
+  ctx.fillText("Score: " + score, box, box*1.2);
+  ctx.fillText("Best: " + bestScore, box, box*2.3);
+
+  // bordo rosso lampeggiante
+  if(flashing > 0) {
+    ctx.strokeStyle = "red";
+    ctx.lineWidth = 4;
+    ctx.strokeRect(0,0,canvas.width,canvas.height);
+    flashing--;
+  }
+
+  // Snake
+  ctx.fillStyle = "#0f0";
+  snake.forEach(segment => ctx.fillRect(segment.x, segment.y, box, box));
+
+  // Food
+  ctx.fillStyle = "#f00";
+  ctx.fillRect(food.x, food.y, box, box);
+
+  // Scintille
+  sparks.forEach((s, i) => {
+    ctx.fillStyle = `rgba(255,255,0,${s.life/10})`;
+    ctx.fillRect(s.x, s.y, 2, 2);
+    s.x += s.dx; s.y += s.dy; s.life--;
+    if(s.life <= 0) sparks.splice(i,1);
+  });
+
+  // direzione
+  d = nextD;
+
+  // movimento testa
+  let head = { ...snake[0] };
+  if(d==="LEFT") head.x -= box;
+  else if(d==="RIGHT") head.x += box;
+  else if(d==="UP") head.y -= box;
+  else if(d==="DOWN") head.y += box;
+
+  // collisione
+  if(head.x<0 || head.x>=canvas.width || head.y<0 || head.y>=canvas.height || 
+     snake.some(s=>s.x===head.x && s.y===head.y)){
+    gameOverSound.currentTime = 0;
+    gameOverSound.play();
+    gameRunning = false;
+    flashing = 6;
+
+    // aggiorna best
+    if(score > bestScore) bestScore = score;
+
+    document.getElementById("startBtn").textContent = "Restart";
+
+  } else {
+    snake.unshift(head);
+    if(head.x === food.x && head.y === food.y){
+      score++;
+      eatSound.currentTime = 0;
+      eatSound.play();
+      sparks.push(...Array(20).fill().map(() => ({
+        x:food.x+box/2, y:food.y+box/2, life:10, dx:Math.random()*2-1, dy:Math.random()*2-1
+      })));
+      food = randomFood();
+    } else snake.pop();
+  }
+}
+
+// pulsante start/restart
+document.getElementById("startBtn").addEventListener("click", () => {
+  snake = [{x:0,y:0}];
+  score = 0;
+  d = "RIGHT";
+  nextD = "RIGHT";
+  sparks = [];
+  food = randomFood();
+  gameRunning = true;
+  lastTime = 0;
+  document.getElementById("startBtn").textContent = "Restart";
+  requestAnimationFrame(gameLoop);
+});
+
+// loop
+function gameLoop(time){
+  if(!gameRunning) return;
+  if(time - lastTime > 1000/speed){
+    draw();
+    lastTime = time;
+  }
+  requestAnimationFrame(gameLoop);
+}
+
+// swipe touch
+let touchStartX = 0;
+let touchStartY = 0;
+canvas.addEventListener("touchstart", e => {
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+});
+canvas.addEventListener("touchmove", e => {
+  e.preventDefault(); 
+}, { passive: false });
+canvas.addEventListener("touchend", e => {
+  const touch = e.changedTouches[0];
+  const dx = touch.clientX - touchStartX;
+  const dy = touch.clientY - touchStartY;
+
+  if(Math.abs(dx) > Math.abs(dy)) {
+    if(dx > 0 && d !== "LEFT") nextD = "RIGHT";
+    else if(dx < 0 && d !== "RIGHT") nextD = "LEFT";
+  } else {
+    if(dy > 0 && d !== "UP") nextD = "DOWN";
+    else if(dy < 0 && d !== "DOWN") nextD = "UP";
+  }
+});
 </script>
 
 </body>
