@@ -339,20 +339,6 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
 .tetris-controls button:hover {
     background-color: #1a6291;
 }
-
-/* Stile per i nuovi controlli Tetris in stile 'T' */
-.tetris-controls-grid {
-    margin-top: 10px;
-    display: grid;
-    grid-template-areas: ". up ." "left down right";
-    gap: 10px;
-    justify-content: center;
-}
-#tetrisControl-up { grid-area: up; }
-#tetrisControl-left { grid-area: left; }
-#tetrisControl-right { grid-area: right; }
-#tetrisControl-down { grid-area: down; }
-
 .tetris-info p {
     margin: 5px 0;
 }
@@ -427,7 +413,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
     <div id="tetris-game">
       <div class="section tetris-game-layout" id="tetris-game-container">
         <div class="tetris-container">
-            <canvas id="tetrisCanvas" width="300" height="600"></canvas>
+            <canvas id="tetrisCanvas" width="200" height="400"></canvas>
             <div class="tetris-info">
                 <div class="tetris-info-panel">
                     <h3>Score: <span id="tetrisScore">0</span></h3>
@@ -437,19 +423,13 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
                 </div>
                 <div class="tetris-info-panel">
                     <p>Next Piece:</p>
-                    <canvas id="nextPieceCanvas" width="120" height="120"></canvas>
+                    <canvas id="nextPieceCanvas" width="80" height="80"></canvas>
                 </div>
                 <div class="tetris-controls">
                     <button id="tetrisStartBtn">Start Game</button>
                     <button id="tetrisPauseBtn">Pause</button>
                 </div>
             </div>
-        </div>
-        <div class="tetris-controls-grid controls">
-            <button id="tetrisControl-up" class="control-btn">&#9650;</button>
-            <button id="tetrisControl-left" class="control-btn">&#9664;</button>
-            <button id="tetrisControl-right" class="control-btn">&#9654;</button>
-            <button id="tetrisControl-down" class="control-btn">&#9660;</button>
         </div>
       </div>
     </div>
@@ -531,319 +511,333 @@ let snakeObstacles = [];
 
 // resize canvas
 function snakeResizeCanvas() {
-    const size = Math.min(window.innerWidth * 0.9, 400);
-    snakeBox = Math.floor(size / snakeGridSize);
-    snakeCanvas.width = snakeBox * snakeGridSize;
-    snakeCanvas.height = snakeBox * snakeGridSize;
+  const size = Math.min(window.innerWidth * 0.9, 400);
+  snakeBox = Math.floor(size / snakeGridSize);
+  snakeCanvas.width = snakeBox * snakeGridSize;
+  snakeCanvas.height = snakeBox * snakeGridSize;
 }
 window.addEventListener("resize", snakeResizeCanvas);
 snakeResizeCanvas();
 
 // Genera cibo
 function snakeRandomFood() {
-    let valid = false;
-    let newFood;
-    while (!valid) {
-        newFood = { x: Math.floor(Math.random() * snakeGridSize) * snakeBox, y: Math.floor(Math.random() * snakeGridSize) * snakeBox };
-        valid = !snake.some(segment => segment.x === newFood.x && segment.y === newFood.y) && !snakeObstacles.some(obs => obs.x === newFood.x && obs.y === newFood.y);
-    }
-    return newFood;
+  let valid = false;
+  let newFood;
+  while (!valid) {
+    newFood = {
+      x: Math.floor(Math.random() * snakeGridSize) * snakeBox,
+      y: Math.floor(Math.random() * snakeGridSize) * snakeBox
+    };
+    valid = !snake.some(segment => segment.x === newFood.x && segment.y === newFood.y) &&
+            !snakeObstacles.some(obs => obs.x === newFood.x && obs.y === newFood.y);
+  }
+  return newFood;
 }
 
 // Genera ostacoli
 function snakeGenerateObstacles() {
-    snakeObstacles = [];
-    const obstacleCount = 10;
-    for (let i = 0; i < obstacleCount; i++) {
-        let newObstacle = { x: Math.floor(Math.random() * (snakeGridSize - 5) + 2) * snakeBox, y: Math.floor(Math.random() * (snakeGridSize - 5) + 2) * snakeBox };
-        // Evita di generare ostacoli vicini alla partenza del serpente
-        if (Math.abs(newObstacle.x - snake[0].x) > 3 * snakeBox && Math.abs(newObstacle.y - newObstacle.y) > 3 * snakeBox) {
-            snakeObstacles.push(newObstacle);
-        }
+  snakeObstacles = [];
+  const obstacleCount = 10;
+  for (let i = 0; i < obstacleCount; i++) {
+    let newObstacle = {
+      x: Math.floor(Math.random() * (snakeGridSize - 5) + 2) * snakeBox,
+      y: Math.floor(Math.random() * (snakeGridSize - 5) + 2) * snakeBox
+    };
+    // Evita di generare ostacoli vicini alla partenza del serpente
+    if (Math.abs(newObstacle.x - snake[0].x) > 3 * snakeBox && Math.abs(newObstacle.y - newObstacle.y) > 3 * snakeBox) {
+      snakeObstacles.push(newObstacle);
     }
+  }
 }
 
 function startGame(initialSpeed) {
-    snakeSpeed = initialSpeed;
-    snakeStartOverlay.style.display = "none";
-    snake = [{ x: Math.floor(snakeGridSize / 2) * snakeBox, y: Math.floor(snakeGridSize / 2) * snakeBox }];
-    snakeScore = 0;
-    snakeD = "RIGHT";
-    snakeNextD = "RIGHT";
-    snakeSparks = [];
-    snakeGenerateObstacles();
-    snakeFood = snakeRandomFood();
-    snakeGameRunning = true;
-    snakePaused = false;
-    snakeLastTime = 0;
-    snakeGameOverOverlay.style.display = "none";
-    requestAnimationFrame(snakeGameLoop);
+  snakeSpeed = initialSpeed;
+  snakeStartOverlay.style.display = "none";
+  
+  snake = [{ x: Math.floor(snakeGridSize / 2) * snakeBox, y: Math.floor(snakeGridSize / 2) * snakeBox }];
+  snakeScore = 0;
+  snakeD = "RIGHT";
+  snakeNextD = "RIGHT";
+  snakeSparks = [];
+  snakeGenerateObstacles();
+  snakeFood = snakeRandomFood();
+  snakeGameRunning = true;
+  snakePaused = false;
+  snakeLastTime = 0;
+  snakeGameOverOverlay.style.display = "none";
+  requestAnimationFrame(snakeGameLoop);
 }
 
 // Gestione input tastiera
 document.addEventListener("keydown", e => {
-    if (e.key.startsWith("Arrow") && snakeGameRunning) {
-        e.preventDefault();
-    }
-    if (e.key === "ArrowUp" && snakeD !== "DOWN") {
-        snakeNextD = "UP";
-    } else if (e.key === "ArrowDown" && snakeD !== "UP") {
-        snakeNextD = "DOWN";
-    } else if (e.key === "ArrowLeft" && snakeD !== "RIGHT") {
-        snakeNextD = "LEFT";
-    } else if (e.key === "ArrowRight" && snakeD !== "LEFT") {
-        snakeNextD = "RIGHT";
-    }
-    if (e.key === "p" && snakeGameRunning) {
-        snakeTogglePause();
-    }
+  if (e.key.startsWith("Arrow") && snakeGameRunning) {
+    e.preventDefault();
+  }
+  if (e.key === "ArrowUp" && snakeD !== "DOWN") { snakeNextD = "UP"; }
+  else if (e.key === "ArrowDown" && snakeD !== "UP") { snakeNextD = "DOWN"; }
+  else if (e.key === "ArrowLeft" && snakeD !== "RIGHT") { snakeNextD = "LEFT"; }
+  else if (e.key === "ArrowRight" && snakeD !== "LEFT") { snakeNextD = "RIGHT"; }
 });
 
-// Gestione input touch
+// Controlli mobili
+document.getElementById("snakeControl-up").addEventListener("click", () => { if(snakeD !== "DOWN") snakeNextD = "UP"; });
+document.getElementById("snakeControl-down").addEventListener("click", () => { if(snakeD !== "UP") snakeNextD = "DOWN"; });
+document.getElementById("snakeControl-left").addEventListener("click", () => { if(snakeD !== "RIGHT") snakeNextD = "LEFT"; });
+document.getElementById("snakeControl-right").addEventListener("click", () => { if(snakeD !== "LEFT") snakeNextD = "RIGHT"; });
+
+// Pulsante Pausa
+snakePauseBtn.addEventListener("click", () => {
+  snakePaused = !snakePaused;
+  snakePauseBtn.textContent = snakePaused ? "Resume" : "Pause";
+  if (!snakePaused) {
+    requestAnimationFrame(snakeGameLoop);
+  }
+});
+
+// Disegno
+function snakeDraw() {
+  snakeCtx.fillStyle = "#000";
+  snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+
+  // bordo rosso lampeggiante
+  if (snakeFlashing > 0) {
+    snakeCtx.strokeStyle = "red";
+    snakeCtx.lineWidth = 4;
+    snakeCtx.strokeRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+    snakeFlashing--;
+  }
+  
+  // Snake
+  snake.forEach((segment, index) => {
+    if (index === 0) {
+      // Head
+      snakeCtx.fillStyle = "#00b300"; // Darker green for the head
+      snakeCtx.fillRect(segment.x, segment.y, snakeBox, snakeBox);
+      snakeCtx.strokeStyle = "#088008"; // Even darker border for the head
+      snakeCtx.lineWidth = 2;
+      snakeCtx.strokeRect(segment.x, segment.y, snakeBox, snakeBox);
+    } else {
+      // Body
+      snakeCtx.fillStyle = "#0f0";
+      snakeCtx.fillRect(segment.x, segment.y, snakeBox, snakeBox);
+      snakeCtx.strokeStyle = "#0c0";
+      snakeCtx.lineWidth = 2;
+      snakeCtx.strokeRect(segment.x, segment.y, snakeBox, snakeBox);
+    }
+  });
+
+  // Food
+  snakeCtx.fillStyle = "#f00";
+  snakeCtx.fillRect(snakeFood.x, snakeFood.y, snakeBox, snakeBox);
+  snakeCtx.strokeStyle = "#b00";
+  snakeCtx.lineWidth = 2;
+  snakeCtx.strokeRect(snakeFood.x, snakeFood.y, snakeBox, snakeBox);
+
+  // Obstacles
+  snakeCtx.fillStyle = "#555";
+  snakeObstacles.forEach(obs => snakeCtx.fillRect(obs.x, obs.y, snakeBox, snakeBox));
+
+  // Scintille - Nuovo effetto
+  snakeSparks.forEach((s, i) => {
+    snakeCtx.fillStyle = `rgba(255,255,0,${s.life / 5})`; // Fade più rapido
+    snakeCtx.fillRect(s.x, s.y, 4, 4); // Dimensione maggiore
+    s.x += s.dx; s.y += s.dy; s.life--;
+    if (s.life <= 0) snakeSparks.splice(i, 1);
+  });
+}
+
+function snakeGameLoop(time) {
+  if (!snakeGameRunning || snakePaused) {
+    if (snakePaused) {
+      // Puoi disegnare un overlay di pausa qui
+      snakeCtx.fillStyle = "rgba(0, 0, 0, 0.5)";
+      snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+      snakeCtx.fillStyle = "#fff";
+      snakeCtx.font = "30px Arial";
+      snakeCtx.textAlign = "center";
+      snakeCtx.fillText("PAUSED", snakeCanvas.width / 2, snakeCanvas.height / 2);
+    }
+    return;
+  }
+  
+  requestAnimationFrame(snakeGameLoop);
+
+  if (time - snakeLastTime > 1000 / snakeSpeed) {
+    snakeLastTime = time;
+
+    snakeD = snakeNextD;
+
+    let head = { ...snake[0] };
+    if (snakeD === "LEFT") head.x -= snakeBox;
+    else if (snakeD === "RIGHT") head.x += snakeBox;
+    else if (snakeD === "UP") head.y -= snakeBox;
+    else if (snakeD === "DOWN") head.y += snakeBox;
+
+    // Aumenta la velocità ogni 5 punti
+    if (snakeScore > 0 && snakeScore % 5 === 0) {
+        snakeSpeed += 0.2;
+    }
+
+    // Collisione con se stesso, bordi o ostacoli
+    if (head.x < 0 || head.x >= snakeCanvas.width || head.y < 0 || head.y >= snakeCanvas.height ||
+      snake.some(s => s.x === head.x && s.y === head.y) ||
+      snakeObstacles.some(obs => obs.x === head.x && obs.y === head.y)) {
+      
+      snakeGameOverSound.currentTime = 0;
+      snakeGameOverSound.play();
+      snakeGameRunning = false;
+      snakeFlashing = 6;
+      snakeFinalScoreSpan.textContent = snakeScore;
+      snakeGameOverOverlay.style.display = "flex";
+
+      if (snakeScore > snakeBestScore) {
+        snakeBestScore = snakeScore;
+        snakeBestScoreSpan.textContent = snakeBestScore;
+        localStorage.setItem("snakeBestScore", snakeBestScore);
+      }
+      return;
+    }
+
+    snake.unshift(head);
+
+    if (head.x === snakeFood.x && head.y === snakeFood.y) {
+      snakeScore++;
+      snakeScoreSpan.textContent = snakeScore;
+      snakeEatSound.currentTime = 0;
+      snakeEatSound.play();
+      // Nuovo effetto scintilla
+      snakeSparks.push(...Array(50).fill().map(() => ({
+        x: snakeFood.x + snakeBox / 2, y: snakeFood.y + snakeBox / 2, life: 5, dx: (Math.random() * 2 - 1) * 3, dy: (Math.random() * 2 - 1) * 3
+      })));
+      snakeFood = snakeRandomFood();
+    } else {
+      snake.pop();
+    }
+    snakeDraw();
+  }
+}
+
+// swipe touch
 let snakeTouchStartX = 0;
 let snakeTouchStartY = 0;
-
 snakeCanvas.addEventListener("touchstart", e => {
-    snakeTouchStartX = e.touches[0].clientX;
-    snakeTouchStartY = e.touches[0].clientY;
-});
+  const touch = e.touches[0];
+  snakeTouchStartX = touch.clientX;
+  snakeTouchStartY = touch.clientY;
+}, { passive: false });
+snakeCanvas.addEventListener("touchmove", e => {
+  e.preventDefault(); 
+}, { passive: false });
 snakeCanvas.addEventListener("touchend", e => {
-    if (!snakeGameRunning) return;
-    const dx = e.changedTouches[0].clientX - snakeTouchStartX;
-    const dy = e.changedTouches[0].clientY - snakeTouchStartY;
-    if (Math.abs(dx) > Math.abs(dy)) {
-        // Movimento orizzontale
-        if (dx > 0 && snakeD !== "LEFT") {
-            snakeNextD = "RIGHT";
-        } else if (dx < 0 && snakeD !== "RIGHT") {
-            snakeNextD = "LEFT";
-        }
-    } else {
-        // Movimento verticale
-        if (dy > 0 && snakeD !== "UP") {
-            snakeNextD = "DOWN";
-        } else if (dy < 0 && snakeD !== "DOWN") {
-            snakeNextD = "UP";
-        }
-    }
+  const touch = e.changedTouches[0];
+  const dx = touch.clientX - snakeTouchStartX;
+  const dy = touch.clientY - snakeTouchStartY;
+
+  if (Math.abs(dx) > Math.abs(dy)) {
+    if (dx > 0 && snakeD !== "LEFT") snakeNextD = "RIGHT";
+    else if (dx < 0 && snakeD !== "RIGHT") snakeNextD = "LEFT";
+  } else {
+    if (dy > 0 && snakeD !== "UP") snakeNextD = "DOWN";
+    else if (dy < 0 && snakeD !== "DOWN") snakeNextD = "UP";
+  }
 });
 
-// Funzione di pausa
-function snakeTogglePause() {
-    if (!snakeGameRunning) return;
-    snakePaused = !snakePaused;
-    snakePauseBtn.textContent = snakePaused ? "Resume" : "Pause";
-    if (!snakePaused) {
-        requestAnimationFrame(snakeGameLoop);
-    }
-}
-
-snakePauseBtn.addEventListener('click', snakeTogglePause);
-
-function snakeGameLoop(currentTime) {
-    if (!snakeGameRunning || snakePaused) return;
-
-    const deltaTime = currentTime - snakeLastTime;
-    if (deltaTime < 1000 / snakeSpeed) {
-        requestAnimationFrame(snakeGameLoop);
-        return;
-    }
-    snakeLastTime = currentTime;
-
-    update();
-    draw();
-    
-    // Controlla la collisione con i bordi e gli ostacoli
-    const headX = snake[0].x;
-    const headY = snake[0].y;
-    const collided = headX < 0 || headX >= snakeCanvas.width || headY < 0 || headY >= snakeCanvas.height ||
-                     snakeObstacles.some(obs => obs.x === headX && obs.y === headY);
-    if (collided) {
-        snakeGameOver();
-        return;
-    }
-    
-    requestAnimationFrame(snakeGameLoop);
-}
-
-function update() {
-    if (snakeD !== snakeNextD) {
-        snakeD = snakeNextD;
-    }
-    
-    const newHead = { x: snake[0].x, y: snake[0].y };
-    if (snakeD === "RIGHT") newHead.x += snakeBox;
-    if (snakeD === "LEFT") newHead.x -= snakeBox;
-    if (snakeD === "UP") newHead.y -= snakeBox;
-    if (snakeD === "DOWN") newHead.y += snakeBox;
-
-    snake.unshift(newHead);
-
-    if (newHead.x === snakeFood.x && newHead.y === snakeFood.y) {
-        snakeScore++;
-        snakeEatSound.play();
-        snakeFood = snakeRandomFood();
-        if (snakeScore > snakeBestScore) {
-            snakeBestScore = snakeScore;
-            localStorage.setItem("snakeBestScore", snakeBestScore);
-        }
-        if (snakeScore % 5 === 0) {
-            snakeSpeed += 0.5;
-        }
-        snakeScoreSpan.textContent = snakeScore;
-        snakeBestScoreSpan.textContent = snakeBestScore;
-    } else {
-        snake.pop();
-    }
-    
-    // Collisione con se stesso
-    for (let i = 1; i < snake.length; i++) {
-        if (snake[i].x === newHead.x && snake[i].y === newHead.y) {
-            snakeGameOver();
-        }
-    }
-}
-
-function draw() {
-    snakeCtx.fillStyle = "#000";
-    snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
-    
-    // Disegna ostacoli
-    snakeObstacles.forEach(obs => {
-        snakeCtx.fillStyle = "rgba(255, 255, 255, 0.5)";
-        snakeCtx.fillRect(obs.x, obs.y, snakeBox, snakeBox);
-    });
-    
-    // Disegna il cibo
-    snakeCtx.fillStyle = "red";
-    snakeCtx.fillRect(snakeFood.x, snakeFood.y, snakeBox, snakeBox);
-
-    // Disegna il serpente
-    for (let i = 0; i < snake.length; i++) {
-        snakeCtx.fillStyle = (i === 0) ? "#0f0" : "#0a0";
-        snakeCtx.fillRect(snake[i].x, snake[i].y, snakeBox, snakeBox);
-        snakeCtx.strokeStyle = "#000";
-        snakeCtx.strokeRect(snake[i].x, snake[i].y, snakeBox, snakeBox);
-    }
-}
-
-function snakeGameOver() {
-    snakeGameOverSound.play();
-    snakeGameRunning = false;
-    snakeFinalScoreSpan.textContent = snakeScore;
-    snakeGameOverOverlay.style.display = "flex";
-}
 
 /* TETRIS GAME SCRIPT */
-const tetrisCanvas = document.getElementById("tetrisCanvas");
-const tetrisCtx = tetrisCanvas.getContext("2d");
-const tetrisNextPieceCanvas = document.getElementById("nextPieceCanvas");
-const tetrisNextPieceCtx = tetrisNextPieceCanvas.getContext("2d");
-const tetrisScoreSpan = document.getElementById("tetrisScore");
-const tetrisLinesSpan = document.getElementById("tetrisLines");
-const tetrisLevelSpan = document.getElementById("tetrisLevel");
-const tetrisBestScoreSpan = document.getElementById("tetrisBestScore");
-const tetrisStartBtn = document.getElementById("tetrisStartBtn");
-const tetrisPauseBtn = document.getElementById("tetrisPauseBtn");
-const tetrisControlUpBtn = document.getElementById("tetrisControl-up");
-const tetrisControlLeftBtn = document.getElementById("tetrisControl-left");
-const tetrisControlRightBtn = document.getElementById("tetrisControl-right");
-const tetrisControlDownBtn = document.getElementById("tetrisControl-down");
+const tetrisCanvas = document.getElementById('tetrisCanvas');
+const tetrisCtx = tetrisCanvas.getContext('2d');
+const nextPieceCanvas = document.getElementById('nextPieceCanvas');
+const nextPieceCtx = nextPieceCanvas.getContext('2d');
+const tetrisScoreSpan = document.getElementById('tetrisScore');
+const tetrisLinesSpan = document.getElementById('tetrisLines');
+const tetrisLevelSpan = document.getElementById('tetrisLevel');
+const tetrisBestScoreSpan = document.getElementById('tetrisBestScore'); // Nuovo
+const tetrisStartBtn = document.getElementById('tetrisStartBtn');
+const tetrisPauseBtn = document.getElementById('tetrisPauseBtn');
 
-// Modified tetrisTileSize
-const tetrisTileSize = 30;
-const tetrisRowCount = 20;
-const tetrisColCount = 10;
+const COLS = 10;
+const ROWS = 20;
+const BLOCK_SIZE = 20;
+
 let tetrisBoard;
 let tetrisCurrentPiece;
 let tetrisNextPiece;
 let tetrisScore = 0;
 let tetrisLines = 0;
 let tetrisLevel = 1;
-let tetrisDropInterval = 1000; // ms
+let tetrisBestScore = localStorage.getItem('tetrisBestScore') || 0; // Nuovo
 let tetrisDropCounter = 0;
+let tetrisDropInterval = 1000;
 let tetrisLastTime = 0;
 let tetrisGameRunning = false;
 let tetrisPaused = false;
-let tetrisBestScore = localStorage.getItem('tetrisBestScore') || 0;
-tetrisBestScoreSpan.textContent = tetrisBestScore;
 
-const tetrisPieces = "I,J,L,O,S,T,Z".split(",");
-const tetrisShapes = {
-    'I': [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]],
-    'J': [[1, 0, 0], [1, 1, 1], [0, 0, 0]],
-    'L': [[0, 0, 1], [1, 1, 1], [0, 0, 0]],
-    'O': [[1, 1], [1, 1]],
-    'S': [[0, 1, 1], [1, 1, 0], [0, 0, 0]],
-    'T': [[0, 1, 0], [1, 1, 1], [0, 0, 0]],
-    'Z': [[1, 1, 0], [0, 1, 1], [0, 0, 0]],
-};
-const tetrisColors = {
-    'I': '#00ffff', 'J': '#0000ff', 'L': '#ffa500', 'O': '#ffff00', 'S': '#00ff00', 'T': '#800080', 'Z': '#ff0000', 'G': '#888'
-};
+// Define Tetris pieces and their colors
+const PIECES = [
+    { shape: [[1,1,1,1]], color: 'cyan' }, // I
+    { shape: [[1,1,1],[0,1,0]], color: 'purple' }, // T
+    { shape: [[1,1,0],[0,1,1]], color: 'red' }, // Z
+    { shape: [[0,1,1],[1,1,0]], color: 'green' }, // S
+    { shape: [[1,1,1],[1,0,0]], color: 'orange' }, // L
+    { shape: [[1,1,1],[0,0,1]], color: 'blue' }, // J
+    { shape: [[1,1],[1,1]], color: 'yellow' }, // O
+];
 
+// Initialize board
 function createTetrisBoard() {
-    return Array.from({ length: tetrisRowCount }, () => Array(tetrisColCount).fill('G'));
+    return Array.from({ length: ROWS }, () => Array(COLS).fill(0));
 }
 
+// Get a random new piece
 function getTetrisRandomPiece() {
-    const name = tetrisPieces[Math.floor(Math.random() * tetrisPieces.length)];
-    const shape = tetrisShapes[name];
-    const x = Math.floor(tetrisColCount / 2) - Math.floor(shape[0].length / 2);
-    const y = name === 'I' ? -1 : (name === 'O' ? -2 : 0);
-    return { name, shape, x, y };
+    const randomPiece = PIECES[Math.floor(Math.random() * PIECES.length)];
+    return {
+        shape: randomPiece.shape,
+        color: randomPiece.color,
+        x: Math.floor(COLS / 2) - Math.floor(randomPiece.shape[0].length / 2),
+        y: 0
+    };
 }
 
-function drawTetrisPiece(piece, context, xOffset = 0, yOffset = 0) {
+// Draw a piece on the canvas
+function drawTetrisPiece(piece, context, xOffset, yOffset, size) {
+    if (!piece) return;
     piece.shape.forEach((row, y) => {
         row.forEach((value, x) => {
-            if (value > 0) {
-                context.fillStyle = tetrisColors[piece.name];
-                context.fillRect((piece.x + x + xOffset) * tetrisTileSize, (piece.y + y + yOffset) * tetrisTileSize, tetrisTileSize, tetrisTileSize);
-                context.strokeStyle = "#111";
-                context.strokeRect((piece.x + x + xOffset) * tetrisTileSize, (piece.y + y + yOffset) * tetrisTileSize, tetrisTileSize, tetrisTileSize);
+            if (value) {
+                context.fillStyle = piece.color;
+                context.strokeStyle = '#333';
+                context.lineWidth = 1;
+                context.fillRect(x * size + xOffset, y * size + yOffset, size, size);
+                context.strokeRect(x * size + xOffset, y * size + yOffset, size, size);
             }
         });
     });
 }
 
+// Draw the board
 function drawTetrisBoard() {
     tetrisBoard.forEach((row, y) => {
         row.forEach((value, x) => {
-            if (value !== 'G') {
-                tetrisCtx.fillStyle = tetrisColors[value];
-                tetrisCtx.fillRect(x * tetrisTileSize, y * tetrisTileSize, tetrisTileSize, tetrisTileSize);
-                tetrisCtx.strokeStyle = "#222";
-                tetrisCtx.strokeRect(x * tetrisTileSize, y * tetrisTileSize, tetrisTileSize, tetrisTileSize);
+            if (value) {
+                tetrisCtx.fillStyle = value;
+                tetrisCtx.strokeStyle = '#333';
+                tetrisCtx.lineWidth = 1;
+                tetrisCtx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                tetrisCtx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
             }
         });
     });
 }
 
-function drawTetrisNextPiece() {
-    tetrisNextPieceCtx.clearRect(0, 0, tetrisNextPieceCanvas.width, tetrisNextPieceCanvas.height);
-    const piece = tetrisNextPiece;
-    const xOffset = (tetrisNextPieceCanvas.width / tetrisTileSize - piece.shape[0].length) / 2;
-    const yOffset = (tetrisNextPieceCanvas.height / tetrisTileSize - piece.shape.length) / 2;
-    piece.shape.forEach((row, y) => {
-        row.forEach((value, x) => {
-            if (value > 0) {
-                tetrisNextPieceCtx.fillStyle = tetrisColors[piece.name];
-                tetrisNextPieceCtx.fillRect((x + xOffset) * tetrisTileSize, (y + yOffset) * tetrisTileSize, tetrisTileSize, tetrisTileSize);
-                tetrisNextPieceCtx.strokeStyle = "#111";
-                tetrisNextPieceCtx.strokeRect((x + xOffset) * tetrisTileSize, (y + yOffset) * tetrisTileSize, tetrisTileSize, tetrisTileSize);
-            }
-        });
-    });
-}
-
-function isTetrisColliding(piece, board, x, y) {
-    for (let row = 0; row < piece.shape.length; row++) {
-        for (let col = 0; col < piece.shape[row].length; col++) {
-            if (piece.shape[row][col] > 0) {
-                const boardX = x + col;
-                const boardY = y + row;
-                if (boardX < 0 || boardX >= tetrisColCount || boardY >= tetrisRowCount || (boardY >= 0 && board[boardY][boardX] !== 'G')) {
+// Check for collisions
+function isTetrisColliding(piece, board, newX, newY) {
+    for (let y = 0; y < piece.shape.length; y++) {
+        for (let x = 0; x < piece.shape[y].length; x++) {
+            if (piece.shape[y][x]) {
+                const boardX = newX + x;
+                const boardY = newY + y;
+                if (boardX < 0 || boardX >= COLS || boardY >= ROWS || (boardY >= 0 && board[boardY][boardX])) {
                     return true;
                 }
             }
@@ -852,49 +846,55 @@ function isTetrisColliding(piece, board, x, y) {
     return false;
 }
 
-function tetrisMergePieceToBoard() {
-    tetrisCurrentPiece.shape.forEach((row, y) => {
+// Merge the piece with the board
+function mergeTetrisPiece(piece, board) {
+    piece.shape.forEach((row, y) => {
         row.forEach((value, x) => {
-            if (value > 0) {
-                const boardX = tetrisCurrentPiece.x + x;
-                const boardY = tetrisCurrentPiece.y + y;
-                if (boardY >= 0) {
-                    tetrisBoard[boardY][boardX] = tetrisCurrentPiece.name;
-                }
+            if (value) {
+                board[piece.y + y][piece.x + x] = piece.color;
             }
         });
     });
 }
 
-function tetrisClearLines() {
-    let clearedLines = 0;
-    for (let y = tetrisRowCount - 1; y >= 0; y--) {
-        if (tetrisBoard[y].every(cell => cell !== 'G')) {
+// Clear full lines
+function clearTetrisLines() {
+    let linesCleared = 0;
+    for (let y = ROWS - 1; y >= 0; y--) {
+        if (tetrisBoard[y].every(value => value !== 0)) {
             tetrisBoard.splice(y, 1);
-            tetrisBoard.unshift(Array(tetrisColCount).fill('G'));
-            clearedLines++;
+            tetrisBoard.unshift(Array(COLS).fill(0));
+            linesCleared++;
             y++;
         }
     }
-    if (clearedLines > 0) {
-        tetrisScore += Math.pow(2, clearedLines - 1) * 100;
-        tetrisLines += clearedLines;
-        tetrisLevel = Math.floor(tetrisLines / 10) + 1;
-        tetrisDropInterval = Math.max(100, 1000 - tetrisLevel * 50);
+    if (linesCleared > 0) {
+        tetrisScore += linesCleared * 100 * (tetrisLevel + 1);
+        tetrisLines += linesCleared;
         tetrisScoreSpan.textContent = tetrisScore;
         tetrisLinesSpan.textContent = tetrisLines;
-        tetrisLevelSpan.textContent = tetrisLevel;
-        if (tetrisScore > tetrisBestScore) {
-            tetrisBestScore = tetrisScore;
-            localStorage.setItem('tetrisBestScore', tetrisBestScore);
-            tetrisBestScoreSpan.textContent = tetrisBestScore;
+        if (tetrisLines >= tetrisLevel * 10) {
+            tetrisLevel++;
+            tetrisDropInterval *= 0.8;
+            tetrisLevelSpan.textContent = tetrisLevel;
         }
     }
 }
 
-function tetrisUpdate(time) {
-    if (!tetrisGameRunning || tetrisPaused) return;
-
+// Game loop
+function tetrisLoop(time = 0) {
+    if (!tetrisGameRunning || tetrisPaused) {
+        if (tetrisPaused) {
+            tetrisCtx.fillStyle = "rgba(0, 0, 0, 0.5)";
+            tetrisCtx.fillRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
+            tetrisCtx.fillStyle = "#fff";
+            tetrisCtx.font = "20px Arial";
+            tetrisCtx.textAlign = "center";
+            tetrisCtx.fillText("PAUSED", tetrisCanvas.width / 2, tetrisCanvas.height / 2);
+        }
+        return;
+    }
+    
     const deltaTime = time - tetrisLastTime;
     tetrisLastTime = time;
     tetrisDropCounter += deltaTime;
@@ -903,35 +903,61 @@ function tetrisUpdate(time) {
         if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x, tetrisCurrentPiece.y + 1)) {
             tetrisCurrentPiece.y++;
         } else {
-            tetrisMergePieceToBoard();
-            tetrisClearLines();
+            mergeTetrisPiece(tetrisCurrentPiece, tetrisBoard);
+            clearTetrisLines();
             tetrisCurrentPiece = tetrisNextPiece;
             tetrisNextPiece = getTetrisRandomPiece();
             drawTetrisNextPiece();
             if (isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x, tetrisCurrentPiece.y)) {
                 // Game Over
                 tetrisGameRunning = false;
-                alert('Game Over! Score: ' + tetrisScore);
+                alert("Game Over! Final Score: " + tetrisScore);
+                tetrisStartBtn.textContent = "Restart Game";
+
+                // Nuovo codice per salvare il punteggio migliore
+                if (tetrisScore > tetrisBestScore) {
+                  tetrisBestScore = tetrisScore;
+                  localStorage.setItem('tetrisBestScore', tetrisBestScore);
+                  tetrisBestScoreSpan.textContent = tetrisBestScore;
+                }
+                
+                return;
             }
         }
         tetrisDropCounter = 0;
     }
 
+    // Draw everything
     tetrisCtx.clearRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
+    tetrisCtx.fillStyle = "#111";
+    tetrisCtx.fillRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
     drawTetrisBoard();
-    drawTetrisPiece(tetrisCurrentPiece, tetrisCtx);
     
-    requestAnimationFrame(tetrisUpdate);
+    // CORREZIONE: Usa le coordinate del pezzo per il disegno
+    drawTetrisPiece(tetrisCurrentPiece, tetrisCtx, tetrisCurrentPiece.x * BLOCK_SIZE, tetrisCurrentPiece.y * BLOCK_SIZE, BLOCK_SIZE);
+    
+    requestAnimationFrame(tetrisLoop);
 }
 
-function tetrisLoop() {
-    tetrisLastTime = performance.now();
-    tetrisUpdate(tetrisLastTime);
+// Draw the next piece preview
+function drawTetrisNextPiece() {
+    nextPieceCtx.clearRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
+    nextPieceCtx.fillStyle = '#222';
+    nextPieceCtx.fillRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
+
+    const pieceSize = tetrisNextPiece.shape.length;
+    let xOffset = (nextPieceCanvas.width - pieceSize * BLOCK_SIZE) / 2;
+    let yOffset = (nextPieceCanvas.height - pieceSize * BLOCK_SIZE) / 2;
+    if (tetrisNextPiece.shape[0].length > 2) {
+        xOffset = (nextPieceCanvas.width - tetrisNextPiece.shape[0].length * BLOCK_SIZE) / 2;
+    }
+    drawTetrisPiece(tetrisNextPiece, nextPieceCtx, xOffset, yOffset, BLOCK_SIZE);
 }
 
-// Gestione tastiera per Tetris
-document.addEventListener("keydown", e => {
+// Handle controls
+document.addEventListener('keydown', e => {
     if (!tetrisGameRunning || tetrisPaused) return;
+
     if (e.key === 'ArrowLeft') {
         if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x - 1, tetrisCurrentPiece.y)) {
             tetrisCurrentPiece.x--;
@@ -953,36 +979,6 @@ document.addEventListener("keydown", e => {
         if (!isTetrisColliding(tempPiece, tetrisBoard, tempPiece.x, tempPiece.y)) {
             tetrisCurrentPiece.shape = newShape;
         }
-    }
-});
-
-// Aggiungi event listener per i nuovi pulsanti touch
-document.getElementById("tetrisControl-left").addEventListener("click", () => {
-    if (!tetrisGameRunning || tetrisPaused) return;
-    if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x - 1, tetrisCurrentPiece.y)) {
-        tetrisCurrentPiece.x--;
-    }
-});
-document.getElementById("tetrisControl-right").addEventListener("click", () => {
-    if (!tetrisGameRunning || tetrisPaused) return;
-    if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x + 1, tetrisCurrentPiece.y)) {
-        tetrisCurrentPiece.x++;
-    }
-});
-document.getElementById("tetrisControl-down").addEventListener("click", () => {
-    if (!tetrisGameRunning || tetrisPaused) return;
-    if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x, tetrisCurrentPiece.y + 1)) {
-        tetrisCurrentPiece.y++;
-        tetrisDropCounter = 0;
-    }
-});
-document.getElementById("tetrisControl-up").addEventListener("click", () => {
-    if (!tetrisGameRunning || tetrisPaused) return;
-    const oldShape = tetrisCurrentPiece.shape;
-    const newShape = oldShape[0].map((val, index) => oldShape.map(row => row[index]).reverse());
-    const tempPiece = { ...tetrisCurrentPiece, shape: newShape };
-    if (!isTetrisColliding(tempPiece, tetrisBoard, tempPiece.x, tempPiece.y)) {
-        tetrisCurrentPiece.shape = newShape;
     }
 });
 
@@ -1012,9 +1008,10 @@ tetrisPauseBtn.addEventListener('click', () => {
     tetrisPaused = !tetrisPaused;
     tetrisPauseBtn.textContent = tetrisPaused ? "Resume" : "Pause";
     if (!tetrisPaused) {
-        tetrisLoop();
+        requestAnimationFrame(tetrisLoop);
     }
 });
 </script>
+
 </body>
 </html>
