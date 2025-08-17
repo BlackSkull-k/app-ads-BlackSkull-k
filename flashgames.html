@@ -354,22 +354,22 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
         </div>
   
         <div id="game-ui">
-          <div>Score: <span id="scoreSpan">0</span></div>
-          <div>Best: <span id="bestScoreSpan">0</span></div>
-          <button id="pauseBtn">Pause</button>
+          <div>Score: <span id="snakeScoreSpan">0</span></div>
+          <div>Best: <span id="snakeBestScoreSpan">0</span></div>
+          <button id="snakePauseBtn">Pause</button>
         </div>
-        <canvas id="gameCanvas"></canvas>
-        <div id="gameOverOverlay" style="display:none;">
+        <canvas id="snakeGameCanvas"></canvas>
+        <div id="snakeGameOverOverlay" style="display:none;">
           <div>Game Over</div>
-          <div>Score: <span id="finalScoreSpan">0</span></div>
+          <div>Score: <span id="snakeFinalScoreSpan">0</span></div>
           <button onclick="location.reload()">Restart</button>
         </div>
         <div class="controls">
-          <button id="control-up" class="control-btn">&#9650;</button>
-          <button id="control-left" class="control-btn">&#9664;</button>
-          <div id="control-center"></div>
-          <button id="control-right" class="control-btn">&#9654;</button>
-          <button id="control-down" class="control-btn">&#9660;</button>
+          <button id="snakeControl-up" class="control-btn">&#9650;</button>
+          <button id="snakeControl-left" class="control-btn">&#9664;</button>
+          <div id="snakeControl-center"></div>
+          <button id="snakeControl-right" class="control-btn">&#9654;</button>
+          <button id="snakeControl-down" class="control-btn">&#9660;</button>
         </div>
       </div>
     </div>
@@ -434,93 +434,93 @@ window.addEventListener('load', updateArrows);
 
 
 /* SNAKE GAME SCRIPT */
-const canvas = document.getElementById("gameCanvas");
-const ctx = canvas.getContext("2d");
-const scoreSpan = document.getElementById("scoreSpan");
-const bestScoreSpan = document.getElementById("bestScoreSpan");
-const finalScoreSpan = document.getElementById("finalScoreSpan");
-const gameOverOverlay = document.getElementById("gameOverOverlay");
-const pauseBtn = document.getElementById("pauseBtn");
-const startOverlay = document.getElementById("start-overlay");
+const snakeCanvas = document.getElementById("snakeGameCanvas");
+const snakeCtx = snakeCanvas.getContext("2d");
+const snakeScoreSpan = document.getElementById("snakeScoreSpan");
+const snakeBestScoreSpan = document.getElementById("snakeBestScoreSpan");
+const snakeFinalScoreSpan = document.getElementById("snakeFinalScoreSpan");
+const snakeGameOverOverlay = document.getElementById("snakeGameOverOverlay");
+const snakePauseBtn = document.getElementById("snakePauseBtn");
+const snakeStartOverlay = document.getElementById("start-overlay");
 
 // Suoni CC0 (senza diritti d'autore)
-const gameOverSound = new Audio("https://cdn.pixabay.com/audio/2022/07/20/audio_f5519f7e4f.mp3");
-const eatSound = new Audio("https://cdn.pixabay.com/audio/2022/01/21/audio_f925028442.mp3");
+const snakeGameOverSound = new Audio("https://cdn.pixabay.com/audio/2022/07/20/audio_f5519f7e4f.mp3");
+const snakeEatSound = new Audio("https://cdn.pixabay.com/audio/2022/01/21/audio_f925028442.mp3");
 
-let gridSize = 21;
-let box;
+let snakeGridSize = 21;
+let snakeBox;
 let snake;
-let food;
-let sparks;
-let score = 0;
-let bestScore = localStorage.getItem("snakeBestScore") || 0;
-bestScoreSpan.textContent = bestScore;
-let d;
-let nextD;
-let gameRunning = false;
-let paused = false;
-let lastTime = 0;
-let speed = 4;
-let flashing = 0;
-let obstacles = [];
+let snakeFood;
+let snakeSparks;
+let snakeScore = 0;
+let snakeBestScore = localStorage.getItem("snakeBestScore") || 0;
+snakeBestScoreSpan.textContent = snakeBestScore;
+let snakeD;
+let snakeNextD;
+let snakeGameRunning = false;
+let snakePaused = false;
+let snakeLastTime = 0;
+let snakeSpeed = 4;
+let snakeFlashing = 0;
+let snakeObstacles = [];
 
 // resize canvas
-function resizeCanvas() {
+function snakeResizeCanvas() {
   const size = Math.min(window.innerWidth * 0.9, 400);
-  box = Math.floor(size / gridSize);
-  canvas.width = box * gridSize;
-  canvas.height = box * gridSize;
+  snakeBox = Math.floor(size / snakeGridSize);
+  snakeCanvas.width = snakeBox * snakeGridSize;
+  snakeCanvas.height = snakeBox * snakeGridSize;
 }
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
+window.addEventListener("resize", snakeResizeCanvas);
+snakeResizeCanvas();
 
 // Genera cibo
-function randomFood() {
+function snakeRandomFood() {
   let valid = false;
   let newFood;
   while (!valid) {
     newFood = {
-      x: Math.floor(Math.random() * gridSize) * box,
-      y: Math.floor(Math.random() * gridSize) * box
+      x: Math.floor(Math.random() * snakeGridSize) * snakeBox,
+      y: Math.floor(Math.random() * snakeGridSize) * snakeBox
     };
     valid = !snake.some(segment => segment.x === newFood.x && segment.y === newFood.y) &&
-            !obstacles.some(obs => obs.x === newFood.x && obs.y === newFood.y);
+            !snakeObstacles.some(obs => obs.x === newFood.x && obs.y === newFood.y);
   }
   return newFood;
 }
 
 // Genera ostacoli
-function generateObstacles() {
-  obstacles = [];
+function snakeGenerateObstacles() {
+  snakeObstacles = [];
   const obstacleCount = 10;
   for (let i = 0; i < obstacleCount; i++) {
     let newObstacle = {
-      x: Math.floor(Math.random() * (gridSize - 5) + 2) * box,
-      y: Math.floor(Math.random() * (gridSize - 5) + 2) * box
+      x: Math.floor(Math.random() * (snakeGridSize - 5) + 2) * snakeBox,
+      y: Math.floor(Math.random() * (snakeGridSize - 5) + 2) * snakeBox
     };
     // Evita di generare ostacoli vicini alla partenza del serpente
-    if (Math.abs(newObstacle.x - snake[0].x) > 3 * box && Math.abs(newObstacle.y - newObstacle.y) > 3 * box) {
-      obstacles.push(newObstacle);
+    if (Math.abs(newObstacle.x - snake[0].x) > 3 * snakeBox && Math.abs(newObstacle.y - newObstacle.y) > 3 * snakeBox) {
+      snakeObstacles.push(newObstacle);
     }
   }
 }
 
 function startGame(initialSpeed) {
-  speed = initialSpeed;
-  startOverlay.style.display = "none";
+  snakeSpeed = initialSpeed;
+  snakeStartOverlay.style.display = "none";
   
-  snake = [{ x: Math.floor(gridSize / 2) * box, y: Math.floor(gridSize / 2) * box }];
-  score = 0;
-  d = "RIGHT";
-  nextD = "RIGHT";
-  sparks = [];
-  generateObstacles();
-  food = randomFood();
-  gameRunning = true;
-  paused = false;
-  lastTime = 0;
-  gameOverOverlay.style.display = "none";
-  requestAnimationFrame(gameLoop);
+  snake = [{ x: Math.floor(snakeGridSize / 2) * snakeBox, y: Math.floor(snakeGridSize / 2) * snakeBox }];
+  snakeScore = 0;
+  snakeD = "RIGHT";
+  snakeNextD = "RIGHT";
+  snakeSparks = [];
+  snakeGenerateObstacles();
+  snakeFood = snakeRandomFood();
+  snakeGameRunning = true;
+  snakePaused = false;
+  snakeLastTime = 0;
+  snakeGameOverOverlay.style.display = "none";
+  requestAnimationFrame(snakeGameLoop);
 }
 
 // Gestione input tastiera
@@ -528,172 +528,172 @@ document.addEventListener("keydown", e => {
   if (e.key.startsWith("Arrow")) {
     e.preventDefault();
   }
-  if (e.key === "ArrowUp" && d !== "DOWN") { nextD = "UP"; }
-  else if (e.key === "ArrowDown" && d !== "UP") { nextD = "DOWN"; }
-  else if (e.key === "ArrowLeft" && d !== "RIGHT") { nextD = "LEFT"; }
-  else if (e.key === "ArrowRight" && d !== "LEFT") { nextD = "RIGHT"; }
+  if (e.key === "ArrowUp" && snakeD !== "DOWN") { snakeNextD = "UP"; }
+  else if (e.key === "ArrowDown" && snakeD !== "UP") { snakeNextD = "DOWN"; }
+  else if (e.key === "ArrowLeft" && snakeD !== "RIGHT") { snakeNextD = "LEFT"; }
+  else if (e.key === "ArrowRight" && snakeD !== "LEFT") { snakeNextD = "RIGHT"; }
 });
 
 // Controlli mobili
-document.getElementById("control-up").addEventListener("click", () => { if(d !== "DOWN") nextD = "UP"; });
-document.getElementById("control-down").addEventListener("click", () => { if(d !== "UP") nextD = "DOWN"; });
-document.getElementById("control-left").addEventListener("click", () => { if(d !== "RIGHT") nextD = "LEFT"; });
-document.getElementById("control-right").addEventListener("click", () => { if(d !== "LEFT") nextD = "RIGHT"; });
+document.getElementById("snakeControl-up").addEventListener("click", () => { if(snakeD !== "DOWN") snakeNextD = "UP"; });
+document.getElementById("snakeControl-down").addEventListener("click", () => { if(snakeD !== "UP") snakeNextD = "DOWN"; });
+document.getElementById("snakeControl-left").addEventListener("click", () => { if(snakeD !== "RIGHT") snakeNextD = "LEFT"; });
+document.getElementById("snakeControl-right").addEventListener("click", () => { if(snakeD !== "LEFT") snakeNextD = "RIGHT"; });
 
 // Pulsante Pausa
-pauseBtn.addEventListener("click", () => {
-  paused = !paused;
-  pauseBtn.textContent = paused ? "Resume" : "Pause";
-  if (!paused) {
-    requestAnimationFrame(gameLoop);
+snakePauseBtn.addEventListener("click", () => {
+  snakePaused = !snakePaused;
+  snakePauseBtn.textContent = snakePaused ? "Resume" : "Pause";
+  if (!snakePaused) {
+    requestAnimationFrame(snakeGameLoop);
   }
 });
 
 // Disegno
-function draw() {
-  ctx.fillStyle = "#000";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
+function snakeDraw() {
+  snakeCtx.fillStyle = "#000";
+  snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
 
   // bordo rosso lampeggiante
-  if (flashing > 0) {
-    ctx.strokeStyle = "red";
-    ctx.lineWidth = 4;
-    ctx.strokeRect(0, 0, canvas.width, canvas.height);
-    flashing--;
+  if (snakeFlashing > 0) {
+    snakeCtx.strokeStyle = "red";
+    snakeCtx.lineWidth = 4;
+    snakeCtx.strokeRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+    snakeFlashing--;
   }
   
   // Snake
   snake.forEach((segment, index) => {
     if (index === 0) {
       // Head
-      ctx.fillStyle = "#00b300"; // Darker green for the head
-      ctx.fillRect(segment.x, segment.y, box, box);
-      ctx.strokeStyle = "#088008"; // Even darker border for the head
-      ctx.lineWidth = 2;
-      ctx.strokeRect(segment.x, segment.y, box, box);
+      snakeCtx.fillStyle = "#00b300"; // Darker green for the head
+      snakeCtx.fillRect(segment.x, segment.y, snakeBox, snakeBox);
+      snakeCtx.strokeStyle = "#088008"; // Even darker border for the head
+      snakeCtx.lineWidth = 2;
+      snakeCtx.strokeRect(segment.x, segment.y, snakeBox, snakeBox);
     } else {
       // Body
-      ctx.fillStyle = "#0f0";
-      ctx.fillRect(segment.x, segment.y, box, box);
-      ctx.strokeStyle = "#0c0";
-      ctx.lineWidth = 2;
-      ctx.strokeRect(segment.x, segment.y, box, box);
+      snakeCtx.fillStyle = "#0f0";
+      snakeCtx.fillRect(segment.x, segment.y, snakeBox, snakeBox);
+      snakeCtx.strokeStyle = "#0c0";
+      snakeCtx.lineWidth = 2;
+      snakeCtx.strokeRect(segment.x, segment.y, snakeBox, snakeBox);
     }
   });
 
   // Food
-  ctx.fillStyle = "#f00";
-  ctx.fillRect(food.x, food.y, box, box);
-  ctx.strokeStyle = "#b00";
-  ctx.lineWidth = 2;
-  ctx.strokeRect(food.x, food.y, box, box);
+  snakeCtx.fillStyle = "#f00";
+  snakeCtx.fillRect(snakeFood.x, snakeFood.y, snakeBox, snakeBox);
+  snakeCtx.strokeStyle = "#b00";
+  snakeCtx.lineWidth = 2;
+  snakeCtx.strokeRect(snakeFood.x, snakeFood.y, snakeBox, snakeBox);
 
   // Obstacles
-  ctx.fillStyle = "#555";
-  obstacles.forEach(obs => ctx.fillRect(obs.x, obs.y, box, box));
+  snakeCtx.fillStyle = "#555";
+  snakeObstacles.forEach(obs => snakeCtx.fillRect(obs.x, obs.y, snakeBox, snakeBox));
 
   // Scintille - Nuovo effetto
-  sparks.forEach((s, i) => {
-    ctx.fillStyle = `rgba(255,255,0,${s.life / 5})`; // Fade più rapido
-    ctx.fillRect(s.x, s.y, 4, 4); // Dimensione maggiore
+  snakeSparks.forEach((s, i) => {
+    snakeCtx.fillStyle = `rgba(255,255,0,${s.life / 5})`; // Fade più rapido
+    snakeCtx.fillRect(s.x, s.y, 4, 4); // Dimensione maggiore
     s.x += s.dx; s.y += s.dy; s.life--;
-    if (s.life <= 0) sparks.splice(i, 1);
+    if (s.life <= 0) snakeSparks.splice(i, 1);
   });
 }
 
-function gameLoop(time) {
-  if (!gameRunning || paused) {
-    if (paused) {
+function snakeGameLoop(time) {
+  if (!snakeGameRunning || snakePaused) {
+    if (snakePaused) {
       // Puoi disegnare un overlay di pausa qui
-      ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#fff";
-      ctx.font = "30px Arial";
-      ctx.textAlign = "center";
-      ctx.fillText("PAUSED", canvas.width / 2, canvas.height / 2);
+      snakeCtx.fillStyle = "rgba(0, 0, 0, 0.5)";
+      snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
+      snakeCtx.fillStyle = "#fff";
+      snakeCtx.font = "30px Arial";
+      snakeCtx.textAlign = "center";
+      snakeCtx.fillText("PAUSED", snakeCanvas.width / 2, snakeCanvas.height / 2);
     }
     return;
   }
   
-  requestAnimationFrame(gameLoop);
+  requestAnimationFrame(snakeGameLoop);
 
-  if (time - lastTime > 1000 / speed) {
-    lastTime = time;
+  if (time - snakeLastTime > 1000 / snakeSpeed) {
+    snakeLastTime = time;
 
-    d = nextD;
+    snakeD = snakeNextD;
 
     let head = { ...snake[0] };
-    if (d === "LEFT") head.x -= box;
-    else if (d === "RIGHT") head.x += box;
-    else if (d === "UP") head.y -= box;
-    else if (d === "DOWN") head.y += box;
+    if (snakeD === "LEFT") head.x -= snakeBox;
+    else if (snakeD === "RIGHT") head.x += snakeBox;
+    else if (snakeD === "UP") head.y -= snakeBox;
+    else if (snakeD === "DOWN") head.y += snakeBox;
 
     // Aumenta la velocità ogni 5 punti
-    if (score > 0 && score % 5 === 0) {
-        speed += 0.2;
+    if (snakeScore > 0 && snakeScore % 5 === 0) {
+        snakeSpeed += 0.2;
     }
 
     // Collisione con se stesso, bordi o ostacoli
-    if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height ||
+    if (head.x < 0 || head.x >= snakeCanvas.width || head.y < 0 || head.y >= snakeCanvas.height ||
       snake.some(s => s.x === head.x && s.y === head.y) ||
-      obstacles.some(obs => obs.x === head.x && obs.y === head.y)) {
+      snakeObstacles.some(obs => obs.x === head.x && obs.y === head.y)) {
       
-      gameOverSound.currentTime = 0;
-      gameOverSound.play();
-      gameRunning = false;
-      flashing = 6;
-      finalScoreSpan.textContent = score;
-      gameOverOverlay.style.display = "flex";
+      snakeGameOverSound.currentTime = 0;
+      snakeGameOverSound.play();
+      snakeGameRunning = false;
+      snakeFlashing = 6;
+      snakeFinalScoreSpan.textContent = snakeScore;
+      snakeGameOverOverlay.style.display = "flex";
 
-      if (score > bestScore) {
-        bestScore = score;
-        bestScoreSpan.textContent = bestScore;
-        localStorage.setItem("snakeBestScore", bestScore);
+      if (snakeScore > snakeBestScore) {
+        snakeBestScore = snakeScore;
+        snakeBestScoreSpan.textContent = snakeBestScore;
+        localStorage.setItem("snakeBestScore", snakeBestScore);
       }
       return;
     }
 
     snake.unshift(head);
 
-    if (head.x === food.x && head.y === food.y) {
-      score++;
-      scoreSpan.textContent = score;
-      eatSound.currentTime = 0;
-      eatSound.play();
+    if (head.x === snakeFood.x && head.y === snakeFood.y) {
+      snakeScore++;
+      snakeScoreSpan.textContent = snakeScore;
+      snakeEatSound.currentTime = 0;
+      snakeEatSound.play();
       // Nuovo effetto scintilla
-      sparks.push(...Array(50).fill().map(() => ({
-        x: food.x + box / 2, y: food.y + box / 2, life: 5, dx: (Math.random() * 2 - 1) * 3, dy: (Math.random() * 2 - 1) * 3
+      snakeSparks.push(...Array(50).fill().map(() => ({
+        x: snakeFood.x + snakeBox / 2, y: snakeFood.y + snakeBox / 2, life: 5, dx: (Math.random() * 2 - 1) * 3, dy: (Math.random() * 2 - 1) * 3
       })));
-      food = randomFood();
+      snakeFood = snakeRandomFood();
     } else {
       snake.pop();
     }
-    draw();
+    snakeDraw();
   }
 }
 
 // swipe touch
-let touchStartX = 0;
-let touchStartY = 0;
-canvas.addEventListener("touchstart", e => {
+let snakeTouchStartX = 0;
+let snakeTouchStartY = 0;
+snakeCanvas.addEventListener("touchstart", e => {
   const touch = e.touches[0];
-  touchStartX = touch.clientX;
-  touchStartY = touch.clientY;
+  snakeTouchStartX = touch.clientX;
+  snakeTouchStartY = touch.clientY;
 }, { passive: false });
-canvas.addEventListener("touchmove", e => {
+snakeCanvas.addEventListener("touchmove", e => {
   e.preventDefault(); 
 }, { passive: false });
-canvas.addEventListener("touchend", e => {
+snakeCanvas.addEventListener("touchend", e => {
   const touch = e.changedTouches[0];
-  const dx = touch.clientX - touchStartX;
-  const dy = touch.clientY - touchStartY;
+  const dx = touch.clientX - snakeTouchStartX;
+  const dy = touch.clientY - snakeTouchStartY;
 
   if (Math.abs(dx) > Math.abs(dy)) {
-    if (dx > 0 && d !== "LEFT") nextD = "RIGHT";
-    else if (dx < 0 && d !== "RIGHT") nextD = "LEFT";
+    if (dx > 0 && snakeD !== "LEFT") snakeNextD = "RIGHT";
+    else if (dx < 0 && snakeD !== "RIGHT") snakeNextD = "LEFT";
   } else {
-    if (dy > 0 && d !== "UP") nextD = "DOWN";
-    else if (dy < 0 && d !== "DOWN") nextD = "UP";
+    if (dy > 0 && snakeD !== "UP") snakeNextD = "DOWN";
+    else if (dy < 0 && snakeD !== "DOWN") snakeNextD = "UP";
   }
 });
 
@@ -713,15 +713,15 @@ const COLS = 10;
 const ROWS = 20;
 const BLOCK_SIZE = 20;
 
-let board;
-let currentPiece;
-let nextPiece;
-let scoreT = 0;
-let linesT = 0;
-let levelT = 1;
-let dropCounter = 0;
-let dropInterval = 1000;
-let lastTimeT = 0;
+let tetrisBoard;
+let tetrisCurrentPiece;
+let tetrisNextPiece;
+let tetrisScore = 0;
+let tetrisLines = 0;
+let tetrisLevel = 1;
+let tetrisDropCounter = 0;
+let tetrisDropInterval = 1000;
+let tetrisLastTime = 0;
 let tetrisGameRunning = false;
 let tetrisPaused = false;
 
@@ -737,12 +737,12 @@ const PIECES = [
 ];
 
 // Initialize board
-function createBoard() {
+function createTetrisBoard() {
     return Array.from({ length: ROWS }, () => Array(COLS).fill(0));
 }
 
 // Get a random new piece
-function getRandomPiece() {
+function getTetrisRandomPiece() {
     const randomPiece = PIECES[Math.floor(Math.random() * PIECES.length)];
     return {
         shape: randomPiece.shape,
@@ -753,7 +753,7 @@ function getRandomPiece() {
 }
 
 // Draw a piece on the canvas
-function drawPiece(piece, context, xOffset, yOffset, size) {
+function drawTetrisPiece(piece, context, xOffset, yOffset, size) {
     if (!piece) return;
     piece.shape.forEach((row, y) => {
         row.forEach((value, x) => {
@@ -769,8 +769,8 @@ function drawPiece(piece, context, xOffset, yOffset, size) {
 }
 
 // Draw the board
-function drawBoard() {
-    board.forEach((row, y) => {
+function drawTetrisBoard() {
+    tetrisBoard.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value) {
                 tetrisCtx.fillStyle = value;
@@ -784,7 +784,7 @@ function drawBoard() {
 }
 
 // Check for collisions
-function isColliding(piece, board, newX, newY) {
+function isTetrisColliding(piece, board, newX, newY) {
     for (let y = 0; y < piece.shape.length; y++) {
         for (let x = 0; x < piece.shape[y].length; x++) {
             if (piece.shape[y][x]) {
@@ -800,7 +800,7 @@ function isColliding(piece, board, newX, newY) {
 }
 
 // Merge the piece with the board
-function mergePiece(piece, board) {
+function mergeTetrisPiece(piece, board) {
     piece.shape.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value) {
@@ -811,25 +811,25 @@ function mergePiece(piece, board) {
 }
 
 // Clear full lines
-function clearLines() {
+function clearTetrisLines() {
     let linesCleared = 0;
     for (let y = ROWS - 1; y >= 0; y--) {
-        if (board[y].every(value => value !== 0)) {
-            board.splice(y, 1);
-            board.unshift(Array(COLS).fill(0));
+        if (tetrisBoard[y].every(value => value !== 0)) {
+            tetrisBoard.splice(y, 1);
+            tetrisBoard.unshift(Array(COLS).fill(0));
             linesCleared++;
             y++;
         }
     }
     if (linesCleared > 0) {
-        scoreT += linesCleared * 100 * (levelT + 1);
-        linesT += linesCleared;
-        tetrisScoreSpan.textContent = scoreT;
-        tetrisLinesSpan.textContent = linesT;
-        if (linesT >= levelT * 10) {
-            levelT++;
-            dropInterval *= 0.8;
-            tetrisLevelSpan.textContent = levelT;
+        tetrisScore += linesCleared * 100 * (tetrisLevel + 1);
+        tetrisLines += linesCleared;
+        tetrisScoreSpan.textContent = tetrisScore;
+        tetrisLinesSpan.textContent = tetrisLines;
+        if (tetrisLines >= tetrisLevel * 10) {
+            tetrisLevel++;
+            tetrisDropInterval *= 0.8;
+            tetrisLevelSpan.textContent = tetrisLevel;
         }
     }
 }
@@ -848,53 +848,53 @@ function tetrisLoop(time = 0) {
         return;
     }
     
-    const deltaTime = time - lastTimeT;
-    lastTimeT = time;
-    dropCounter += deltaTime;
+    const deltaTime = time - tetrisLastTime;
+    tetrisLastTime = time;
+    tetrisDropCounter += deltaTime;
 
-    if (dropCounter > dropInterval) {
-        if (!isColliding(currentPiece, board, currentPiece.x, currentPiece.y + 1)) {
-            currentPiece.y++;
+    if (tetrisDropCounter > tetrisDropInterval) {
+        if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x, tetrisCurrentPiece.y + 1)) {
+            tetrisCurrentPiece.y++;
         } else {
-            mergePiece(currentPiece, board);
-            clearLines();
-            currentPiece = nextPiece;
-            nextPiece = getRandomPiece();
-            drawNextPiece();
-            if (isColliding(currentPiece, board, currentPiece.x, currentPiece.y)) {
+            mergeTetrisPiece(tetrisCurrentPiece, tetrisBoard);
+            clearTetrisLines();
+            tetrisCurrentPiece = tetrisNextPiece;
+            tetrisNextPiece = getTetrisRandomPiece();
+            drawTetrisNextPiece();
+            if (isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x, tetrisCurrentPiece.y)) {
                 // Game Over
                 tetrisGameRunning = false;
-                alert("Game Over! Final Score: " + scoreT);
+                alert("Game Over! Final Score: " + tetrisScore);
                 tetrisStartBtn.textContent = "Restart Game";
                 return;
             }
         }
-        dropCounter = 0;
+        tetrisDropCounter = 0;
     }
 
     // Draw everything
     tetrisCtx.clearRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
     tetrisCtx.fillStyle = "#111";
     tetrisCtx.fillRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
-    drawBoard();
-    drawPiece(currentPiece, tetrisCtx, 0, 0, BLOCK_SIZE);
+    drawTetrisBoard();
+    drawTetrisPiece(tetrisCurrentPiece, tetrisCtx, 0, 0, BLOCK_SIZE);
     
     requestAnimationFrame(tetrisLoop);
 }
 
 // Draw the next piece preview
-function drawNextPiece() {
+function drawTetrisNextPiece() {
     nextPieceCtx.clearRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
     nextPieceCtx.fillStyle = '#222';
     nextPieceCtx.fillRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
 
-    const pieceSize = nextPiece.shape.length;
+    const pieceSize = tetrisNextPiece.shape.length;
     let xOffset = (nextPieceCanvas.width - pieceSize * BLOCK_SIZE) / 2;
     let yOffset = (nextPieceCanvas.height - pieceSize * BLOCK_SIZE) / 2;
-    if (nextPiece.shape[0].length > 2) {
-        xOffset = (nextPieceCanvas.width - nextPiece.shape[0].length * BLOCK_SIZE) / 2;
+    if (tetrisNextPiece.shape[0].length > 2) {
+        xOffset = (nextPieceCanvas.width - tetrisNextPiece.shape[0].length * BLOCK_SIZE) / 2;
     }
-    drawPiece(nextPiece, nextPieceCtx, xOffset, yOffset, BLOCK_SIZE);
+    drawTetrisPiece(tetrisNextPiece, nextPieceCtx, xOffset, yOffset, BLOCK_SIZE);
 }
 
 // Handle controls
@@ -902,25 +902,25 @@ document.addEventListener('keydown', e => {
     if (!tetrisGameRunning || tetrisPaused) return;
 
     if (e.key === 'ArrowLeft') {
-        if (!isColliding(currentPiece, board, currentPiece.x - 1, currentPiece.y)) {
-            currentPiece.x--;
+        if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x - 1, tetrisCurrentPiece.y)) {
+            tetrisCurrentPiece.x--;
         }
     } else if (e.key === 'ArrowRight') {
-        if (!isColliding(currentPiece, board, currentPiece.x + 1, currentPiece.y)) {
-            currentPiece.x++;
+        if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x + 1, tetrisCurrentPiece.y)) {
+            tetrisCurrentPiece.x++;
         }
     } else if (e.key === 'ArrowDown') {
-        if (!isColliding(currentPiece, board, currentPiece.x, currentPiece.y + 1)) {
-            currentPiece.y++;
-            dropCounter = 0;
+        if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x, tetrisCurrentPiece.y + 1)) {
+            tetrisCurrentPiece.y++;
+            tetrisDropCounter = 0;
         }
     } else if (e.key === 'ArrowUp') {
         // Rotate piece
-        const oldShape = currentPiece.shape;
+        const oldShape = tetrisCurrentPiece.shape;
         const newShape = oldShape[0].map((val, index) => oldShape.map(row => row[index]).reverse());
-        const tempPiece = { ...currentPiece, shape: newShape };
-        if (!isColliding(tempPiece, board, tempPiece.x, tempPiece.y)) {
-            currentPiece.shape = newShape;
+        const tempPiece = { ...tetrisCurrentPiece, shape: newShape };
+        if (!isTetrisColliding(tempPiece, tetrisBoard, tempPiece.x, tempPiece.y)) {
+            tetrisCurrentPiece.shape = newShape;
         }
     }
 });
@@ -929,17 +929,17 @@ document.addEventListener('keydown', e => {
 tetrisStartBtn.addEventListener('click', () => {
     tetrisGameRunning = true;
     tetrisPaused = false;
-    board = createBoard();
-    scoreT = 0;
-    linesT = 0;
-    levelT = 1;
-    dropInterval = 1000;
-    tetrisScoreSpan.textContent = scoreT;
-    tetrisLinesSpan.textContent = linesT;
-    tetrisLevelSpan.textContent = levelT;
-    currentPiece = getRandomPiece();
-    nextPiece = getRandomPiece();
-    drawNextPiece();
+    tetrisBoard = createTetrisBoard();
+    tetrisScore = 0;
+    tetrisLines = 0;
+    tetrisLevel = 1;
+    tetrisDropInterval = 1000;
+    tetrisScoreSpan.textContent = tetrisScore;
+    tetrisLinesSpan.textContent = tetrisLines;
+    tetrisLevelSpan.textContent = tetrisLevel;
+    tetrisCurrentPiece = getTetrisRandomPiece();
+    tetrisNextPiece = getTetrisRandomPiece();
+    drawTetrisNextPiece();
     tetrisStartBtn.textContent = "Restart Game";
     tetrisLoop();
 });
