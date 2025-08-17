@@ -413,7 +413,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
     <div id="tetris-game">
       <div class="section tetris-game-layout" id="tetris-game-container">
         <div class="tetris-container">
-            <canvas id="tetrisCanvas" width="200" height="400"></canvas>
+            <canvas id="tetrisCanvas" width="300" height="600"></canvas>
             <div class="tetris-info">
                 <div class="tetris-info-panel">
                     <h3>Score: <span id="tetrisScore">0</span></h3>
@@ -423,7 +423,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
                 </div>
                 <div class="tetris-info-panel">
                     <p>Next Piece:</p>
-                    <canvas id="nextPieceCanvas" width="80" height="80"></canvas>
+                    <canvas id="nextPieceCanvas" width="120" height="120"></canvas>
                 </div>
                 <div class="tetris-controls">
                     <button id="tetrisStartBtn">Start Game</button>
@@ -736,7 +736,8 @@ const tetrisControlLeftBtn = document.getElementById("tetrisControl-left");
 const tetrisControlRightBtn = document.getElementById("tetrisControl-right");
 const tetrisControlDownBtn = document.getElementById("tetrisControl-down");
 
-const tetrisTileSize = 20;
+// Modified tetrisTileSize
+const tetrisTileSize = 30;
 const tetrisRowCount = 20;
 const tetrisColCount = 10;
 let tetrisBoard;
