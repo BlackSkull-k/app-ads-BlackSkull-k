@@ -515,7 +515,7 @@ function resizeCanvas() {
   canvas.height = box * gridSize;
 }
 window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
+window.addEventListener("load", resizeCanvas);
 
 // Genera cibo
 function randomFood() {
@@ -563,6 +563,10 @@ function startGame(initialSpeed) {
   paused = false;
   lastTime = 0;
   gameOverOverlay.style.display = "none";
+  
+  // Aggiungi un'esplicita chiamata a draw() prima di avviare il gameLoop
+  draw(); 
+  
   requestAnimationFrame(gameLoop);
 }
 
