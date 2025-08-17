@@ -954,7 +954,7 @@ function drawTetrisNextPiece() {
     drawTetrisPiece(tetrisNextPiece, nextPieceCtx, xOffset, yOffset, BLOCK_SIZE);
 }
 
-// Handle controls
+// Handle keyboard controls
 document.addEventListener('keydown', e => {
     if (!tetrisGameRunning || tetrisPaused) return;
 
@@ -978,6 +978,68 @@ document.addEventListener('keydown', e => {
         const tempPiece = { ...tetrisCurrentPiece, shape: newShape };
         if (!isTetrisColliding(tempPiece, tetrisBoard, tempPiece.x, tempPiece.y)) {
             tetrisCurrentPiece.shape = newShape;
+        }
+    }
+});
+
+// Handle touch controls for Tetris
+let tetrisTouchStartX = 0;
+let tetrisTouchStartY = 0;
+let tetrisTouchMoveX = 0;
+let tetrisTouchMoveY = 0;
+const tetrisSwipeThreshold = 30; // Min pixels for a swipe to register
+
+tetrisCanvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    if (!tetrisGameRunning || tetrisPaused) return;
+    const touch = e.touches[0];
+    tetrisTouchStartX = touch.clientX;
+    tetrisTouchStartY = touch.clientY;
+}, { passive: false });
+
+tetrisCanvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (!tetrisGameRunning || tetrisPaused) return;
+    const touch = e.touches[0];
+    tetrisTouchMoveX = touch.clientX;
+    tetrisTouchMoveY = touch.clientY;
+}, { passive: false });
+
+tetrisCanvas.addEventListener('touchend', e => {
+    e.preventDefault();
+    if (!tetrisGameRunning || tetrisPaused) return;
+    
+    const dx = tetrisTouchMoveX - tetrisTouchStartX;
+    const dy = tetrisTouchMoveY - tetrisTouchStartY;
+
+    if (Math.abs(dx) > Math.abs(dy)) {
+        // Orizzontal swipe
+        if (Math.abs(dx) > tetrisSwipeThreshold) {
+            if (dx > 0) { // Swipe right
+                if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x + 1, tetrisCurrentPiece.y)) {
+                    tetrisCurrentPiece.x++;
+                }
+            } else { // Swipe left
+                if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x - 1, tetrisCurrentPiece.y)) {
+                    tetrisCurrentPiece.x--;
+                }
+            }
+        }
+    } else {
+        // Vertical swipe or tap
+        if (dy > tetrisSwipeThreshold) { // Swipe down
+            if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x, tetrisCurrentPiece.y + 1)) {
+                tetrisCurrentPiece.y++;
+                tetrisDropCounter = 0;
+            }
+        } else { // Tap or swipe up
+            // Rotate piece on tap or small vertical swipe
+            const oldShape = tetrisCurrentPiece.shape;
+            const newShape = oldShape[0].map((val, index) => oldShape.map(row => row[index]).reverse());
+            const tempPiece = { ...tetrisCurrentPiece, shape: newShape };
+            if (!isTetrisColliding(tempPiece, tetrisBoard, tempPiece.x, tempPiece.y)) {
+                tetrisCurrentPiece.shape = newShape;
+            }
         }
     }
 });
