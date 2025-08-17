@@ -59,7 +59,7 @@ header img {
   max-height:200px; 
   object-fit:cover; 
   box-shadow:0 4px 10px rgba(0,0,0,0.5);
-  margin-bottom: 10px;
+  margin-bottom: 10px; /* Aggiunto per coerenza con applications.html */
 }
 
 /* Navbar scrollabile con freccette */
@@ -78,7 +78,7 @@ header img {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  padding: 0 30px;
+  padding: 0 30px; /* spazio per freccette */
 }
 
 .navbar a {
@@ -111,7 +111,7 @@ header img {
   cursor: pointer;
   user-select: none;
   z-index: 10;
-  display: none;
+  display: none; /* di default nascoste */
 }
 .nav-arrow:hover { background: rgba(0,0,0,0.5); }
 
@@ -121,88 +121,56 @@ header img {
 /* Contenuto principale */
 main {
   flex: 1;
-  max-width: 1000px;
-  margin: 20px auto;
-  padding: 10px;
+  max-width:1000px;
+  margin:20px auto;
+  padding:10px;
 }
 .section { margin-bottom:30px; padding:10px; }
 .divider { height:2px; background:#222; margin:20px 0; border-radius:2px; }
+
 h2 { margin-bottom:15px; text-align:center; color:#0b47a1; }
 
 /* CARDS APP */
 .apps-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; }
-.card { background:#fff; border-radius:10px; width:180px; padding:15px; display:flex; flex-direction:column; align-items:center; text-align:center; box-shadow:0 4px 8px rgba(0,0,0,0.1); transition:transform 0.3s ease; cursor:pointer; }
-.card:hover { transform:translateY(-5px); }
-.card img { width:80px; height:80px; margin-bottom:10px; }
-.card-title { font-size:1.1em; font-weight:bold; margin-bottom:5px; }
-.card-description { font-size:0.8em; color:#666; margin-bottom:10px; }
-.card-btn { background-color:#0b47a1; color:#fff; padding:8px 15px; border-radius:5px; text-decoration:none; font-size:0.9em; transition:background-color 0.3s ease; }
-.card-btn:hover { background-color:#083884; }
-
-/* Altro stile (opzionale) */
-.content { padding-bottom: 60px; }
-
-/* STILE DELLE CARDS - RIVEDUTO */
-.card-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: center;
-  align-items: center;
-}
 .card {
-  background-color: #fff;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-  width: 300px;
-  text-align: center;
-  padding: 20px;
-  box-sizing: border-box;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+  background:#fff; 
+  border-radius:10px; 
+  width:180px; 
+  padding:15px; 
+  display:flex; 
+  flex-direction:column; 
+  align-items:center; 
+  box-shadow:0 3px 6px rgba(0,0,0,0.1); 
+  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+  opacity: 0; transform: translateY(20px);
 }
-.card.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.card img {
-  width: 100px;
-  height: 100px;
-  object-fit: contain;
-  margin-bottom: 15px;
-}
-.card h3 {
-  margin: 0;
-  color: #0b47a1;
-}
-.card p {
-  font-size: 14px;
-  color: #666;
-}
-.card .btn-container {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-}
-.card .btn-view, .card .btn-download {
-  text-decoration: none;
-  padding: 8px 15px;
-  border-radius: 5px;
-  font-weight: bold;
-}
-.card .btn-view {
-  background-color: #e67e22;
-  color: #fff;
-}
-.card .btn-download {
-  background-color: #0b47a1;
-  color: #fff;
+.card.visible { opacity:1; transform: translateY(0); }
+.card:hover, .card:active { transform: scale(1.05); box-shadow:0 15px 25px rgba(0,0,0,0.35); }
+.card img { width:80px; height:80px; margin-bottom:10px; }
+.card span { font-weight:bold; margin-bottom:10px; text-align:center; }
+.card a { text-decoration:none; color:#fff; background:#28a745; padding:6px 12px; border-radius:5px; font-weight:bold; }
+.card a:hover { background:#218838; }
+
+@media (max-width: 600px) {
+  .card { width:45%; padding:12px; }
+  .card img { width:70px; height:70px; }
+  .card span { font-size:0.9em; }
+  .card:active { transform: scale(1.08); box-shadow:0 20px 30px rgba(0,0,0,0.4); }
 }
 
-/* Barra inferiore */
+/* CONTATTI */
+.contact a { color:#1a73e8; text-decoration:none; font-weight:bold; }
+.contact a:hover { text-decoration:underline; }
+
+/* PULSANTI ADS */
+.ads-buttons { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
+.btn-view { background:#fcd116; } 
+.btn-download { background:#f57c00; } 
+.btn-view, .btn-download { color:#fff; text-decoration:none; padding:6px 12px; border-radius:5px; font-weight:bold; }
+.btn-view:hover { background:#e6c200; }
+.btn-download:hover { background:#d26900; }
+
+/* FOOTER */
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -216,6 +184,32 @@ h2 { margin-bottom:15px; text-align:center; color:#0b47a1; }
   box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
   z-index: 1000;
 }
+.content { padding-bottom: 60px; }
+
+/* CARD AFFILIATI */
+.affiliate-card { background:#fff; border-radius:10px; padding:15px; margin-bottom:15px; box-shadow:0 3px 6px rgba(0,0,0,0.1); display:flex; gap:15px; align-items:flex-start; }
+.affiliate-card img { width:60px; height:60px; border-radius:8px; }
+.affiliate-card-content { flex:1; }
+.affiliate-card-content h3 { margin:0 0 5px 0; color:#0b47a1; }
+.affiliate-card-content p { margin:5px 0; }
+.affiliate-card-content a { color:#1a73e8; font-weight:bold; text-decoration:none; }
+.affiliate-card-content a:hover { text-decoration:underline; }
+
+/* ADMOB CARD */
+.admob-card {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background:#fff;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 3px 6px rgba(0,0,0,0.1);
+  max-width:300px;
+  margin:0 auto;
+  transition: all 0.3s ease;
+}
+.admob-card:hover { transform: translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.25);}
+
 </style>
 </head>
 <body>
@@ -231,35 +225,71 @@ h2 { margin-bottom:15px; text-align:center; color:#0b47a1; }
     <a href="applications.html">Applications</a>
     <a href="flashgames.html">Flash Games</a>
     <a href="contacts.html">Contacts</a>
-    <a href="affiliatesites.html">Affiliate Sites</a>
+    <a href="affiliate.html">Affiliate Sites</a>
   </div>
   <div class="nav-arrow nav-right">&#10095;</div>
 </div>
 
 <main class="content">
-  <h2>BlackSkull-k Apps</h2>
-  <div class="card-container">
+  <div class="apps-grid">
     <div class="card">
-      <img src="images/bskFavicon512x512.png" alt="BlackSkull-k Apps Logo">
-      <h3>BlackSkull-k Apps</h3>
-      <p>Esplora la nostra collezione completa di applicazioni, giochi e utility per Android, disponibili gratuitamente.</p>
-      <div class="btn-container">
-        <a href="applications.html" class="btn-view">View</a>
-      </div>
+      <span>Piano</span>
+      <img src="images/Pianoicon.png" alt="Piano">
+      <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" target="_blank">Open</a>
     </div>
     <div class="card">
-      <img src="images/flashgamesIcon.png" alt="Flash Games Icon">
-      <h3>Flash Games</h3>
-      <p>Una selezione di giochi online sviluppati interamente con HTML, CSS e JavaScript per puro divertimento.</p>
-      <div class="btn-container">
-        <a href="flashgames.html" class="btn-view">View</a>
-      </div>
+      <span>Torch Flash Light Plus</span>
+      <img src="images/Torchicon.png" alt="Torch Flash Light Plus">
+      <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" target="_blank">Open</a>
     </div>
     <div class="card">
-      <img src="images/app-ads.txt-icon.png" alt="App-ads.txt Icon">
-      <h3>App-ads.txt</h3>
-      <p>File di testo che contiene una lista di venditori autorizzati a vendere il tuo inventario pubblicitario.</p>
-      <div class="btn-container">
+      <span>Memojiing</span>
+      <img src="images/Memoicon.png" alt="Memojiing">
+      <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank">Open</a>
+    </div>
+    <div class="card">
+      <span>Infinity Jump Rabbit</span>
+      <img src="images/IJRicon.png" alt="Infinity Jump Rabbit">
+      <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" target="_blank">Open</a>
+    </div>
+    <div class="card">
+      <span>Golf Wild</span>
+      <img src="images/Golficon.png" alt="Golf Wild">
+      <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" target="_blank">Open</a>
+    </div>
+  </div>
+  
+  <div class="divider"></div>
+
+  <div class="section contact" id="contact">
+    <h2>Email Contact</h2>
+    <div class="admob-card" style="max-width:400px;">
+      <a href="mailto:blackskull.k.info@gmail.com" style="color:inherit; text-decoration:none;">
+        blackskull.k.info@gmail.com
+      </a>
+    </div>
+  </div>
+
+  <div class="divider"></div> <div class="section" id="affiliates">
+    <h2>Affiliate Sites</h2>
+    <div class="affiliate-card">
+      <img src="images/jfkicon1.png" alt="JFKar Auto">
+      <div class="affiliate-card-content">
+        <h3>JFKar Auto</h3>
+        <p>Vendita di auto usato, noleggio, Km 0, acquista o noleggia, finanziamenti e leasing.</p>
+        <p>JFKar offre diversi servizi come finanziamenti e leasing, possibilità di assicurazioni, demolizioni auto. Vendere la tua auto come privato ma con i vantaggi di una concessionaria? Con il nostro servizio di vendita tra privati ora puoi usufruire dei nostri servizi per la vendita come garanzia e pubblicazione annunci. Organizziamo i tuoi appuntamenti, su giorni ed orari concordati, per eliminare stress e chiamate inutili sul tuo numero di telefono, con la possibilità di offrire una garanzia aggiuntiva per poter aumentare le possibilità di vendita.</p>
+        <p>Sito Web: <a href="https://www.jfkar.com" target="_blank">www.jfkar.com</a></p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="section" id="ads">
+    <h2>AdMob</h2>
+    <div class="admob-card">
+      <span>app-ads.txt file for AdMob</span>
+      <div class="ads-buttons">
         <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-view" target="_blank">View</a>
         <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-download" download>Download</a>
       </div>
@@ -306,19 +336,7 @@ nav.addEventListener('scroll', updateArrows);
 window.addEventListener('resize', updateArrows);
 window.addEventListener('load', updateArrows);
 
-// Registra il service worker
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js').then(function(registration) {
-      // Registrazione avvenuta con successo
-      console.log('ServiceWorker registration successful with scope: ', registration.scope);
-    }, function(err) {
-      // Registrazione fallita
-      console.log('ServiceWorker registration failed: ', err);
-    });
-  });
-}
 </script>
-
+  
 </body>
 </html>
