@@ -200,22 +200,51 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
   cursor: pointer;
 }
 
-/* Scelta della difficoltà */
-#difficulty-select {
-  margin: 20px auto;
-  text-align: center;
+/* Overlay di selezione difficoltà */
+#start-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Sfondo semi-trasparente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
 }
-#difficulty-select button {
-  background-color: #0b47a1;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 5px;
-  cursor: pointer;
+
+/* Scheda difficoltà */
+#difficulty-card {
+    background: #000;
+    border: 2px solid #222;
+    border-radius: 10px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+    max-width: 400px;
 }
-#difficulty-select button:hover {
-  background-color: #083884;
+
+#difficulty-card h2 {
+    color: #fff;
+}
+
+#difficulty-card button {
+    background-color: #0b47a1;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 1.2em;
+}
+#difficulty-card button:hover {
+    background-color: #083884;
 }
 </style>
 </head>
@@ -240,13 +269,15 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
 <main class="content">
   <h2>Flash Games</h2>
   <div class="section" id="snake-game">
-    <div id="difficulty-select">
-      <h2>Scegli Difficoltà</h2>
-      <button onclick="startGame(4)">Normale</button>
-      <button onclick="startGame(6)">Difficile</button>
-    </div>
+    <div id="game-container" style="position:relative;">
+      <div id="start-overlay">
+          <div id="difficulty-card">
+              <h2>Scegli Difficoltà</h2>
+              <button onclick="startGame(4)">Normale</button>
+              <button onclick="startGame(6)">Difficile</button>
+          </div>
+      </div>
 
-    <div id="game-container" style="position:relative; display:none;">
       <div id="game-ui">
         <div>Score: <span id="scoreSpan">0</span></div>
         <div>Best: <span id="bestScoreSpan">0</span></div>
@@ -308,6 +339,7 @@ const bestScoreSpan = document.getElementById("bestScoreSpan");
 const finalScoreSpan = document.getElementById("finalScoreSpan");
 const gameOverOverlay = document.getElementById("gameOverOverlay");
 const pauseBtn = document.getElementById("pauseBtn");
+const startOverlay = document.getElementById("start-overlay");
 
 // Suoni
 const gameOverSound = new Audio("https://www.myinstants.com/media/sounds/snake-death-scream.mp3");
@@ -365,7 +397,7 @@ function generateObstacles() {
       y: Math.floor(Math.random() * (gridSize - 5) + 2) * box
     };
     // Evita di generare ostacoli vicini alla partenza del serpente
-    if (Math.abs(newObstacle.x - snake[0].x) > 3 * box && Math.abs(newObstacle.y - snake[0].y) > 3 * box) {
+    if (Math.abs(newObstacle.x - snake[0].x) > 3 * box && Math.abs(newObstacle.y - newObstacle.y) > 3 * box) {
       obstacles.push(newObstacle);
     }
   }
@@ -373,8 +405,7 @@ function generateObstacles() {
 
 function startGame(initialSpeed) {
   speed = initialSpeed;
-  document.getElementById("difficulty-select").style.display = "none";
-  document.getElementById("game-container").style.display = "block";
+  startOverlay.style.display = "none";
   
   snake = [{ x: 0, y: 0 }];
   score = 0;
