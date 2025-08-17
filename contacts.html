@@ -89,6 +89,7 @@ main {
   max-width: 1000px;
   margin: 20px auto;
   padding: 10px;
+  width: 95%; /* Modifica per mobile per dare un po' di margine laterale */
 }
 h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
 
@@ -150,6 +151,37 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
 .contact-form button:hover {
   background-color: #083884;
 }
+
+/* MEDIA QUERIES per schermi più grandi */
+@media (min-width: 768px) {
+  main {
+    padding: 20px;
+  }
+  
+  .contact-form {
+    padding: 30px;
+  }
+}
+
+@media (min-width: 1024px) {
+  header img {
+    max-height: 250px;
+  }
+
+  .navbar a {
+    padding: 12px 22px;
+    font-size: 1.1em;
+  }
+
+  main {
+    max-width: 1200px; /* Aumento della larghezza massima del contenuto */
+  }
+  
+  .contact-form {
+    max-width: 600px; /* Aumento della larghezza massima del form */
+  }
+}
+
 </style>
 </head>
 <body>
