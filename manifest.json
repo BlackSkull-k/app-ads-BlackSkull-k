@@ -1,7 +1,7 @@
 {
   "name": "BlackSkull-k Apps",
   "short_name": "BlackSkull-k",
-  "description": "Scopri tutte le app di BlackSkull-k, giochi e utility Android gratuiti.",
+  "description": "Discover all the free BlackSkull-k apps, games, and Android utilities.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
