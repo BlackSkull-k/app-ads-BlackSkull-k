@@ -469,6 +469,9 @@ function draw() {
   // Food
   ctx.fillStyle = "#f00";
   ctx.fillRect(food.x, food.y, box, box);
+  ctx.strokeStyle = "#b00";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(food.x, food.y, box, box);
 
   // Obstacles
   ctx.fillStyle = "#555";
