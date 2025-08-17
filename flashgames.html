@@ -484,9 +484,6 @@ function gameLoop(time) {
       snake.some(s => s.x === head.x && s.y === head.y) ||
       obstacles.some(obs => obs.x === head.x && obs.y === head.y)) {
       
-      // Aggiunto per debugging
-      alert("Game Over!");
-      
       gameOverSound.currentTime = 0;
       gameOverSound.play();
       gameRunning = false;
