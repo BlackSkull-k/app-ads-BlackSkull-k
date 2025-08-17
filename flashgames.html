@@ -458,8 +458,13 @@ function draw() {
   }
   
   // Snake
-  ctx.fillStyle = "#0f0";
-  snake.forEach(segment => ctx.fillRect(segment.x, segment.y, box, box));
+  snake.forEach(segment => {
+    ctx.fillStyle = "#0f0";
+    ctx.fillRect(segment.x, segment.y, box, box);
+    ctx.strokeStyle = "#0c0";
+    ctx.lineWidth = 2;
+    ctx.strokeRect(segment.x, segment.y, box, box);
+  });
 
   // Food
   ctx.fillStyle = "#f00";
