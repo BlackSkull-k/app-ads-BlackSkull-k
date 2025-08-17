@@ -883,7 +883,6 @@ function clearLines() {
             tetrisBoard.splice(r, 1);
             tetrisBoard.unshift(Array(T_COLS).fill(0));
             linesCleared++;
-            r++;
         }
     }
     if (linesCleared > 0) {
