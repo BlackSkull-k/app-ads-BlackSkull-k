@@ -1,47 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BlackSkull-k Apps</title>
-
- <link rel="icon" type="image/png" sizes="16x16" href="images/bskFavicon16x.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="images/bskFavicon32x.png?v=2">
-  <link rel="icon" type="image/png" sizes="48x48" href="images/bskFavicon48x.png">
-  <link rel="icon" type="image/png" sizes="64x64" href="images/bskFavicon64x.png">
-  <link rel="icon" type="image/png" sizes="96x96" href="images/bskFavicon96x.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="images/bskFavicon180x.png">
-
-  <link rel="icon" type="image/png" sizes="192x192" href="images/bskFavicon192x.png?v=1">
-<link rel="icon" type="image/png" sizes="512x512" href="images/bskFavicon512x.png?v=1">
-
-<link rel="manifest" href="/manifest.json">
-
-<meta name="theme-color" content="#000000">
-
-  <meta name="google-site-verification" content="p3WxNMSzZRIBQIWVgAqcBhdaD6CRG99rZ3fTvgYM1I8" />
-
-  <meta name="description" content="Scopri tutte le app di BlackSkull-k, giochi e utility Android gratuiti.">
-  <meta name="keywords" content="app, applicazioni, giochi, BlackSkull-k, affiliati, Android, utility, giochi gratuiti">
-  <meta name="author" content="BlackSkull-k">
-
-  <meta property="og:title" content="BlackSkull-k Apps">
-  <meta property="og:description" content="Scopri tutte le app di BlackSkull-k, giochi e utility Android gratuiti.">
-  <meta property="og:image" content="images/bskFavicon180x.png">
-  <meta property="og:url" content="https://blackskullk.netlify.app/">
-  <meta property="og:type" content="website">
-
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="BlackSkull-k Apps">
-  <meta name="twitter:description" content="Scopri tutte le app di BlackSkull-k, giochi e utility Android gratuiti.">
-  <meta name="twitter:image" content="images/bskFavicon180x.png">
-
-  <meta name="admob-app-id" content="ca-app-pub-6870698456420623~YOUR_APP_ID">
-</head>
-  
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlackSkull-k Apps - Contacts</title>
 <link rel="icon" type="image/png" sizes="32x32" href="images/bskFavicon32x.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/bskFavicon180x.png">
-
+<link rel="manifest" href="/manifest.json">
 <style>
 /* STILE GENERALE */
 html, body {
@@ -54,12 +19,13 @@ html, body {
   display: flex;
   flex-direction: column;
 }
-header img { 
-  width:100%; 
-  max-height:200px; 
-  object-fit:cover; 
-  box-shadow:0 4px 10px rgba(0,0,0,0.5);
-  margin-bottom: 10px; /* Aggiunto per coerenza con applications.html */
+
+header img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+  margin-bottom: 10px;
 }
 
 /* Navbar scrollabile con freccette */
@@ -78,7 +44,7 @@ header img {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
-  padding: 0 30px; /* spazio per freccette */
+  padding: 0 30px;
 }
 
 .navbar a {
@@ -111,66 +77,22 @@ header img {
   cursor: pointer;
   user-select: none;
   z-index: 10;
-  display: none; /* di default nascoste */
+  display: none;
 }
 .nav-arrow:hover { background: rgba(0,0,0,0.5); }
 
-.nav-left { left: 5px; }
-.nav-right { right: 5px; }
-
-/* Contenuto principale */
 main {
   flex: 1;
-  max-width:1000px;
-  margin:20px auto;
-  padding:10px;
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 10px;
+  width: 95%; /* Modifica per mobile per dare un po' di margine laterale */
 }
-.section { margin-bottom:30px; padding:10px; }
-.divider { height:2px; background:#222; margin:20px 0; border-radius:2px; }
+h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
 
-h2 { margin-bottom:15px; text-align:center; color:#0b47a1; }
+.content { padding-bottom: 60px; }
 
-/* CARDS APP */
-.apps-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; }
-.card {
-  background:#fff; 
-  border-radius:10px; 
-  width:180px; 
-  padding:15px; 
-  display:flex; 
-  flex-direction:column; 
-  align-items:center; 
-  box-shadow:0 3px 6px rgba(0,0,0,0.1); 
-  transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
-  opacity: 0; transform: translateY(20px);
-}
-.card.visible { opacity:1; transform: translateY(0); }
-.card:hover, .card:active { transform: scale(1.05); box-shadow:0 15px 25px rgba(0,0,0,0.35); }
-.card img { width:80px; height:80px; margin-bottom:10px; }
-.card span { font-weight:bold; margin-bottom:10px; text-align:center; }
-.card a { text-decoration:none; color:#fff; background:#28a745; padding:6px 12px; border-radius:5px; font-weight:bold; }
-.card a:hover { background:#218838; }
-
-@media (max-width: 600px) {
-  .card { width:45%; padding:12px; }
-  .card img { width:70px; height:70px; }
-  .card span { font-size:0.9em; }
-  .card:active { transform: scale(1.08); box-shadow:0 20px 30px rgba(0,0,0,0.4); }
-}
-
-/* CONTATTI */
-.contact a { color:#1a73e8; text-decoration:none; font-weight:bold; }
-.contact a:hover { text-decoration:underline; }
-
-/* PULSANTI ADS */
-.ads-buttons { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
-.btn-view { background:#fcd116; } 
-.btn-download { background:#f57c00; } 
-.btn-view, .btn-download { color:#fff; text-decoration:none; padding:6px 12px; border-radius:5px; font-weight:bold; }
-.btn-view:hover { background:#e6c200; }
-.btn-download:hover { background:#d26900; }
-
-/* FOOTER */
+/* Barra inferiore */
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -184,31 +106,78 @@ h2 { margin-bottom:15px; text-align:center; color:#0b47a1; }
   box-shadow: 0 -2px 5px rgba(0,0,0,0.3);
   z-index: 1000;
 }
-.content { padding-bottom: 60px; }
 
-/* CARD AFFILIATI */
-.affiliate-card { background:#fff; border-radius:10px; padding:15px; margin-bottom:15px; box-shadow:0 3px 6px rgba(0,0,0,0.1); display:flex; gap:15px; align-items:flex-start; }
-.affiliate-card img { width:60px; height:60px; border-radius:8px; }
-.affiliate-card-content { flex:1; }
-.affiliate-card-content h3 { margin:0 0 5px 0; color:#0b47a1; }
-.affiliate-card-content p { margin:5px 0; }
-.affiliate-card-content a { color:#1a73e8; font-weight:bold; text-decoration:none; }
-.affiliate-card-content a:hover { text-decoration:underline; }
-
-/* ADMOB CARD */
-.admob-card {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  background:#fff;
-  padding:20px;
-  border-radius:10px;
-  box-shadow:0 3px 6px rgba(0,0,0,0.1);
-  max-width:300px;
-  margin:0 auto;
-  transition: all 0.3s ease;
+/* STILE DEL FORM DI CONTATTO */
+.contact-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-.admob-card:hover { transform: translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.25);}
+.contact-form {
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+.contact-form input, .contact-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+.contact-form textarea {
+  height: 150px;
+  resize: vertical;
+}
+.contact-form button {
+  background-color: #0b47a1;
+  color: #fff;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.contact-form button:hover {
+  background-color: #083884;
+}
+
+/* MEDIA QUERIES per schermi più grandi */
+@media (min-width: 768px) {
+  main {
+    padding: 20px;
+  }
+  
+  .contact-form {
+    padding: 30px;
+  }
+}
+
+@media (min-width: 1024px) {
+  header img {
+    max-height: 250px;
+  }
+
+  .navbar a {
+    padding: 12px 22px;
+    font-size: 1.1em;
+  }
+
+  main {
+    max-width: 1200px; /* Aumento della larghezza massima del contenuto */
+  }
+  
+  .contact-form {
+    max-width: 600px; /* Aumento della larghezza massima del form */
+  }
+}
 
 </style>
 </head>
@@ -221,80 +190,24 @@ h2 { margin-bottom:15px; text-align:center; color:#0b47a1; }
 <div class="navbar-container">
   <div class="nav-arrow nav-left">&#10094;</div>
   <div class="navbar">
-    <a href="index.html" class="active">Home</a>
+    <a href="index.html">Home</a>
     <a href="applications.html">Applications</a>
     <a href="flashgames.html">Flash Games</a>
-    <a href="contacts.html">Contacts</a>
+    <a href="contacts.html" class="active">Contacts</a>
     <a href="affiliate.html">Affiliate Sites</a>
   </div>
   <div class="nav-arrow nav-right">&#10095;</div>
 </div>
 
 <main class="content">
-  <div class="apps-grid">
-    <div class="card">
-      <span>Piano</span>
-      <img src="images/Pianoicon.png" alt="Piano">
-      <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" target="_blank">Open</a>
-    </div>
-    <div class="card">
-      <span>Torch Flash Light Plus</span>
-      <img src="images/Torchicon.png" alt="Torch Flash Light Plus">
-      <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" target="_blank">Open</a>
-    </div>
-    <div class="card">
-      <span>Memojiing</span>
-      <img src="images/Memoicon.png" alt="Memojiing">
-      <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank">Open</a>
-    </div>
-    <div class="card">
-      <span>Infinity Jump Rabbit</span>
-      <img src="images/IJRicon.png" alt="Infinity Jump Rabbit">
-      <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" target="_blank">Open</a>
-    </div>
-    <div class="card">
-      <span>Golf Wild</span>
-      <img src="images/Golficon.png" alt="Golf Wild">
-      <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" target="_blank">Open</a>
-    </div>
+  <h2>Google Play Store</h2>
+  
+  <div style="text-align: center;">
+    <a href="https://play.google.com/store/apps/dev?id=6316655378671230760&hl=it">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Google_Play_Store_badge_EN.svg/640px-Google_Play_Store_badge_EN.svg.png" alt="Google Play Store" style="width: 250px; max-width: 100%;">
+    </a>
   </div>
   
-  <div class="divider"></div>
-
-  <div class="section contact" id="contact">
-    <h2>Email Contact</h2>
-    <div class="admob-card" style="max-width:400px;">
-      <a href="mailto:blackskull.k.info@gmail.com" style="color:inherit; text-decoration:none;">
-        blackskull.k.info@gmail.com
-      </a>
-    </div>
-  </div>
-
-  <div class="divider"></div> <div class="section" id="affiliates">
-    <h2>Affiliate Sites</h2>
-    <div class="affiliate-card">
-      <img src="images/jfkicon1.png" alt="JFKar Auto">
-      <div class="affiliate-card-content">
-        <h3>JFKar Auto</h3>
-        <p>Vendita di auto usato, noleggio, Km 0, acquista o noleggia, finanziamenti e leasing.</p>
-        <p>JFKar offre diversi servizi come finanziamenti e leasing, possibilità di assicurazioni, demolizioni auto. Vendere la tua auto come privato ma con i vantaggi di una concessionaria? Con il nostro servizio di vendita tra privati ora puoi usufruire dei nostri servizi per la vendita come garanzia e pubblicazione annunci. Organizziamo i tuoi appuntamenti, su giorni ed orari concordati, per eliminare stress e chiamate inutili sul tuo numero di telefono, con la possibilità di offrire una garanzia aggiuntiva per poter aumentare le possibilità di vendita.</p>
-        <p>Sito Web: <a href="https://www.jfkar.com" target="_blank">www.jfkar.com</a></p>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <div class="section" id="ads">
-    <h2>AdMob</h2>
-    <div class="admob-card">
-      <span>app-ads.txt file for AdMob</span>
-      <div class="ads-buttons">
-        <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-view" target="_blank">View</a>
-        <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-download" download>Download</a>
-      </div>
-    </div>
-  </div>
 </main>
 
 <div class="bottom-bar">
@@ -302,15 +215,7 @@ h2 { margin-bottom:15px; text-align:center; color:#0b47a1; }
 </div>
 
 <script>
-  // Animazione fade-in + slide delle card
-  document.addEventListener("DOMContentLoaded", function() {
-    const cards = document.querySelectorAll(".card");
-    cards.forEach((card, index) => {
-      setTimeout(() => card.classList.add("visible"), index * 150);
-    });
-  });
-
-  // Gestione freccette navbar
+// Gestione freccette navbar
 const nav = document.querySelector('.navbar');
 const leftArrow = document.querySelector('.nav-left');
 const rightArrow = document.querySelector('.nav-right');
@@ -335,8 +240,7 @@ rightArrow.addEventListener('click', () => {
 nav.addEventListener('scroll', updateArrows);
 window.addEventListener('resize', updateArrows);
 window.addEventListener('load', updateArrows);
-
 </script>
-  
+
 </body>
 </html>
