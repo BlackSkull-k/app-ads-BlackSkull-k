@@ -188,7 +188,6 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
   z-index: 100;
   font-size: 2em;
   text-align: center;
-  visibility: hidden;
 }
 #gameOverOverlay button {
   margin-top: 20px;
@@ -484,6 +483,10 @@ function gameLoop(time) {
     if (head.x < 0 || head.x >= canvas.width || head.y < 0 || head.y >= canvas.height ||
       snake.some(s => s.x === head.x && s.y === head.y) ||
       obstacles.some(obs => obs.x === head.x && obs.y === head.y)) {
+      
+      // Aggiunto per debugging
+      alert("Game Over!");
+      
       gameOverSound.currentTime = 0;
       gameOverSound.play();
       gameRunning = false;
