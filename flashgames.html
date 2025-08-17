@@ -246,6 +246,16 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
 #difficulty-card button:hover {
     background-color: #083884;
 }
+
+/* Nuova classe per la scheda bianca */
+.white-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 30px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  text-align: center;
+}
 </style>
 </head>
 <body>
@@ -267,34 +277,37 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
 </div>
 
 <main class="content">
-  <h2>Flash Games</h2>
-  <div class="section" id="snake-game">
-    <div id="game-container" style="position:relative;">
-      <div id="start-overlay">
-          <div id="difficulty-card">
-              <h2>Select Difficulty</h2>
-              <button onclick="startGame(4)">Normal</button>
-              <button onclick="startGame(6)">Hard</button>
-          </div>
-      </div>
 
-      <div id="game-ui">
-        <div>Score: <span id="scoreSpan">0</span></div>
-        <div>Best: <span id="bestScoreSpan">0</span></div>
-        <button id="pauseBtn">Pause</button>
-      </div>
-      <canvas id="gameCanvas"></canvas>
-      <div id="gameOverOverlay" style="display:none;">
-        <div>Game Over</div>
-        <div>Score: <span id="finalScoreSpan">0</span></div>
-        <button onclick="location.reload()">Restart</button>
-      </div>
-      <div class="controls">
-        <button id="control-up" class="control-btn">&#9650;</button>
-        <button id="control-left" class="control-btn">&#9664;</button>
-        <div id="control-center"></div>
-        <button id="control-right" class="control-btn">&#9654;</button>
-        <button id="control-down" class="control-btn">&#9660;</button>
+  <div class="white-card">
+    <h2>Il Gioco Snake</h2>
+    <div class="section" id="snake-game">
+      <div id="game-container" style="position:relative;">
+        <div id="start-overlay">
+            <div id="difficulty-card">
+                <h2>Select Difficulty</h2>
+                <button onclick="startGame(4)">Normal</button>
+                <button onclick="startGame(6)">Hard</button>
+            </div>
+        </div>
+  
+        <div id="game-ui">
+          <div>Score: <span id="scoreSpan">0</span></div>
+          <div>Best: <span id="bestScoreSpan">0</span></div>
+          <button id="pauseBtn">Pause</button>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+        <div id="gameOverOverlay" style="display:none;">
+          <div>Game Over</div>
+          <div>Score: <span id="finalScoreSpan">0</span></div>
+          <button onclick="location.reload()">Restart</button>
+        </div>
+        <div class="controls">
+          <button id="control-up" class="control-btn">&#9650;</button>
+          <button id="control-left" class="control-btn">&#9664;</button>
+          <div id="control-center"></div>
+          <button id="control-right" class="control-btn">&#9654;</button>
+          <button id="control-down" class="control-btn">&#9660;</button>
+        </div>
       </div>
     </div>
   </div>
