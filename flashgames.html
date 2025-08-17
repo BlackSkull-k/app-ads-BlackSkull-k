@@ -90,7 +90,7 @@ main {
   margin: 20px auto;
   padding: 10px;
 }
-h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
+h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
 
 .content { padding-bottom: 60px; }
 
@@ -960,7 +960,7 @@ function tetrisLoop(time = 0) {
 function drawTetrisNextPiece() {
     nextPieceCtx.clearRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
     nextPieceCtx.fillStyle = '#222';
-    nextPieceCtx.fillRect(0, 0, nextPieceCanvas.width, nextPieceCtx.height);
+    nextPieceCtx.fillRect(0, 0, nextPieceCtx.width, nextPieceCtx.height);
 
     const pieceSize = tetrisNextPiece.shape.length;
     let xOffset = (nextPieceCanvas.width - pieceSize * BLOCK_SIZE) / 2;
