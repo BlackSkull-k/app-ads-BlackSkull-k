@@ -921,7 +921,9 @@ function tetrisLoop(time = 0) {
     tetrisCtx.fillStyle = "#111";
     tetrisCtx.fillRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
     drawTetrisBoard();
-    drawTetrisPiece(tetrisCurrentPiece, tetrisCtx, 0, 0, BLOCK_SIZE);
+    
+    // CORREZIONE: Usa le coordinate del pezzo per il disegno
+    drawTetrisPiece(tetrisCurrentPiece, tetrisCtx, tetrisCurrentPiece.x * BLOCK_SIZE, tetrisCurrentPiece.y * BLOCK_SIZE, BLOCK_SIZE);
     
     requestAnimationFrame(tetrisLoop);
 }
