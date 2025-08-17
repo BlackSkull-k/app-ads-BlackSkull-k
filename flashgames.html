@@ -339,6 +339,20 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
 .tetris-controls button:hover {
     background-color: #1a6291;
 }
+
+/* Stile per i nuovi controlli Tetris in stile 'T' */
+.tetris-controls-grid {
+    margin-top: 10px;
+    display: grid;
+    grid-template-areas: ". up ." "left down right";
+    gap: 10px;
+    justify-content: center;
+}
+#tetrisControl-up { grid-area: up; }
+#tetrisControl-left { grid-area: left; }
+#tetrisControl-right { grid-area: right; }
+#tetrisControl-down { grid-area: down; }
+
 .tetris-info p {
     margin: 5px 0;
 }
@@ -428,14 +442,14 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
                 <div class="tetris-controls">
                     <button id="tetrisStartBtn">Start Game</button>
                     <button id="tetrisPauseBtn">Pause</button>
-                    <div class="controls">
-                        <button id="tetrisControl-up" class="control-btn">&#9650;</button>
-                        <button id="tetrisControl-left" class="control-btn">&#9664;</button>
-                        <button id="tetrisControl-right" class="control-btn">&#9654;</button>
-                        <button id="tetrisControl-down" class="control-btn">&#9660;</button>
-                    </div>
                 </div>
             </div>
+        </div>
+        <div class="tetris-controls-grid controls">
+            <button id="tetrisControl-up" class="control-btn">&#9650;</button>
+            <button id="tetrisControl-left" class="control-btn">&#9664;</button>
+            <button id="tetrisControl-right" class="control-btn">&#9654;</button>
+            <button id="tetrisControl-down" class="control-btn">&#9660;</button>
         </div>
       </div>
     </div>
