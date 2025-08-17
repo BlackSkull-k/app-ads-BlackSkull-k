@@ -130,6 +130,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
   background: #000;
   border: 2px solid #222;
   border-radius: 10px;
+  touch-action: none;
 }
 
 #game-ui {
@@ -275,6 +276,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
     border: 2px solid #444;
     border-radius: 5px;
     box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+    touch-action: none;
 }
 .tetris-info {
     display: flex;
@@ -507,7 +509,7 @@ function startGame(initialSpeed) {
   speed = initialSpeed;
   startOverlay.style.display = "none";
   
-  snake = [{ x: 0, y: 0 }];
+  snake = [{ x: Math.floor(gridSize / 2) * box, y: Math.floor(gridSize / 2) * box }];
   score = 0;
   d = "RIGHT";
   nextD = "RIGHT";
@@ -714,12 +716,12 @@ const BLOCK_SIZE = 20;
 let board;
 let currentPiece;
 let nextPiece;
-let score = 0;
-let lines = 0;
-let level = 1;
+let scoreT = 0;
+let linesT = 0;
+let levelT = 1;
 let dropCounter = 0;
 let dropInterval = 1000;
-let lastTime = 0;
+let lastTimeT = 0;
 let tetrisGameRunning = false;
 let tetrisPaused = false;
 
@@ -752,6 +754,7 @@ function getRandomPiece() {
 
 // Draw a piece on the canvas
 function drawPiece(piece, context, xOffset, yOffset, size) {
+    if (!piece) return;
     piece.shape.forEach((row, y) => {
         row.forEach((value, x) => {
             if (value) {
@@ -819,14 +822,14 @@ function clearLines() {
         }
     }
     if (linesCleared > 0) {
-        score += linesCleared * 100 * (level + 1);
-        lines += linesCleared;
-        tetrisScoreSpan.textContent = score;
-        tetrisLinesSpan.textContent = lines;
-        if (lines >= level * 10) {
-            level++;
+        scoreT += linesCleared * 100 * (levelT + 1);
+        linesT += linesCleared;
+        tetrisScoreSpan.textContent = scoreT;
+        tetrisLinesSpan.textContent = linesT;
+        if (linesT >= levelT * 10) {
+            levelT++;
             dropInterval *= 0.8;
-            tetrisLevelSpan.textContent = level;
+            tetrisLevelSpan.textContent = levelT;
         }
     }
 }
@@ -845,8 +848,8 @@ function tetrisLoop(time = 0) {
         return;
     }
     
-    const deltaTime = time - lastTime;
-    lastTime = time;
+    const deltaTime = time - lastTimeT;
+    lastTimeT = time;
     dropCounter += deltaTime;
 
     if (dropCounter > dropInterval) {
@@ -861,7 +864,7 @@ function tetrisLoop(time = 0) {
             if (isColliding(currentPiece, board, currentPiece.x, currentPiece.y)) {
                 // Game Over
                 tetrisGameRunning = false;
-                alert("Game Over! Final Score: " + score);
+                alert("Game Over! Final Score: " + scoreT);
                 tetrisStartBtn.textContent = "Restart Game";
                 return;
             }
@@ -891,7 +894,6 @@ function drawNextPiece() {
     if (nextPiece.shape[0].length > 2) {
         xOffset = (nextPieceCanvas.width - nextPiece.shape[0].length * BLOCK_SIZE) / 2;
     }
-
     drawPiece(nextPiece, nextPieceCtx, xOffset, yOffset, BLOCK_SIZE);
 }
 
@@ -928,13 +930,13 @@ tetrisStartBtn.addEventListener('click', () => {
     tetrisGameRunning = true;
     tetrisPaused = false;
     board = createBoard();
-    score = 0;
-    lines = 0;
-    level = 1;
+    scoreT = 0;
+    linesT = 0;
+    levelT = 1;
     dropInterval = 1000;
-    tetrisScoreSpan.textContent = score;
-    tetrisLinesSpan.textContent = lines;
-    tetrisLevelSpan.textContent = level;
+    tetrisScoreSpan.textContent = scoreT;
+    tetrisLinesSpan.textContent = linesT;
+    tetrisLevelSpan.textContent = levelT;
     currentPiece = getRandomPiece();
     nextPiece = getRandomPiece();
     drawNextPiece();
