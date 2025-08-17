@@ -256,26 +256,6 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
   box-shadow: 0 3px 6px rgba(0,0,0,0.1);
   text-align: center;
 }
-.game-selection-list {
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.game-selection-list button {
-  background-color: #1e8449;
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1.1em;
-  transition: background-color 0.3s ease;
-}
-.game-selection-list button:hover {
-  background-color: #156238;
-}
 </style>
 </head>
 <body>
@@ -299,50 +279,37 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
 <main class="content">
 
   <div class="white-card">
-    <h2>Seleziona un gioco</h2>
-    <div class="game-selection-list">
-      <button onclick="showGame('snake')">Snake Game</button>
-      <button onclick="showGame('game2')">Nome Altro Gioco</button>
-      </div>
-    
-    <div id="snake-game-container" class="game-section">
-      <div class="section" id="snake-game">
-        <div id="game-container" style="position:relative;">
-          <div id="start-overlay">
-              <div id="difficulty-card">
-                  <h2>Select Difficulty</h2>
-                  <button onclick="startGame(4)">Normal</button>
-                  <button onclick="startGame(6)">Hard</button>
-              </div>
-          </div>
-    
-          <div id="game-ui">
-            <div>Score: <span id="scoreSpan">0</span></div>
-            <div>Best: <span id="bestScoreSpan">0</span></div>
-            <button id="pauseBtn">Pause</button>
-          </div>
-          <canvas id="gameCanvas"></canvas>
-          <div id="gameOverOverlay" style="display:none;">
-            <div>Game Over</div>
-            <div>Score: <span id="finalScoreSpan">0</span></div>
-            <button onclick="location.reload()">Restart</button>
-          </div>
-          <div class="controls">
-            <button id="control-up" class="control-btn">&#9650;</button>
-            <button id="control-left" class="control-btn">&#9664;</button>
-            <div id="control-center"></div>
-            <button id="control-right" class="control-btn">&#9654;</button>
-            <button id="control-down" class="control-btn">&#9660;</button>
-          </div>
+    <h2>Snake Game</h2>
+    <div class="section" id="snake-game">
+      <div id="game-container" style="position:relative;">
+        <div id="start-overlay">
+            <div id="difficulty-card">
+                <h2>Select Difficulty</h2>
+                <button onclick="startGame(4)">Normal</button>
+                <button onclick="startGame(6)">Hard</button>
+            </div>
+        </div>
+  
+        <div id="game-ui">
+          <div>Score: <span id="scoreSpan">0</span></div>
+          <div>Best: <span id="bestScoreSpan">0</span></div>
+          <button id="pauseBtn">Pause</button>
+        </div>
+        <canvas id="gameCanvas"></canvas>
+        <div id="gameOverOverlay" style="display:none;">
+          <div>Game Over</div>
+          <div>Score: <span id="finalScoreSpan">0</span></div>
+          <button onclick="location.reload()">Restart</button>
+        </div>
+        <div class="controls">
+          <button id="control-up" class="control-btn">&#9650;</button>
+          <button id="control-left" class="control-btn">&#9664;</button>
+          <div id="control-center"></div>
+          <button id="control-right" class="control-btn">&#9654;</button>
+          <button id="control-down" class="control-btn">&#9660;</button>
         </div>
       </div>
     </div>
-
-    <div id="game2-container" class="game-section" style="display: none;">
-      <h2>Nome Altro Gioco</h2>
-      <p>Aggiungi qui il contenuto del tuo secondo gioco.</p>
-    </div>
-    
   </div>
 </main>
 
@@ -351,20 +318,6 @@ h2 { margin-bottom: 15px; text-align: center; color: #1E8449; }
 </div>
 
 <script>
-// Funzione per mostrare il gioco selezionato
-function showGame(gameId) {
-    const gameSections = document.querySelectorAll('.game-section');
-    gameSections.forEach(section => {
-        section.style.display = 'none';
-    });
-    
-    document.getElementById(gameId + '-container').style.display = 'block';
-
-    // Ricarica la pagina per riavviare il gioco se si cambia selezione
-    if (gameId === 'snake') {
-        location.reload();
-    }
-}
 // Gestione freccette navbar
 const nav = document.querySelector('.navbar');
 const leftArrow = document.querySelector('.nav-left');
