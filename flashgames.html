@@ -290,7 +290,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
 /* STILE DEL GIOCO TETRIS */
 .tetris-game-layout {
     display: flex;
-    flex-direction: row;
+    flex-direction: row; /* Mantieni il layout orizzontale */
     align-items: flex-start;
     justify-content: center;
     gap: 20px;
@@ -339,11 +339,12 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
     margin-top: 5px;
 }
 
-/* Media Query per smartphone */
+/* Media Query per smartphone - Rimosso il cambio di layout a colonna per mantenere l'orizzontalità */
 @media (max-width: 600px) {
     .tetris-game-layout {
-        flex-direction: column;
+        flex-direction: row; /* Manteniamo il layout orizzontale */
         align-items: center;
+        flex-wrap: wrap; /* Permette l'avvolgimento se lo spazio è insufficiente */
     }
     .tetris-sidebar {
         width: 100%;
