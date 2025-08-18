@@ -763,6 +763,7 @@ const tetrisStartBtn = document.getElementById('tetrisStartBtn');
 const tetrisPauseBtn = document.getElementById('tetrisPauseBtn');
 
 const tetrisLineClearSound = new Audio("/audio/lineeT.mp3");
+const tetrisGameOverSound = new Audio("/audio/gameOverT.mp3");
 
 const COLS = 10;
 const ROWS = 20;
@@ -1002,6 +1003,7 @@ function tetrisLoop(time = 0) {
                 drawTetrisNextPiece();
                 if (isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x, tetrisCurrentPiece.y)) {
                     // Game Over
+                    tetrisGameOverSound.play();
                     tetrisGameRunning = false;
                     alert("Game Over! Final Score: " + tetrisScore);
                     tetrisStartBtn.textContent = "Restart Game";
