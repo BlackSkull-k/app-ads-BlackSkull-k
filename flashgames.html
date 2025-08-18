@@ -1054,6 +1054,7 @@ tetrisStartBtn.addEventListener('click', () => {
     tetrisNextPiece = getTetrisRandomPiece();
     drawTetrisNextPiece();
     tetrisStartBtn.textContent = "Restart Game";
+    tetrisPauseBtn.textContent = "Pause"; // Aggiunta questa riga
     tetrisLoop();
 });
 
