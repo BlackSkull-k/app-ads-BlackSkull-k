@@ -346,6 +346,37 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
   box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
+/* Stile per i nuovi controlli di Tetris */
+.tetris-controls-mobile {
+  margin-top: 10px;
+  display: grid;
+  grid-template-areas: ". up ." "left down right";
+  gap: 10px;
+  justify-content: center;
+}
+
+.tetris-control-btn {
+  background-color: #2980b9;
+  color: #fff;
+  border: none;
+  padding: 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+}
+
+.tetris-control-btn:hover { background-color: #1a6291; }
+#tetrisControl-up { grid-area: up; }
+#tetrisControl-left { grid-area: left; }
+#tetrisControl-right { grid-area: right; }
+#tetrisControl-down { grid-area: down; }
+
 /* RIMOSSA LA MEDIA QUERY CHE CAUSAVA IL LAYOUT A COLONNA */
 </style>
 </head>
@@ -430,6 +461,12 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
                     <button id="tetrisPauseBtn">Pause</button>
                 </div>
             </div>
+        </div>
+        <div class="tetris-controls-mobile">
+            <button id="tetrisControl-up" class="tetris-control-btn">&#x21BB;</button>
+            <button id="tetrisControl-left" class="tetris-control-btn">&#9664;</button>
+            <button id="tetrisControl-right" class="tetris-control-btn">&#9654;</button>
+            <button id="tetrisControl-down" class="tetris-control-btn">&#9660;</button>
         </div>
       </div>
     </div>
@@ -1139,6 +1176,37 @@ tetrisCanvas.addEventListener('touchend', e => {
         }
     }
 });
+
+// Aggiungi event listener per i nuovi pulsanti
+document.getElementById("tetrisControl-left").addEventListener("click", () => {
+    if (!tetrisGameRunning || tetrisPaused || tetrisLinesToClear.length > 0) return;
+    if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x - 1, tetrisCurrentPiece.y)) {
+        tetrisCurrentPiece.x--;
+    }
+});
+document.getElementById("tetrisControl-right").addEventListener("click", () => {
+    if (!tetrisGameRunning || tetrisPaused || tetrisLinesToClear.length > 0) return;
+    if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x + 1, tetrisCurrentPiece.y)) {
+        tetrisCurrentPiece.x++;
+    }
+});
+document.getElementById("tetrisControl-down").addEventListener("click", () => {
+    if (!tetrisGameRunning || tetrisPaused || tetrisLinesToClear.length > 0) return;
+    if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x, tetrisCurrentPiece.y + 1)) {
+        tetrisCurrentPiece.y++;
+        tetrisDropCounter = 0;
+    }
+});
+document.getElementById("tetrisControl-up").addEventListener("click", () => {
+    if (!tetrisGameRunning || tetrisPaused || tetrisLinesToClear.length > 0) return;
+    const oldShape = tetrisCurrentPiece.shape;
+    const newShape = oldShape[0].map((val, index) => oldShape.map(row => row[index]).reverse());
+    const tempPiece = { ...tetrisCurrentPiece, shape: newShape };
+    if (!isTetrisColliding(tempPiece, tetrisBoard, tempPiece.x, tempPiece.y)) {
+        tetrisCurrentPiece.shape = newShape;
+    }
+});
+
 
 // Start/Restart button
 tetrisStartBtn.addEventListener('click', () => {
