@@ -338,6 +338,13 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
     border-radius: 4px;
     margin-top: 5px;
 }
+#tetrisCanvas {
+  display: block;
+  background: #111;
+  border: 2px solid #222;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
 
 /* RIMOSSA LA MEDIA QUERY CHE CAUSAVA IL LAYOUT A COLONNA */
 </style>
@@ -666,12 +673,7 @@ function snakeGameLoop(time) {
     else if (snakeD === "UP") head.y -= snakeBox;
     else if (snakeD === "DOWN") head.y += snakeBox;
 
-    // Aumenta la velocità ogni 5 punti
-    if (snakeScore > 0 && snakeScore % 5 === 0) {
-        snakeSpeed += 0.2;
-    }
-
-    // Collisione con se stesso, bordi o ostacoli
+    // Rileva collisione con se stesso, bordi o ostacoli
     if (head.x < 0 || head.x >= snakeCanvas.width || head.y < 0 || head.y >= snakeCanvas.height ||
       snake.some(s => s.x === head.x && s.y === head.y) ||
       snakeObstacles.some(obs => obs.x === head.x && obs.y === head.y)) {
@@ -698,6 +700,12 @@ function snakeGameLoop(time) {
       snakeScoreSpan.textContent = snakeScore;
       snakeEatSound.currentTime = 0;
       snakeEatSound.play();
+      
+      // AUMENTA LA VELOCITÀ SOLO DOPO AVER MANGIATO UNA MELA
+      if (snakeScore > 0 && snakeScore % 5 === 0) {
+        snakeSpeed += 0.2;
+      }
+      
       // Nuovo effetto scintilla
       snakeSparks.push(...Array(50).fill().map(() => ({
         x: snakeFood.x + snakeBox / 2, y: snakeFood.y + snakeBox / 2, life: 5, dx: (Math.random() * 2 - 1) * 3, dy: (Math.random() * 2 - 1) * 3
