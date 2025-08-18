@@ -396,7 +396,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
           <div id="snakeGameOverOverlay">
             <div>Game Over</div>
             <div>Score: <span id="snakeFinalScoreSpan">0</span></div>
-            <button onclick="location.reload()">Restart</button>
+            <button onclick="restartSnakeGame()">Restart</button>
           </div>
           <div class="controls">
             <button id="snakeControl-up" class="control-btn">&#9650;</button>
@@ -548,6 +548,12 @@ function snakeGenerateObstacles() {
       snakeObstacles.push(newObstacle);
     }
   }
+}
+
+// NUOVA FUNZIONE PER RIAVVIARE
+function restartSnakeGame() {
+    snakeGameOverOverlay.style.display = 'none';
+    snakeStartOverlay.style.display = 'flex';
 }
 
 function startGame(initialSpeed) {
