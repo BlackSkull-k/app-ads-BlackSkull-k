@@ -823,6 +823,18 @@ function drawTetrisBoard() {
     });
 }
 
+// Funzione per disegnare la griglia
+function drawTetrisGrid() {
+    tetrisCtx.strokeStyle = '#333';
+    tetrisCtx.lineWidth = 1;
+    for (let x = 0; x < COLS; x++) {
+        for (let y = 0; y < ROWS; y++) {
+            tetrisCtx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+        }
+    }
+}
+
+
 // Check for collisions
 function isTetrisColliding(piece, board, newX, newY) {
     for (let y = 0; y < piece.shape.length; y++) {
@@ -924,6 +936,7 @@ function tetrisLoop(time = 0) {
     tetrisCtx.clearRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
     tetrisCtx.fillStyle = "#111";
     tetrisCtx.fillRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
+    drawTetrisGrid(); // Disegna la griglia prima del resto
     drawTetrisBoard();
     
     // CORREZIONE: Usa le coordinate del pezzo per il disegno
