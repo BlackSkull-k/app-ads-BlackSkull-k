@@ -313,11 +313,11 @@
   <div class="divider"></div>
 
   <div class="section gemini-chat-container">
-    <h2>AI Assistant Chat</h2>
+    <h2>Chatta con Gemini</h2>
     <div id="chat-history"></div>
     <div id="chat-input-container">
         <input type="text" id="chat-input" placeholder="Chiedi qualcosa sulle app di BlackSkull-k...">
-        <button id="chat-send-btn">Send</button>
+        <button id="chat-send-btn">Invia</button>
     </div>
   </div>
 
@@ -356,14 +356,44 @@
   const MAX_RETRIES = 5;
   const INITIAL_DELAY = 1000;
 
-  async function callGeminiApi(prompt) {
+  // Cronologia della chat
+  let chatHistory = [];
+  const systemPrompts = {
+      'it': "Sei un assistente virtuale per il sito web BlackSkull-k. Rispondi alle domande degli utenti in modo amichevole e utile in italiano. Il tuo obiettivo è fornire informazioni sulle app e sul sito, promuovendo la navigazione e l'uso delle funzionalità. Ecco alcune app che il sito offre: Piano, Torch Flash Light Plus, Memojiing, Infinity Jump Rabbit, Golf Wild.",
+      'en': "You are a virtual assistant for the BlackSkull-k website. Answer user questions in a friendly and helpful way in English. Your goal is to provide information about the apps and the website, promoting navigation and the use of its features. Here are some apps the site offers: Piano, Torch Flash Light Plus, Memojiing, Infinity Jump Rabbit, Golf Wild.",
+      'es': "Eres un asistente virtual para el sitio web de BlackSkull-k. Responde a las preguntas de los usuarios de forma amigable y útil en español. Tu objetivo es proporcionar información sobre las aplicaciones y el sitio web, promoviendo la navegación y el uso de sus funciones. Aquí hay algunas aplicaciones que el sitio ofrece: Piano, Torch Flash Light Plus, Memojiing, Infinity Jump Rabbit, Golf Wild."
+  };
+  
+  const placeholderTexts = {
+      'it': "Chiedi qualcosa sulle app di BlackSkull-k...",
+      'en': "Ask something about BlackSkull-k apps...",
+      'es': "Pregunta algo sobre las aplicaciones de BlackSkull-k..."
+  };
+
+  function getLanguage() {
+      const userLang = navigator.language.split('-')[0];
+      return userLang;
+  }
+  
+  function getPromptForLanguage() {
+      const userLang = getLanguage();
+      return systemPrompts[userLang] || systemPrompts['it'];
+  }
+  
+  function setPlaceholderForLanguage() {
+      const userLang = getLanguage();
+      const placeholder = placeholderTexts[userLang] || placeholderTexts['it'];
+      document.getElementById('chat-input').placeholder = placeholder;
+  }
+
+  async function callGeminiApi(history) {
     let delay = INITIAL_DELAY;
     for (let i = 0; i < MAX_RETRIES; i++) {
       try {
         const response = await fetch(GEMINI_API_URL + API_KEY, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+          body: JSON.stringify({ contents: history })
         });
 
         if (response.status === 429) {
@@ -394,7 +424,7 @@
   }
 
   // Gestione della chat
-  const chatHistory = document.getElementById("chat-history");
+  const chatHistoryDiv = document.getElementById("chat-history");
   const chatInput = document.getElementById("chat-input");
   const chatSendBtn = document.getElementById("chat-send-btn");
 
@@ -402,8 +432,8 @@
     const messageDiv = document.createElement("div");
     messageDiv.classList.add("message", sender);
     messageDiv.textContent = text;
-    chatHistory.appendChild(messageDiv);
-    chatHistory.scrollTop = chatHistory.scrollHeight; // Scrolla in basso
+    chatHistoryDiv.appendChild(messageDiv);
+    chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight; // Scrolla in basso
   }
 
   async function sendMessage() {
@@ -413,24 +443,25 @@
     addMessageToChat(userMessage, "user");
     chatInput.value = "";
 
-    const prompt = `Sei un assistente virtuale per il sito web BlackSkull-k. 
-    Rispondi alle domande degli utenti in modo amichevole e utile. Il tuo obiettivo è fornire informazioni sulle app e sul sito, promuovendo la navigazione e l'uso delle funzionalità. 
-    Ecco alcune app che il sito offre: Piano, Torch Flash Light Plus, Memojiing, Infinity Jump Rabbit, Golf Wild. 
-    Rispondi alla seguente richiesta dell'utente: "${userMessage}".`;
-    
+    // Aggiungi il messaggio dell'utente alla cronologia
+    chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
+
     // Messaggio di caricamento
     const loadingMessage = document.createElement("div");
     loadingMessage.classList.add("loading-indicator");
     loadingMessage.textContent = "Sto pensando...";
-    chatHistory.appendChild(loadingMessage);
-    chatHistory.scrollTop = chatHistory.scrollHeight;
+    chatHistoryDiv.appendChild(loadingMessage);
+    chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
 
-    const geminiResponse = await callGeminiApi(prompt);
+    const geminiResponse = await callGeminiApi(chatHistory);
 
     // Rimuovi il messaggio di caricamento
-    chatHistory.removeChild(loadingMessage);
+    chatHistoryDiv.removeChild(loadingMessage);
 
     addMessageToChat(geminiResponse, "gemini");
+
+    // Aggiungi la risposta di Gemini alla cronologia
+    chatHistory.push({ role: "model", parts: [{ text: geminiResponse }] });
   }
 
   chatSendBtn.addEventListener("click", sendMessage);
@@ -446,6 +477,12 @@
     cards.forEach((card, index) => {
       setTimeout(() => card.classList.add("visible"), index * 150);
     });
+    
+    // Inizializza la cronologia della chat con il prompt di sistema
+    chatHistory = [{ role: "user", parts: [{ text: getPromptForLanguage() }] }];
+    
+    // Imposta il placeholder del campo di input
+    setPlaceholderForLanguage();
   });
 
   // Gestione freccette navbar
