@@ -762,6 +762,8 @@ const tetrisBestScoreSpan = document.getElementById('tetrisBestScore'); // Nuovo
 const tetrisStartBtn = document.getElementById('tetrisStartBtn');
 const tetrisPauseBtn = document.getElementById('tetrisPauseBtn');
 
+const tetrisLineClearSound = new Audio("/audio/lineeT.mp3");
+
 const COLS = 10;
 const ROWS = 20;
 const BLOCK_SIZE = 20;
@@ -772,12 +774,13 @@ let tetrisNextPiece;
 let tetrisScore = 0;
 let tetrisLines = 0;
 let tetrisLevel = 1;
-let tetrisBestScore = localStorage.getItem('tetrisBestScore') || 0; // Nuovo
 let tetrisDropCounter = 0;
 let tetrisDropInterval = 1000;
 let tetrisLastTime = 0;
 let tetrisGameRunning = false;
 let tetrisPaused = false;
+let tetrisLinesToClear = [];
+let tetrisFlashCount = 0;
 
 // Define Tetris pieces and their colors
 const PIECES = [
@@ -879,14 +882,19 @@ function mergeTetrisPiece(piece, board) {
 // Clear full lines
 function clearTetrisLines() {
     let linesCleared = 0;
+    const newBoard = [];
     for (let y = ROWS - 1; y >= 0; y--) {
         if (tetrisBoard[y].every(value => value !== 0)) {
-            tetrisBoard.splice(y, 1);
-            tetrisBoard.unshift(Array(COLS).fill(0));
             linesCleared++;
-            y++;
+        } else {
+            newBoard.unshift(tetrisBoard[y]);
         }
     }
+    while (newBoard.length < ROWS) {
+        newBoard.unshift(Array(COLS).fill(0));
+    }
+    tetrisBoard = newBoard;
+    
     if (linesCleared > 0) {
         tetrisScore += linesCleared * 100 * (tetrisLevel + 1);
         tetrisLines += linesCleared;
@@ -916,31 +924,97 @@ function tetrisLoop(time = 0) {
     
     const deltaTime = time - tetrisLastTime;
     tetrisLastTime = time;
-    tetrisDropCounter += deltaTime;
 
+    // Gestione lampeggio linee
+    if (tetrisLinesToClear.length > 0) {
+        tetrisDropCounter += deltaTime;
+        if (tetrisDropCounter > 150) { // Velocità del lampeggio
+            tetrisDropCounter = 0;
+            tetrisFlashCount++;
+            if (tetrisFlashCount > 6) { // 3 lampeggi (on/off)
+                clearTetrisLines();
+                tetrisLinesToClear = [];
+                tetrisFlashCount = 0;
+            }
+        }
+        
+        tetrisCtx.clearRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
+        tetrisCtx.fillStyle = "#111";
+        tetrisCtx.fillRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
+        drawTetrisGrid();
+        
+        // Disegna le linee che non devono lampeggiare
+        tetrisBoard.forEach((row, y) => {
+            if (!tetrisLinesToClear.includes(y)) {
+                row.forEach((value, x) => {
+                    if (value) {
+                        tetrisCtx.fillStyle = value;
+                        tetrisCtx.strokeStyle = '#333';
+                        tetrisCtx.lineWidth = 1;
+                        tetrisCtx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                        tetrisCtx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                    }
+                });
+            }
+        });
+        
+        // Disegna le linee lampeggianti
+        if (tetrisFlashCount % 2 === 0) {
+            tetrisLinesToClear.forEach(y => {
+                tetrisBoard[y].forEach((value, x) => {
+                    if (value) {
+                        tetrisCtx.fillStyle = "white"; // Colore del lampeggio
+                        tetrisCtx.strokeStyle = 'white';
+                        tetrisCtx.lineWidth = 1;
+                        tetrisCtx.fillRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                        tetrisCtx.strokeRect(x * BLOCK_SIZE, y * BLOCK_SIZE, BLOCK_SIZE, BLOCK_SIZE);
+                    }
+                });
+            });
+        }
+        requestAnimationFrame(tetrisLoop);
+        return;
+    }
+
+
+    tetrisDropCounter += deltaTime;
     if (tetrisDropCounter > tetrisDropInterval) {
         if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x, tetrisCurrentPiece.y + 1)) {
             tetrisCurrentPiece.y++;
         } else {
             mergeTetrisPiece(tetrisCurrentPiece, tetrisBoard);
-            clearTetrisLines();
-            tetrisCurrentPiece = tetrisNextPiece;
-            tetrisNextPiece = getTetrisRandomPiece();
-            drawTetrisNextPiece();
-            if (isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x, tetrisCurrentPiece.y)) {
-                // Game Over
-                tetrisGameRunning = false;
-                alert("Game Over! Final Score: " + tetrisScore);
-                tetrisStartBtn.textContent = "Restart Game";
-
-                // Nuovo codice per salvare il punteggio migliore
-                if (tetrisScore > tetrisBestScore) {
-                  tetrisBestScore = tetrisScore;
-                  localStorage.setItem('tetrisBestScore', tetrisBestScore);
-                  tetrisBestScoreSpan.textContent = tetrisBestScore;
+            
+            // Trova le linee da cancellare
+            let lines = [];
+            for (let y = ROWS - 1; y >= 0; y--) {
+                if (tetrisBoard[y].every(value => value !== 0)) {
+                    lines.push(y);
                 }
-                
-                return;
+            }
+
+            if (lines.length > 0) {
+                tetrisLinesToClear = lines;
+                tetrisLineClearSound.currentTime = 0;
+                tetrisLineClearSound.play();
+            } else {
+                tetrisCurrentPiece = tetrisNextPiece;
+                tetrisNextPiece = getTetrisRandomPiece();
+                drawTetrisNextPiece();
+                if (isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x, tetrisCurrentPiece.y)) {
+                    // Game Over
+                    tetrisGameRunning = false;
+                    alert("Game Over! Final Score: " + tetrisScore);
+                    tetrisStartBtn.textContent = "Restart Game";
+
+                    // Nuovo codice per salvare il punteggio migliore
+                    if (tetrisScore > tetrisBestScore) {
+                      tetrisBestScore = tetrisScore;
+                      localStorage.setItem('tetrisBestScore', tetrisBestScore);
+                      tetrisBestScoreSpan.textContent = tetrisBestScore;
+                    }
+                    
+                    return;
+                }
             }
         }
         tetrisDropCounter = 0;
@@ -976,7 +1050,7 @@ function drawTetrisNextPiece() {
 
 // Handle keyboard controls
 document.addEventListener('keydown', e => {
-    if (!tetrisGameRunning || tetrisPaused) return;
+    if (!tetrisGameRunning || tetrisPaused || tetrisLinesToClear.length > 0) return;
 
     if (e.key === 'ArrowLeft') {
         if (!isTetrisColliding(tetrisCurrentPiece, tetrisBoard, tetrisCurrentPiece.x - 1, tetrisCurrentPiece.y)) {
@@ -1027,7 +1101,7 @@ tetrisCanvas.addEventListener('touchmove', e => {
 
 tetrisCanvas.addEventListener('touchend', e => {
     e.preventDefault();
-    if (!tetrisGameRunning || tetrisPaused) return;
+    if (!tetrisGameRunning || tetrisPaused || tetrisLinesToClear.length > 0) return;
     
     const dx = tetrisTouchMoveX - tetrisTouchStartX;
     const dy = tetrisTouchMoveY - tetrisTouchStartY;
