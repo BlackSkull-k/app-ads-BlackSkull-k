@@ -439,8 +439,11 @@
 
 <script>
   // Gemini API Configuration
+  // ATTENZIONE: La tua chiave API è esposta nel codice lato client.
+  // Questo non è un metodo sicuro per gestire una chiave API in produzione.
+  // Chiunque può visualizzare il codice sorgente della tua pagina web e rubare la chiave.
   const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=";
-  const API_KEY = "";
+  const API_KEY = "AIzaSyDo37G-qaDHLYTCNWitIiBQ5nyhnp9uigQ";
   const MAX_RETRIES = 5;
   const INITIAL_DELAY = 1000;
 
