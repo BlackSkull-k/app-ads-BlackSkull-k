@@ -7,6 +7,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="images/bskFavicon32x.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/bskFavicon180x.png">
 <style>
+/* STILE GENERALE */
 html, body {
   height: 100%;
   margin: 0;
@@ -57,7 +58,7 @@ header img {
 }
 
 .navbar a:hover { background-color: #34495e; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-.navbar a.active { background-color: #0b47a1; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
+.navbar a.active { background-color: #0b47a1; box-shadow: 0 4-10px rgba(0,0,0,0.3); }
 
 /* Freccette */
 .nav-arrow {
@@ -105,17 +106,123 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-between; /* Distribuisce lo spazio tra gli elementi */
   box-shadow: 0 3px 6px rgba(0,0,0,0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
   opacity: 0;
   transform: translateY(20px);
+  text-align: center;
 }
 .card.visible { opacity: 1; transform: translateY(0); }
 .card:hover, .card:active { transform: scale(1.05); box-shadow: 0 15px 25px rgba(0,0,0,0.35); }
 .card img { width: 80px; height: 80px; margin-bottom: 10px; }
-.card span { font-weight: bold; margin-bottom: 10px; text-align: center; }
-.card a { text-decoration: none; color: #fff; background: #28a745; padding: 6px 12px; border-radius: 5px; font-weight: bold; }
+.card span { font-weight: bold; margin-bottom: 5px; }
+.card p { 
+  font-size: 0.8em; 
+  color: #666; 
+  margin-bottom: 10px; 
+  min-height: 2.4em; /* Imposta un'altezza minima per uniformare le schede senza video */
+}
+.card a { 
+  text-decoration: none; 
+  color: #fff; 
+  background: #28a745; 
+  padding: 6px 12px; 
+  border-radius: 5px; 
+  font-weight: bold; 
+  margin-top: auto; /* Spinge il tasto verso il basso */
+}
 .card a:hover { background: #218838; }
+
+/* Stile per il video */
+.video-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    margin-top: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 10px; /* Spazio aggiunto sotto il video */
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* STILI PER LE CARD DELLE IDEE AI */
+.ai-card {
+  background: #2c3e50;
+  border-radius: 10px;
+  padding: 20px;
+  margin-top: 20px;
+  margin-bottom: 15px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  color: #ecf0f1;
+}
+
+.ai-card h3 {
+  margin: 0 0 10px 0;
+}
+
+.ai-card .input-group {
+    margin-bottom: 15px;
+}
+
+.ai-card label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.ai-card input, .ai-card textarea {
+    width: calc(100% - 20px);
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 5px;
+}
+
+.ai-card textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.ai-card button {
+  background-color: #0b47a1;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 10px; /* Spazio sopra il pulsante */
+}
+
+.ai-card button:hover {
+  background-color: #1a73e8;
+}
+
+.ai-card .loading-text {
+  margin-top: 10px;
+  font-style: italic;
+  display: none;
+}
+
+.ai-card img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
 
 @media (max-width: 600px) {
   .apps-grid {
@@ -123,12 +230,15 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
   }
   .card { 
     width: 45%; 
+    height: auto; 
     padding: 12px; 
-    flex: 0 0 calc(50% - 15px); /* This ensures two columns */
+    flex: 0 0 calc(50% - 15px);
     box-sizing: border-box;
+    justify-content: flex-start;
   }
   .card img { width: 70px; height: 70px; }
   .card span { font-size: 0.9em; }
+  .card p { font-size: 0.7em; }
   .card:active { transform: scale(1.08); box-shadow: 0 20px 30px rgba(0,0,0,0.4); }
 }
 
@@ -176,26 +286,40 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
     <div class="card">
       <span>Piano</span>
       <img src="images/Pianoicon.png" alt="Piano">
+      <p>A virtual keyboard to play the piano.</p>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/KgLWTpTnNoc" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
       <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" target="_blank">Open</a>
-    </div>
-    <div class="card">
-      <span>Torch Flash Light Plus</span>
-      <img src="images/Torchicon.png" alt="Torch Flash Light Plus">
-      <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" target="_blank">Open</a>
     </div>
     <div class="card">
       <span>Memojiing</span>
       <img src="images/Memoicon.png" alt="Memojiing">
+      <p>Match the pair of cards before time runs out!</p>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/tuZWIbJ85E4" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
       <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank">Open</a>
     </div>
     <div class="card">
       <span>Infinity Jump Rabbit</span>
       <img src="images/IJRicon.png" alt="Infinity Jump Rabbit">
+      <p>Help a bunny jump endlessly, be first on the Play Games leaderboard.</p>
+      <div class="video-container">
+        <iframe src="https://www.youtube.com/embed/dV6qsICPfMQ" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
       <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" target="_blank">Open</a>
+    </div>
+    <div class="card">
+      <span>Torch Flash Light Plus</span>
+      <img src="images/Torchicon.png" alt="Torch Flash Light Plus">
+      <p>Emergency flashlight, you can even use it when your device is on low battery.</p>
+      <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" target="_blank">Open</a>
     </div>
     <div class="card">
       <span>Golf Wild</span>
       <img src="images/Golficon.png" alt="Golf Wild">
+      <p>A fun and wild golf game, with original courses and unique adventures.</p>
       <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" target="_blank">Open</a>
     </div>
   </div>
