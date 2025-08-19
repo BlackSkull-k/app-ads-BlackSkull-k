@@ -127,7 +127,12 @@
     h2 { margin-bottom:15px; text-align:center; color:#0b47a1; }
 
     /* CARDS APP */
-    .apps-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; }
+    .apps-grid { 
+        display:flex; 
+        flex-wrap:wrap; 
+        justify-content:center; 
+        gap:15px; 
+    }
     .card {
       background:#fff; 
       border-radius:10px; 
@@ -148,9 +153,17 @@
     .card a:hover { background:#218838; }
 
     @media (max-width: 600px) {
-      .card { width:45%; padding:12px; }
-      .card img { width:70px; height:70px; }
-      .card span { font-size:0.9em; }
+      .apps-grid {
+        justify-content: space-around;
+      }
+      .card { 
+        width: 45%; 
+        padding: 12px; 
+        flex: 0 0 calc(50% - 15px); /* This ensures two columns */
+        box-sizing: border-box;
+      }
+      .card img { width: 70px; height: 70px; }
+      .card span { font-size: 0.9em; }
       .card:active { transform: scale(1.08); box-shadow:0 20px 30px rgba(0,0,0,0.4); }
     }
 
@@ -355,7 +368,7 @@
 <script>
   // API Gemini Configuration
   const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=";
-  const API_KEY = "AIzaSyDo37G-qaDHLYTCNWitIiBQ5nyhnp9uigQ";
+  const API_KEY = ""; // La chiave verrà fornita in runtime dall'ambiente Canvas
   const MAX_RETRIES = 5;
   const INITIAL_DELAY = 1000;
 
@@ -405,7 +418,8 @@
     let delay = INITIAL_DELAY;
     for (let i = 0; i < MAX_RETRIES; i++) {
       try {
-        const response = await fetch(GEMINI_API_URL + API_KEY, {
+        const apiKey = typeof __api_key__ !== 'undefined' ? __api_key__ : '';
+        const response = await fetch(GEMINI_API_URL + apiKey, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ contents: history })
