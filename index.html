@@ -39,7 +39,7 @@
   <meta name="admob-app-id" content="ca-app-pub-6870698456420623~YOUR_APP_ID">
   
   <style>
-    /* GENERAL STYLE */
+    /* STILE GENERALE */
     html, body {
       height: 100%;
       margin: 0;
@@ -58,7 +58,7 @@
       margin-bottom: 10px;
     }
 
-    /* Scrollable navbar with arrows */
+    /* Navbar scrollabile con freccette */
     .navbar-container {
       position: relative;
       display: flex;
@@ -91,7 +91,7 @@
     .navbar a:hover { background-color: #34495e; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
     .navbar a.active { background-color: #0b47a1; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-    /* Arrows */
+    /* Freccette */
     .nav-arrow {
       position: absolute;
       top: 50%;
@@ -141,21 +141,32 @@
       display:flex; 
       flex-direction:column; 
       align-items:center; 
+      justify-content: space-between; /* Aggiunto per allineare come la pagina Applications */
       box-shadow:0 3px 6px rgba(0,0,0,0.1); 
       transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
-      opacity: 0; transform: translateY(20px);
-      /* min-height: 250px; Rimosso per adattare l'altezza al contenuto */
+      opacity: 0; 
+      transform: translateY(20px);
+      text-align: center; /* Aggiunto per allineare come la pagina Applications */
     }
     .card.visible { opacity:1; transform: translateY(0); }
     .card:hover, .card:active { transform: scale(1.05); box-shadow:0 15px 25px rgba(0,0,0,0.35); }
     .card img { width:80px; height:80px; margin-bottom:10px; }
     .card span { font-weight:bold; margin-bottom:10px; text-align:center; }
-    .card a { text-decoration:none; color:#fff; background:#28a745; padding:6px 12px; border-radius:5px; font-weight:bold; margin-top:10px; }
+    .card a { 
+      text-decoration:none; 
+      color:#fff; 
+      background:#28a745; 
+      padding:6px 12px; 
+      border-radius:5px; 
+      font-weight:bold; 
+      margin-top:auto; /* Spinge il pulsante verso il basso */
+    }
     .card a:hover { background:#218838; }
     .card p { 
       font-size: 0.9em;
       text-align: center;
       margin: 5px 0 5px;
+      min-height: 2.4em; /* Aggiunto per uniformare l'altezza delle schede */
     }
 
     /* VIDEO CARDS */
@@ -196,9 +207,13 @@
 
     @media (max-width: 600px) {
       .card { 
-        width:45%; 
-        padding:12px; 
+        width: 45%; 
+        padding: 12px; 
         min-height: auto;
+        /* Aggiunti stili dalla pagina applications.html per consistenza */
+        flex: 0 0 calc(50% - 15px);
+        box-sizing: border-box;
+        justify-content: flex-start;
       }
       .card img { width:70px; height:70px; }
       .card span { font-size:0.9em; }
