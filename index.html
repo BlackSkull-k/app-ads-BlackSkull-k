@@ -55,7 +55,7 @@
       max-height:200px; 
       object-fit:cover; 
       box-shadow:0 4px 10px rgba(0,0,0,0.5);
-      margin-bottom: 10px; /* Aggiunto per coerenza con applications.html */
+      margin-bottom: 10px;
     }
 
     /* Navbar scrollabile con freccette */
@@ -74,7 +74,7 @@
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scroll-behavior: smooth;
-      padding: 0 30px; /* spazio per freccette */
+      padding: 0 30px;
     }
 
     .navbar a {
@@ -107,7 +107,7 @@
       cursor: pointer;
       user-select: none;
       z-index: 10;
-      display: none; /* di default nascoste */
+      display: none;
     }
     .nav-arrow:hover { background: rgba(0,0,0,0.5); }
 
@@ -127,7 +127,12 @@
     h2 { margin-bottom:15px; text-align:center; color:#0b47a1; }
 
     /* CARDS APP */
-    .apps-grid { display:flex; flex-wrap:wrap; justify-content:center; gap:15px; }
+    .apps-grid, .videos-grid { 
+      display:flex; 
+      flex-wrap:wrap; 
+      justify-content:center; 
+      gap:15px; 
+    }
     .card {
       background:#fff; 
       border-radius:10px; 
@@ -139,19 +144,67 @@
       box-shadow:0 3px 6px rgba(0,0,0,0.1); 
       transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
       opacity: 0; transform: translateY(20px);
+      min-height: 250px;
     }
     .card.visible { opacity:1; transform: translateY(0); }
     .card:hover, .card:active { transform: scale(1.05); box-shadow:0 15px 25px rgba(0,0,0,0.35); }
     .card img { width:80px; height:80px; margin-bottom:10px; }
     .card span { font-weight:bold; margin-bottom:10px; text-align:center; }
-    .card a { text-decoration:none; color:#fff; background:#28a745; padding:6px 12px; border-radius:5px; font-weight:bold; }
+    .card a { text-decoration:none; color:#fff; background:#28a745; padding:6px 12px; border-radius:5px; font-weight:bold; margin-top:auto; }
     .card a:hover { background:#218838; }
+    .card p { 
+      font-size: 0.9em;
+      text-align: center;
+      margin: 5px 0 10px;
+      flex-grow: 1;
+    }
+
+    /* VIDEO CARDS */
+    .video-card {
+      background:#fff; 
+      border-radius:10px; 
+      width:300px;
+      max-width: 100%;
+      padding:15px;
+      box-shadow:0 3px 6px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .video-card:hover { transform: scale(1.03); box-shadow:0 15px 25px rgba(0,0,0,0.35); }
+    .video-card .video-wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%;
+      height: 0;
+    }
+    .video-card iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+    }
+    .video-card h3 { 
+      text-align: center;
+      margin: 10px 0 5px;
+      font-size: 1.1em;
+    }
+    .video-card p {
+      font-size: 0.9em;
+      text-align: center;
+      color: #666;
+    }
 
     @media (max-width: 600px) {
-      .card { width:45%; padding:12px; }
+      .card { 
+        width:45%; 
+        padding:12px; 
+        min-height: auto;
+      }
       .card img { width:70px; height:70px; }
       .card span { font-size:0.9em; }
       .card:active { transform: scale(1.08); box-shadow:0 20px 30px rgba(0,0,0,0.4); }
+      .video-card { width: 90%; }
     }
 
     /* CONTATTI */
@@ -201,7 +254,6 @@
     .gemini-chat-container {
         max-width: 800px;
         margin: 20px auto;
-        /* Nuovo colore di sfondo del container principale */
         background: #73a0ce;
         border-radius: 10px;
         box-shadow: 0 3px 6px rgba(0,0,0,0.1);
@@ -218,7 +270,6 @@
         margin-bottom: 10px;
         display: flex;
         flex-direction: column;
-        /* Nuovo colore di sfondo della chat interna */
         background: #e0e9f4;
     }
     .message {
@@ -277,6 +328,7 @@
   <div class="navbar">
     <a href="index.html" class="active">Home</a>
     <a href="applications.html">Applications</a>
+    <a href="#videos">Videos</a>
     <a href="flashgames.html">Flash Games</a>
     <a href="contacts.html">Contacts</a>
     <a href="affiliate.html">Affiliate Sites</a>
@@ -289,30 +341,64 @@
     <div class="card">
       <span>Piano</span>
       <img src="images/Pianoicon.png" alt="Piano">
+      <p>A portable virtual piano, with a comfortable and realistic sound.</p>
       <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" target="_blank">Open</a>
     </div>
     <div class="card">
       <span>Torch Flash Light Plus</span>
       <img src="images/Torchicon.png" alt="Torch Flash Light Plus">
+      <p>A simple and practical flashlight, always with you, for any need.</p>
       <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" target="_blank">Open</a>
     </div>
     <div class="card">
       <span>Memojiing</span>
       <img src="images/Memoicon.png" alt="Memojiing">
+      <p>An educational game for training your memory, both for adults and children.</p>
       <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank">Open</a>
     </div>
     <div class="card">
       <span>Infinity Jump Rabbit</span>
       <img src="images/IJRicon.png" alt="Infinity Jump Rabbit">
+      <p>Jump to infinity with your rabbit to avoid obstacles!</p>
       <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" target="_blank">Open</a>
     </div>
     <div class="card">
       <span>Golf Wild</span>
       <img src="images/Golficon.png" alt="Golf Wild">
+      <p>A fun and wild golf game, with original courses and unique adventures.</p>
       <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" target="_blank">Open</a>
     </div>
   </div>
   
+  <div class="divider"></div>
+
+  <div class="section" id="videos">
+    <h2>App Videos</h2>
+    <div class="videos-grid">
+      <div class="video-card">
+        <h3>Piano App Demonstration</h3>
+        <div class="video-wrapper">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/KgLWTpTnNoc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p>Watch the Piano app in action!</p>
+      </div>
+      <div class="video-card">
+        <h3>Memojiing Gameplay</h3>
+        <div class="video-wrapper">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/tuZWIbJ85E4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p>A video of gameplay to discover the Memojiing app.</p>
+      </div>
+      <div class="video-card">
+        <h3>Infinity Jump Rabbit Gameplay</h3>
+        <div class="video-wrapper">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/dV6qsICPfMQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+        <p>A short gameplay video to show the game mechanics.</p>
+      </div>
+    </div>
+  </div>
+
   <div class="divider"></div>
 
   <div class="section gemini-chat-container">
@@ -355,7 +441,7 @@
 <script>
   // API Gemini Configuration
   const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=";
-  const API_KEY = "AIzaSyDo37G-qaDHLYTCNWitIiBQ5nyhnp9uigQ";
+  const API_KEY = "";
   const MAX_RETRIES = 5;
   const INITIAL_DELAY = 1000;
 
@@ -448,7 +534,7 @@
     messageDiv.classList.add("message", sender);
     messageDiv.textContent = text;
     chatHistoryDiv.appendChild(messageDiv);
-    chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight; // Scrolla in basso
+    chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
   }
 
   async function sendMessage() {
@@ -458,10 +544,8 @@
     addMessageToChat(userMessage, "user");
     chatInput.value = "";
 
-    // Aggiungi il messaggio dell'utente alla cronologia
     chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
 
-    // Messaggio di caricamento
     const loadingMessage = document.createElement("div");
     loadingMessage.classList.add("loading-indicator");
     loadingMessage.textContent = "Sto pensando...";
@@ -470,12 +554,10 @@
 
     const geminiResponse = await callGeminiApi(chatHistory);
 
-    // Rimuovi il messaggio di caricamento
     chatHistoryDiv.removeChild(loadingMessage);
 
     addMessageToChat(geminiResponse, "gemini");
 
-    // Aggiungi la risposta di Gemini alla cronologia
     chatHistory.push({ role: "model", parts: [{ text: geminiResponse }] });
   }
 
@@ -488,15 +570,13 @@
 
   // Animazione fade-in + slide delle card
   document.addEventListener("DOMContentLoaded", function() {
-    const cards = document.querySelectorAll(".card");
+    const cards = document.querySelectorAll(".card, .video-card");
     cards.forEach((card, index) => {
       setTimeout(() => card.classList.add("visible"), index * 150);
     });
     
-    // Inizializza la cronologia della chat con il prompt di sistema
     chatHistory = [{ role: "user", parts: [{ text: getPromptForLanguage() }] }];
     
-    // Imposta il placeholder e il testo del pulsante
     setPlaceholderForLanguage();
     setSendButtonTextForLanguage();
   });
