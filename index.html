@@ -39,7 +39,7 @@
   <meta name="admob-app-id" content="ca-app-pub-6870698456420623~YOUR_APP_ID">
   
   <style>
-    /* STILE GENERALE */
+    /* GENERAL STYLE */
     html, body {
       height: 100%;
       margin: 0;
@@ -58,7 +58,7 @@
       margin-bottom: 10px;
     }
 
-    /* Navbar scrollabile con freccette */
+    /* Scrollable navbar with arrows */
     .navbar-container {
       position: relative;
       display: flex;
@@ -91,7 +91,7 @@
     .navbar a:hover { background-color: #34495e; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
     .navbar a.active { background-color: #0b47a1; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-    /* Freccette */
+    /* Arrows */
     .nav-arrow {
       position: absolute;
       top: 50%;
@@ -114,7 +114,7 @@
     .nav-left { left: 5px; }
     .nav-right { right: 5px; }
 
-    /* Contenuto principale */
+    /* Main content */
     main {
       flex: 1;
       max-width:1000px;
@@ -126,7 +126,7 @@
 
     h2 { margin-bottom:15px; text-align:center; color:#0b47a1; }
 
-    /* CARDS APP */
+    /* APP CARDS */
     .apps-grid, .videos-grid { 
       display:flex; 
       flex-wrap:wrap; 
@@ -144,19 +144,18 @@
       box-shadow:0 3px 6px rgba(0,0,0,0.1); 
       transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
       opacity: 0; transform: translateY(20px);
-      min-height: 250px;
+      /* min-height: 250px; Rimosso per adattare l'altezza al contenuto */
     }
     .card.visible { opacity:1; transform: translateY(0); }
     .card:hover, .card:active { transform: scale(1.05); box-shadow:0 15px 25px rgba(0,0,0,0.35); }
     .card img { width:80px; height:80px; margin-bottom:10px; }
     .card span { font-weight:bold; margin-bottom:10px; text-align:center; }
-    .card a { text-decoration:none; color:#fff; background:#28a745; padding:6px 12px; border-radius:5px; font-weight:bold; margin-top:auto; }
+    .card a { text-decoration:none; color:#fff; background:#28a745; padding:6px 12px; border-radius:5px; font-weight:bold; margin-top:10px; }
     .card a:hover { background:#218838; }
     .card p { 
       font-size: 0.9em;
       text-align: center;
-      margin: 5px 0 10px;
-      flex-grow: 1;
+      margin: 5px 0 5px;
     }
 
     /* VIDEO CARDS */
@@ -207,11 +206,11 @@
       .video-card { width: 90%; }
     }
 
-    /* CONTATTI */
+    /* CONTACTS */
     .contact a { color:#1a73e8; text-decoration:none; font-weight:bold; }
     .contact a:hover { text-decoration:underline; }
 
-    /* PULSANTI ADS */
+    /* ADS BUTTONS */
     .ads-buttons { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
     .btn-view { background:#fcd116; } 
     .btn-download { background:#f57c00; } 
@@ -250,7 +249,7 @@
     }
     .admob-card:hover { transform: translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.25);}
 
-    /* STILI AGGIUNTIVI PER LA CHAT GEMINI */
+    /* ADDITIONAL STYLES FOR GEMINI CHAT */
     .gemini-chat-container {
         max-width: 800px;
         margin: 20px auto;
@@ -439,13 +438,13 @@
 </div>
 
 <script>
-  // API Gemini Configuration
+  // Gemini API Configuration
   const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=";
   const API_KEY = "";
   const MAX_RETRIES = 5;
   const INITIAL_DELAY = 1000;
 
-  // Cronologia della chat
+  // Chat history
   let chatHistory = [];
   const systemPrompts = {
       'it': "Sei un assistente virtuale per il sito web BlackSkull-k. Rispondi alle domande degli utenti in modo amichevole e utile in italiano. Il tuo obiettivo è fornire informazioni sulle app e sul sito, promuovendo la navigazione e l'uso delle funzionalità. Ecco alcune app che il sito offre: Piano, Torch Flash Light Plus, Memojiing, Infinity Jump Rabbit, Golf Wild.",
@@ -524,7 +523,7 @@
     }
   }
 
-  // Gestione della chat
+  // Chat management
   const chatHistoryDiv = document.getElementById("chat-history");
   const chatInput = document.getElementById("chat-input");
   const chatSendBtn = document.getElementById("chat-send-btn");
@@ -568,7 +567,7 @@
     }
   });
 
-  // Animazione fade-in + slide delle card
+  // Fade-in + slide animation for cards
   document.addEventListener("DOMContentLoaded", function() {
     const cards = document.querySelectorAll(".card, .video-card");
     cards.forEach((card, index) => {
@@ -581,7 +580,7 @@
     setSendButtonTextForLanguage();
   });
 
-  // Gestione freccette navbar
+  // Navbar arrows management
   const nav = document.querySelector('.navbar');
   const leftArrow = document.querySelector('.nav-left');
   const rightArrow = document.querySelector('.nav-right');
