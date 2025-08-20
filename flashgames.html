@@ -821,10 +821,6 @@ const tetrisPauseBtn = document.getElementById("tetrisPauseBtn");
 const tetrisGameOverOverlay = document.getElementById("tetrisGameOverOverlay");
 const tetrisFinalScoreSpan = document.getElementById("tetrisFinalScoreSpan");
 
-// Suoni per Tetris
-const tetrisGameOverSound = new Audio("/audio/gameOverS.mp3");
-const tetrisLineClearSound = new Audio("/audio/lineeT.mp3");
-
 const TETRIS_COLS = 10;
 const TETRIS_ROWS = 20;
 const TETRIS_BLOCK_SIZE = tetrisCanvas.width / TETRIS_COLS;
@@ -839,9 +835,6 @@ let tetrisDropInterval = 1000;
 let tetrisLastTime = 0;
 let tetrisGameRunning = false;
 let tetrisPaused = false;
-let tetrisFlashingLines = [];
-let tetrisFlashCount = 0;
-let tetrisFlashTimeoutId;
 
 const TETRIS_PIECES = {
     'I': { shape: [[0,0,0,0], [1,1,1,1], [0,0,0,0], [0,0,0,0]], color: '#00ffff' },
@@ -863,8 +856,7 @@ function createTetrisBoard() {
 function getTetrisRandomPiece() {
     const pieces = Object.values(TETRIS_PIECES);
     const piece = pieces[Math.floor(Math.random() * pieces.length)];
-    const width = piece.shape[0].length;
-    return { ...piece, x: Math.floor(TETRIS_COLS / 2 - width / 2), y: 0 };
+    return { ...piece, x: Math.floor(TETRIS_COLS / 2) - 1, y: 0 };
 }
 
 function drawTetrisBlock(ctx, x, y, color, blockSize) {
@@ -967,77 +959,24 @@ function tetrisLockPiece() {
 }
 
 function tetrisClearLines() {
-    let linesToClear = [];
+    let linesCleared = 0;
     for (let y = TETRIS_ROWS - 1; y >= 0; y--) {
         if (tetrisBoard[y].every(value => value !== 0)) {
-            linesToClear.push(y);
-        }
-    }
-
-    if (linesToClear.length > 0) {
-        tetrisFlashingLines = linesToClear;
-        tetrisFlashCount = 0;
-        tetrisLineClearSound.play();
-        tetrisFlashLines();
-    } else {
-        tetrisDropPiece();
-    }
-}
-
-function tetrisFlashLines() {
-    if (tetrisFlashCount < 6) {
-        tetrisFlashCount++;
-        const flashColor = tetrisFlashCount % 2 === 1 ? '#fff' : 0;
-        const flashBoard = JSON.parse(JSON.stringify(tetrisBoard));
-        tetrisFlashingLines.forEach(y => {
-            flashBoard[y] = flashBoard[y].map(() => flashColor);
-        });
-        
-        // Disegna la scacchiera lampeggiante
-        tetrisCtx.clearRect(0, 0, tetrisCanvas.width, tetrisCanvas.height);
-        flashBoard.forEach((row, y) => {
-            row.forEach((value, x) => {
-                drawTetrisBlock(tetrisCtx, x, y, value, TETRIS_BLOCK_SIZE);
-            });
-        });
-        
-        tetrisFlashTimeoutId = setTimeout(tetrisFlashLines, 150);
-    } else {
-        // Clear the lines from the board
-        const linesClearedCount = tetrisFlashingLines.length;
-        tetrisFlashingLines.reverse().forEach(y => {
             tetrisBoard.splice(y, 1);
             tetrisBoard.unshift(Array(TETRIS_COLS).fill(0));
-        });
-        
-        tetrisLines += linesClearedCount;
-        tetrisScore += [40, 100, 300, 1200][linesClearedCount - 1] * tetrisLevel;
+            linesCleared++;
+            y++; // Check the same line again
+        }
+    }
+    if (linesCleared > 0) {
+        tetrisLines += linesCleared;
+        tetrisScore += [40, 100, 300, 1200][linesCleared - 1] * tetrisLevel;
         tetrisLinesSpan.textContent = tetrisLines;
         tetrisScoreSpan.textContent = tetrisScore;
         tetrisLevel = Math.floor(tetrisLines / 10) + 1;
         tetrisLevelSpan.textContent = tetrisLevel;
         tetrisDropInterval = 1000 - (tetrisLevel - 1) * 100;
         if (tetrisDropInterval < 100) tetrisDropInterval = 100;
-
-        tetrisFlashingLines = [];
-        tetrisDropPiece();
-    }
-}
-
-function tetrisDropPiece() {
-    tetrisCurrentPiece = tetrisNextPiece;
-    tetrisNextPiece = getTetrisRandomPiece();
-    drawTetrisNextPiece();
-    if (isTetrisColliding(tetrisCurrentPiece, tetrisBoard, 0, 0)) {
-        // Game Over
-        tetrisGameOverSound.play();
-        tetrisGameRunning = false;
-        tetrisGameOverOverlay.style.display = 'flex';
-        tetrisFinalScoreSpan.textContent = tetrisScore;
-        if (tetrisScore > (localStorage.getItem('tetrisBestScore') || 0)) {
-            localStorage.setItem('tetrisBestScore', tetrisScore);
-            tetrisBestScoreSpan.textContent = tetrisScore;
-        }
     }
 }
 
@@ -1060,6 +999,19 @@ function tetrisLoop(timestamp) {
             tetrisCurrentPiece.y--;
             tetrisLockPiece();
             tetrisClearLines();
+            tetrisCurrentPiece = tetrisNextPiece;
+            tetrisNextPiece = getTetrisRandomPiece();
+            drawTetrisNextPiece();
+            if (isTetrisColliding(tetrisCurrentPiece, tetrisBoard, 0, 0)) {
+                // Game Over
+                tetrisGameRunning = false;
+                tetrisGameOverOverlay.style.display = 'flex';
+                tetrisFinalScoreSpan.textContent = tetrisScore;
+                if (tetrisScore > (localStorage.getItem('tetrisBestScore') || 0)) {
+                    localStorage.setItem('tetrisBestScore', tetrisScore);
+                    tetrisBestScoreSpan.textContent = tetrisScore;
+                }
+            }
         }
         tetrisDropCounter = 0;
     }
@@ -1145,9 +1097,6 @@ document.getElementById('tetrisControl-down').addEventListener('click', () => {
 
 // Start/Restart button
 tetrisStartBtn.addEventListener('click', () => {
-    if (tetrisFlashTimeoutId) {
-        clearTimeout(tetrisFlashTimeoutId);
-    }
     tetrisGameRunning = true;
     tetrisPaused = false;
     tetrisBoard = createTetrisBoard();
