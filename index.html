@@ -543,7 +543,9 @@
     const MAX_RETRIES = 5;
     for (let i = 0; i < MAX_RETRIES; i++) {
       try {
-        // La chiamata ora va alla Netlify Function!
+        console.log("Inviando richiesta alla funzione Netlify...");
+        console.log("Payload:", JSON.stringify({ contents: history }));
+
         const response = await fetch('/.netlify/functions/gemini', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -551,22 +553,28 @@
         });
 
         if (response.status === 429) {
+          console.warn(`Tentativo ${i + 1} fallito a causa di un 429. Riprovo in ${delay / 1000}s...`);
           await new Promise(resolve => setTimeout(resolve, delay));
           delay *= 2;
           continue;
         }
 
         if (!response.ok) {
+          console.error(`Errore di rete: HTTP status ${response.status} - ${response.statusText}`);
+          const errorBody = await response.text();
+          console.error("Corpo della risposta di errore:", errorBody);
           throw new Error(`API call failed with status: ${response.status}`);
         }
 
         const result = await response.json();
-        // La risposta del server sarà la risposta diretta dell'API Gemini
+        console.log("Risposta ricevuta:", result);
+
         if (result.candidates && result.candidates.length > 0 &&
             result.candidates[0].content && result.candidates[0].content.parts &&
             result.candidates[0].content.parts.length > 0) {
           return result.candidates[0].content.parts[0].text;
         } else {
+          console.error("Struttura di risposta non valida:", result);
           throw new Error("Invalid response structure from backend");
         }
       } catch (error) {
@@ -597,6 +605,8 @@
 
     addMessageToChat(userMessage, "user");
     chatInput.value = "";
+    chatInput.disabled = true;
+    chatSendBtn.disabled = true;
 
     chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
 
@@ -613,6 +623,9 @@
     addMessageToChat(geminiResponse, "gemini");
 
     chatHistory.push({ role: "model", parts: [{ text: geminiResponse }] });
+    chatInput.disabled = false;
+    chatSendBtn.disabled = false;
+    chatInput.focus();
   }
 
   chatSendBtn.addEventListener("click", sendMessage);
