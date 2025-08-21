@@ -1,0 +1,13 @@
+{
+  "name": "your-project-name",
+  "version": "1.0.0",
+  "description": "BlackSkull-k Website",
+  "main": "index.html",
+  "scripts": {
+    "start": "netlify dev",
+    "build": "echo 'No build step required for a static site'"
+  },
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
+}
