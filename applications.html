@@ -390,9 +390,13 @@ const activeLink = document.querySelector('.navbar a.active');
 // Funzione per aggiornare la visibilità delle frecce
 function updateArrows() {
   if (nav.scrollWidth > nav.clientWidth) {
+    // La freccia sinistra è visibile solo se non siamo all'inizio
     leftArrow.style.display = nav.scrollLeft > 0 ? "block" : "none";
-    rightArrow.style.display = (nav.scrollLeft + nav.clientWidth < nav.scrollWidth) ? "block" : "none";
+    // La freccia destra è visibile solo se non siamo alla fine
+    // Aggiungiamo un piccolo margine per la compatibilità tra browser
+    rightArrow.style.display = (nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 1) ? "none" : "block";
   } else {
+    // Nascondi le frecce se non c'è scroll
     leftArrow.style.display = "none";
     rightArrow.style.display = "none";
   }
