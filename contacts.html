@@ -49,8 +49,6 @@ header img {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   padding: 0 30px;
-  /* Centra la navbar */
-  justify-content: center;
 }
 
 .navbar a {
@@ -223,7 +221,7 @@ const leftArrow = document.querySelector('.nav-left');
 const rightArrow = document.querySelector('.nav-right');
 const activeLink = document.querySelector('.navbar a.active');
 
-// Funzione originale per aggiornare la visibilità delle frecce
+// Funzione per aggiornare la visibilità delle frecce
 function updateArrows() {
   if (nav.scrollWidth > nav.clientWidth) {
     leftArrow.style.display = nav.scrollLeft > 0 ? "block" : "none";
@@ -245,7 +243,7 @@ function centerActiveLink() {
   }
 }
 
-// Event listener per le frecce originali
+// Event listener per le frecce
 leftArrow.addEventListener('click', () => {
   nav.scrollBy({ left: -150, behavior: 'smooth' });
 });
