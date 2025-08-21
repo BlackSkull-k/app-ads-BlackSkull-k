@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +37,7 @@
 
   <meta name="admob-app-id" content="ca-app-pub-6870698456420623~YOUR_APP_ID">
   
-  <!-- Importazione del font Poppins, come in contacts.html -->
+  <!-- Importazione del font Poppins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
@@ -49,9 +49,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Poppins', sans-serif;
-      /* Sfondo con gradiente, come in contacts.html */
       background: linear-gradient(135deg, #2c3e50, #1b2836);
-      /* NUOVO: Rende lo sfondo fisso e non scorrevole */
       background-attachment: fixed; 
       color: #ecf0f1;
       display: flex;
@@ -71,7 +69,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      /* Modificato per un effetto semitrasparente */
       background-color: rgba(44, 62, 80, 0.8);
       box-shadow: 0 4px 6px rgba(0,0,0,0.2);
       padding: 10px 0;
@@ -135,7 +132,6 @@
     h2 { 
       margin-bottom:15px; 
       text-align:center; 
-      /* Colore del titolo aggiornato per abbinare contacts.html */
       color:#3498db; 
     }
 
@@ -147,8 +143,6 @@
       gap:15px; 
     }
     .card {
-      /* Stile aggiornato per le card */
-      /* Modificato per un effetto semitrasparente */
       background: rgba(52, 73, 94, 0.8);
       border-radius:15px; 
       width:180px; 
@@ -171,7 +165,6 @@
     .card a { 
       text-decoration:none; 
       color:#fff; 
-      /* Gradiente per il bottone, come in contacts.html */
       background: linear-gradient(45deg, #1e2db6, #3498db); 
       padding:6px 12px; 
       border-radius:8px; 
@@ -188,9 +181,8 @@
       min-height: 2.4em;
     }
 
-    /* VIDEO CARDS AGGIORNATE */
+    /* VIDEO CARDS */
     .video-card {
-      /* Modificato per un effetto semitrasparente */
       background: rgba(52, 73, 94, 0.8);
       border-radius:15px; 
       width:300px;
@@ -245,11 +237,11 @@
       .video-card { width: 90%; }
     }
 
-    /* CONTACTS */
+    /* CONTATTI */
     .contact a { color:#3498db; text-decoration:none; font-weight:bold; }
     .contact a:hover { text-decoration:underline; }
 
-    /* ADS BUTTONS */
+    /* BOTTONI ADS */
     .ads-buttons { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin-top:10px; }
     .btn-view { background:#fcd116; } 
     .btn-download { background:#f57c00; } 
@@ -263,7 +255,6 @@
       bottom: 0;
       left: 0;
       width: 100%;
-      /* Modificato per un effetto semitrasparente */
       background-color: rgba(44, 62, 80, 0.8);
       color: #f0f0f0;
       text-align: center;
@@ -279,8 +270,6 @@
       display:flex;
       flex-direction:column;
       align-items:center;
-      /* Stile aggiornato per la card AdMob */
-      /* Modificato per un effetto semitrasparente */
       background: rgba(52, 73, 94, 0.8);
       padding:20px;
       border-radius:15px;
@@ -294,85 +283,6 @@
     }
     .admob-card.visible { opacity:1; transform: translateY(0); }
     .admob-card:hover { transform: translateY(-5px); box-shadow:0 15px 25px rgba(0,0,0,0.6);}
-
-    /* ADDITIONAL STYLES FOR GEMINI CHAT */
-    .gemini-chat-container {
-        max-width: 800px;
-        margin: 20px auto;
-        /* Stile aggiornato per il contenitore della chat */
-        /* Modificato per un effetto semitrasparente */
-        background: rgba(52, 73, 94, 0.8);
-        border-radius: 15px;
-        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-        border: 2px solid #556b7f;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-    }
-    #chat-history {
-        height: 300px;
-        overflow-y: auto;
-        border: 1px solid #556b7f;
-        border-radius: 8px;
-        padding: 10px;
-        margin-bottom: 10px;
-        display: flex;
-        flex-direction: column;
-        /* Modificato per un effetto semitrasparente */
-        background: rgba(27, 40, 54, 0.8);
-    }
-    .message {
-        padding: 8px 12px;
-        border-radius: 15px;
-        margin-bottom: 10px;
-        max-width: 80%;
-    }
-    .message.user {
-        background-color: #3498db;
-        color: white;
-        align-self: flex-end;
-    }
-    .message.gemini {
-        background-color: #bdc3c7;
-        color: #333;
-        align-self: flex-start;
-        white-space: pre-wrap;
-    }
-    #chat-input-container {
-        display: flex;
-        gap: 10px;
-    }
-    #chat-input {
-        flex-grow: 1;
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid #556b7f;
-        background-color: #556b7f;
-        color: #fff;
-    }
-    #chat-input::placeholder {
-        color: #bdc3c7;
-    }
-    #chat-send-btn {
-        padding: 10px 20px;
-        background: linear-gradient(45deg, #1e2db6, #3498db);
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        font-weight: bold;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-        transition: all 0.2s ease;
-    }
-    #chat-send-btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 10px rgba(0,0,0,0.4);
-    }
-    .loading-indicator {
-      font-style: italic;
-      color: #bdc3c7;
-      text-align: center;
-    }
   </style>
 </head>
 <body>
@@ -430,40 +340,29 @@
   <div class="divider"></div>
 
   <div class="section" id="videos">
-    <h2>App Videos</h2>
+    <h2>Video delle App</h2>
     <div class="videos-grid">
       <div class="video-card">
-        <h3>Piano App Demonstration</h3>
+        <h3>Dimostrazione App Piano</h3>
         <div class="video-wrapper">
           <iframe width="560" height="315" src="https://www.youtube.com/embed/KgLWTpTnNoc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-        <p>Watch the Piano app in action!</p>
+        <p>Guarda l'app Piano in azione!</p>
       </div>
       <div class="video-card">
-        <h3>Memojiing Gameplay</h3>
+        <h3>Gameplay di Memojiing</h3>
         <div class="video-wrapper">
           <iframe width="560" height="315" src="https://www.youtube.com/embed/tuZWIbJ85E4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-        <p>A video of gameplay to discover the Memojiing app.</p>
+        <p>Un video di gameplay per scoprire l'app Memojiing.</p>
       </div>
       <div class="video-card">
-        <h3>Infinity Jump Rabbit Gameplay</h3>
+        <h3>Gameplay di Infinity Jump Rabbit</h3>
         <div class="video-wrapper">
           <iframe width="560" height="315" src="https://www.youtube.com/embed/dV6qsICPfMQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-        <p>A short gameplay video to show the game mechanics.</p>
+        <p>Un breve video di gameplay per mostrare le meccaniche di gioco.</p>
       </div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
-  <div class="section gemini-chat-container">
-    <h2>AI Chat Assistant</h2>
-    <div id="chat-history"></div>
-    <div id="chat-input-container">
-        <input type="text" id="chat-input" placeholder="Chiedi qualcosa sulle app di BlackSkull-k...">
-        <button id="chat-send-btn">Invia</button>
     </div>
   </div>
 
@@ -482,10 +381,10 @@
   <div class="section" id="ads">
     <h2>AdMob</h2>
     <div class="admob-card">
-      <span>app-ads.txt file for AdMob</span>
+      <span>File app-ads.txt per AdMob</span>
       <div class="ads-buttons">
-        <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-view" target="_blank">View</a>
-        <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-download" download>Download</a>
+        <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-view" target="_blank">Visualizza</a>
+        <a href="https://blackskullk.netlify.app/app-ads.txt" class="btn-download" download>Scarica</a>
       </div>
     </div>
   </div>
@@ -496,150 +395,12 @@
 </div>
 
 <script>
-  // Gemini API Configuration
-  // ATTENZIONE: La tua chiave API è esposta nel codice lato client.
-  // Questo non è un metodo sicuro per gestire una chiave API in produzione.
-  // Chiunque può visualizzare il codice sorgente della tua pagina web e rubare la chiave.
-  const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=";
-  const API_KEY = "AIzaSyDo37G-qaDHLYTCNWitIiBQ5nyhnp9uigQ";
-  const MAX_RETRIES = 5;
-  const INITIAL_DELAY = 1000;
-
-  // Chat history
-  let chatHistory = [];
-  const systemPrompts = {
-      // Modificato l'indirizzo email qui:
-      'it': "Sei un assistente virtuale per il sito web BlackSkull-k. Rispondi alle domande degli utenti in modo amichevole e utile in italiano. Il tuo obiettivo è fornire informazioni sulle app e sul sito, e far sapere agli utenti che BlackSkull-k accetta commissioni per lo sviluppo di nuove app e siti web. Per richieste di commissioni o pubblicità, invita gli utenti a contattare BlackSkull-k via email all'indirizzo blackskull.k.info@gmail.com. Ecco alcune app che il sito offre: Piano, Torch Flash Light Plus, Memojiing, Infinity Jump Rabbit, Golf Wild.",
-      'en': "You are a virtual assistant for the BlackSkull-k website. Answer user questions in a friendly and helpful way in English. Your goal is to provide information about the apps and the website, and let users know that BlackSkull-k accepts commissions for developing new apps and websites. For commission or advertising inquiries, invite users to contact BlackSkull-k via email at blackskull.k.info@gmail.com. Here are some apps the site offers: Piano, Torch Flash Light Plus, Memojiing, Infinity Jump Rabbit, Golf Wild.",
-      'es': "Eres un asistente virtual para el sitio web de BlackSkull-k. Responde a las preguntas de los usuarios de forma amigable y útil en español. Tu objetivo es proporcionar información sobre las aplicaciones y el sitio web, y hacer saber a los usuarios que BlackSkull-k acepta encargos para el desarrollo de nuevas aplicaciones y sitios web. Para consultas sobre encargos o publicidad, invita a los usuarios a contactar a BlackSkull-k por correo electrónico en blackskull.k.info@gmail.com. Aquí hay algunas aplicaciones que el sitio ofrece: Piano, Torch Flash Light Plus, Memojiing, Infinity Jump Rabbit, Golf Wild."
-  };
-  
-  const placeholderTexts = {
-      'it': "Chiedi qualcosa sulle app di BlackSkull-k...",
-      'en': "Ask something about BlackSkull-k apps...",
-      'es': "Pregunta algo sobre las aplicaciones de BlackSkull-k..."
-  };
-
-  const sendButtonTexts = {
-    'it': "Invia",
-    'en': "Send",
-    'es': "Enviar"
-  };
-
-  function getLanguage() {
-      const userLang = navigator.language.split('-')[0];
-      return userLang;
-  }
-  
-  function getPromptForLanguage() {
-      const userLang = getLanguage();
-      return systemPrompts[userLang] || systemPrompts['it'];
-  }
-  
-  function setPlaceholderForLanguage() {
-      const userLang = getLanguage();
-      const placeholder = placeholderTexts[userLang] || placeholderTexts['it'];
-      document.getElementById('chat-input').placeholder = placeholder;
-  }
-  
-  function setSendButtonTextForLanguage() {
-      const userLang = getLanguage();
-      const buttonText = sendButtonTexts[userLang] || sendButtonTexts['it'];
-      document.getElementById('chat-send-btn').textContent = buttonText;
-  }
-
-  async function callGeminiApi(history) {
-    let delay = INITIAL_DELAY;
-    for (let i = 0; i < MAX_RETRIES; i++) {
-      try {
-        const response = await fetch(GEMINI_API_URL + API_KEY, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ contents: history })
-        });
-
-        if (response.status === 429) {
-          await new Promise(resolve => setTimeout(resolve, delay));
-          delay *= 2;
-          continue;
-        }
-
-        if (!response.ok) {
-          throw new Error(`API call failed with status: ${response.status}`);
-        }
-
-        const result = await response.json();
-        if (result.candidates && result.candidates.length > 0 &&
-            result.candidates[0].content && result.candidates[0].content.parts &&
-            result.candidates[0].content.parts.length > 0) {
-          return result.candidates[0].content.parts[0].text;
-        } else {
-          throw new Error("Invalid response structure from Gemini API");
-        }
-      } catch (error) {
-        console.error("Gemini API error:", error);
-        if (i === MAX_RETRIES - 1) {
-          return "Si è verificato un errore durante la comunicazione con il modello.";
-        }
-      }
-    }
-  }
-
-  // Chat management
-  const chatHistoryDiv = document.getElementById("chat-history");
-  const chatInput = document.getElementById("chat-input");
-  const chatSendBtn = document.getElementById("chat-send-btn");
-
-  function addMessageToChat(text, sender) {
-    const messageDiv = document.createElement("div");
-    messageDiv.classList.add("message", sender);
-    messageDiv.textContent = text;
-    chatHistoryDiv.appendChild(messageDiv);
-    chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
-  }
-
-  async function sendMessage() {
-    const userMessage = chatInput.value.trim();
-    if (userMessage === "") return;
-
-    addMessageToChat(userMessage, "user");
-    chatInput.value = "";
-
-    chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
-
-    const loadingMessage = document.createElement("div");
-    loadingMessage.classList.add("loading-indicator");
-    loadingMessage.textContent = "Sto pensando...";
-    chatHistoryDiv.appendChild(loadingMessage);
-    chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
-
-    const geminiResponse = await callGeminiApi(chatHistory);
-
-    chatHistoryDiv.removeChild(loadingMessage);
-
-    addMessageToChat(geminiResponse, "gemini");
-
-    chatHistory.push({ role: "model", parts: [{ text: geminiResponse }] });
-  }
-
-  chatSendBtn.addEventListener("click", sendMessage);
-  chatInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      sendMessage();
-    }
-  });
-
   // Fade-in + slide animation for cards
   document.addEventListener("DOMContentLoaded", function() {
     const cards = document.querySelectorAll(".card, .video-card, .admob-card");
     cards.forEach((card, index) => {
       setTimeout(() => card.classList.add("visible"), index * 150);
     });
-    
-    chatHistory = [{ role: "user", parts: [{ text: getPromptForLanguage() }] }];
-    
-    setPlaceholderForLanguage();
-    setSendButtonTextForLanguage();
   });
 
   // Navbar arrows management
@@ -650,7 +411,6 @@
   function updateArrows() {
     if (nav.scrollWidth > nav.clientWidth) {
       leftArrow.style.display = nav.scrollLeft > 0 ? "block" : "none";
-      // Aggiunto il controllo per la freccia destra
       const atEnd = Math.floor(nav.scrollLeft + nav.clientWidth) >= nav.scrollWidth;
       rightArrow.style.display = atEnd ? "none" : "block";
     } else {
