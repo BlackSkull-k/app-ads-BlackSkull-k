@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* GENERAL STYLES */
+/* STILI GENERALI */
 html, body {
   height: 100%;
   margin: 0;
@@ -32,7 +32,7 @@ header img {
   margin-bottom: 10px;
 }
 
-/* Scrollable Navbar with Arrows */
+/* Navbar scorrevole con frecce */
 .navbar-container {
   position: relative;
   display: flex;
@@ -65,7 +65,7 @@ header img {
 .navbar a:hover { background-color: #34495e; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
 .navbar a.active { background-color: #0b47a1; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-/* Arrows */
+/* Frecce */
 .nav-arrow {
   position: absolute;
   top: 50%;
@@ -99,7 +99,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 
 .content { padding-bottom: 60px; }
 
-/* Bottom Bar */
+/* Barra inferiore */
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -114,7 +114,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
   z-index: 1000;
 }
 
-/* White card (updated) */
+/* Card bianca (aggiornata) */
 .white-card {
   background: rgba(52, 73, 94, 0.8);
   border-radius: 15px;
@@ -125,7 +125,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
   border: 2px solid #556b7f;
 }
 
-/* GAME STYLES */
+/* STILI DEL GIOCO */
 #snake-game {
   text-align: center;
   position: relative;
@@ -204,7 +204,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 #snakeControl-down { grid-area: down; }
 #snakeControl-center { grid-area: center; visibility: hidden; }
 
-/* Game over overlay */
+/* Schermata di Game Over */
 #snakeGameOverOverlay {
   position: absolute;
   top: 0;
@@ -251,7 +251,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
   transform: translateY(-2px);
 }
 
-/* Difficulty Selection Overlay */
+/* Schermata di selezione difficoltà */
 #snakeStartOverlay {
     position: absolute;
     top: 0;
@@ -265,7 +265,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
     z-index: 99;
 }
 
-/* Difficulty Card */
+/* Card difficoltà */
 #snakeDifficultyCard {
     background: #1a1a1a;
     border: 3px solid #333;
@@ -297,7 +297,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 }
 #snakeDifficultyCard button:hover { background: linear-gradient(45deg, #083884, #297fb8); transform: translateY(-2px); }
 
-/* Keyframes for animations */
+/* Keyframes per le animazioni */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes scaleIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
 
@@ -390,7 +390,7 @@ nav.addEventListener('scroll', updateArrows);
 window.addEventListener('resize', updateArrows);
 window.addEventListener('load', updateArrows);
 
-// SNAKE GAME LOGIC
+// LOGICA DEL GIOCO SNAKE
 const snakeCanvas = document.getElementById('snakeGameCanvas');
 const snakeCtx = snakeCanvas.getContext('2d');
 const snakeScoreSpan = document.getElementById('snakeScoreSpan');
@@ -413,6 +413,7 @@ let snakeScore;
 let snakeHighscore = localStorage.getItem('snakeHighscore') || 0;
 let snakeGameLoop;
 let snakeSparks = [];
+let snakeObstacles = []; // Nuova variabile per gli ostacoli
 const snakeBox = 16;
 let snakeGameStarted = false;
 
@@ -421,32 +422,89 @@ const snakeEatSound = new Audio("https://cdn.glitch.global/c3f6f199-a9a7-4767-9d
 const snakeDeathSound = new Audio("https://cdn.glitch.global/c3f6f199-a9a7-4767-9d7a-5a9e3650212f/death.mp3?v=1678829671689");
 
 function snakeRandomFood() {
-  return {
-    x: Math.floor(Math.random() * (snakeCanvas.width / snakeBox)) * snakeBox,
-    y: Math.floor(Math.random() * (snakeCanvas.height / snakeBox)) * snakeBox,
-  };
+  let newFood;
+  do {
+    newFood = {
+      x: Math.floor(Math.random() * (snakeCanvas.width / snakeBox)) * snakeBox,
+      y: Math.floor(Math.random() * (snakeCanvas.height / snakeBox)) * snakeBox,
+    };
+  } while (snakeObstacles.some(obs => obs.x === newFood.x && obs.y === newFood.y) || 
+           snake.some(part => part.x === newFood.x && part.y === newFood.y));
+  return newFood;
+}
+
+// Funzione per generare gli ostacoli
+function generateObstacles(difficulty) {
+  snakeObstacles = []; // Pulisci gli ostacoli precedenti
+  if (difficulty === 7.5) { // Difficoltà media
+    const centerX = Math.floor(snakeCanvas.width / (2 * snakeBox)) * snakeBox;
+    const centerY = Math.floor(snakeCanvas.height / (2 * snakeBox)) * snakeBox;
+    
+    // Genera un ostacolo a croce al centro
+    snakeObstacles.push({ x: centerX, y: centerY });
+    snakeObstacles.push({ x: centerX - snakeBox, y: centerY });
+    snakeObstacles.push({ x: centerX + snakeBox, y: centerY });
+    snakeObstacles.push({ x: centerX, y: centerY - snakeBox });
+    snakeObstacles.push({ x: centerX, y: centerY + snakeBox });
+  } else if (difficulty === 10.5) { // Difficoltà difficile
+    const numWalls = Math.floor(Math.random() * 3) + 2; // 2-4 muri
+    for (let i = 0; i < numWalls; i++) {
+      let wallLength = Math.floor(Math.random() * 3) + 2; // Lunghezza 2-4
+      let isVertical = Math.random() < 0.5;
+      let startX, startY;
+
+      // Trova una posizione casuale valida per l'ostacolo
+      do {
+        startX = Math.floor(Math.random() * (snakeCanvas.width / snakeBox)) * snakeBox;
+        startY = Math.floor(Math.random() * (snakeCanvas.height / snakeBox)) * snakeBox;
+      } while ((startX < snakeBox * 5 && startY < snakeBox * 5) || // Evita la zona di partenza
+               (isVertical && startY + wallLength * snakeBox > snakeCanvas.height) ||
+               (!isVertical && startX + wallLength * snakeBox > snakeCanvas.width));
+      
+      // Aggiungi le parti dell'ostacolo
+      for (let j = 0; j < wallLength; j++) {
+        if (isVertical) {
+          snakeObstacles.push({ x: startX, y: startY + j * snakeBox });
+        } else {
+          snakeObstacles.push({ x: startX + j * snakeBox, y: startY });
+        }
+      }
+    }
+  }
 }
 
 function snakeDraw() {
-  // Clear canvas
+  // Pulisci il canvas
   snakeCtx.fillStyle = '#1a1a1a';
   snakeCtx.fillRect(0, 0, snakeCanvas.width, snakeCanvas.height);
 
-  // Draw food
-  snakeCtx.fillStyle = '#e74c3c';
+  // Disegna il cibo (mela) con colori neon rossi
+  snakeCtx.shadowColor = '#FF073A'; // Colore rosso neon per l'ombra
+  snakeCtx.shadowBlur = 15;        // Applica un effetto sfocato
+  snakeCtx.fillStyle = '#FF073A'; // Colore rosso neon per il cibo
   snakeCtx.beginPath();
   snakeCtx.arc(snakeFood.x + snakeBox / 2, snakeFood.y + snakeBox / 2, snakeBox / 2, 0, 2 * Math.PI);
   snakeCtx.fill();
+  snakeCtx.shadowBlur = 0; // Azzera l'ombra per gli altri elementi
 
-  // Draw snake
+  // Disegna gli ostacoli
+  snakeCtx.fillStyle = '#6c7a89'; // Un grigio scuro per gli ostacoli
+  snakeObstacles.forEach(obs => {
+    snakeCtx.fillRect(obs.x, obs.y, snakeBox, snakeBox);
+    snakeCtx.strokeStyle = '#333';
+    snakeCtx.strokeRect(obs.x, obs.y, snakeBox, snakeBox);
+  });
+
+  // Disegna il serpente con colori neon
   snake.forEach((part, index) => {
-    snakeCtx.fillStyle = index === 0 ? '#2ecc71' : '#27ae60';
+    // La testa del serpente è di un verde più scuro ma più acceso
+    snakeCtx.fillStyle = index === 0 ? '#008000' : '#39FF14';
     snakeCtx.fillRect(part.x, part.y, snakeBox, snakeBox);
     snakeCtx.strokeStyle = '#1a1a1a';
     snakeCtx.strokeRect(part.x, part.y, snakeBox, snakeBox);
   });
   
-  // Draw sparks
+  // Disegna le scintille
   snakeCtx.fillStyle = 'rgba(255,255,255,0.7)';
   snakeSparks = snakeSparks.filter(spark => spark.life > 0);
   snakeSparks.forEach(spark => {
@@ -459,13 +517,19 @@ function snakeDraw() {
 
 function snakeCollision() {
   const head = snake[0];
-  // Check walls
+  // Controlla i muri
   if (head.x < 0 || head.x >= snakeCanvas.width || head.y < 0 || head.y >= snakeCanvas.height) {
     return true;
   }
-  // Check self-collision
+  // Controlla l'auto-collisione
   for (let i = 1; i < snake.length; i++) {
     if (head.x === snake[i].x && head.y === snake[i].y) {
+      return true;
+    }
+  }
+  // Controlla la collisione con gli ostacoli
+  for (let i = 0; i < snakeObstacles.length; i++) {
+    if (head.x === snakeObstacles[i].x && head.y === snakeObstacles[i].y) {
       return true;
     }
   }
@@ -474,10 +538,10 @@ function snakeCollision() {
 
 function snakeGameReset() {
   clearInterval(snakeGameLoop);
-  // Modifica: La posizione iniziale è ora sul bordo sinistro
   snake = [{ x: 0, y: Math.floor(snakeCanvas.height / (2 * snakeBox)) * snakeBox }];
   snakeDirection = 'right';
   snakeScore = 0;
+  snakeObstacles = []; // Assicurati che gli ostacoli siano vuoti prima di iniziare
   snakeFood = snakeRandomFood();
   snakeGameStarted = false;
   snakeScoreSpan.textContent = snakeScore;
@@ -489,6 +553,8 @@ function snakeStartGame(difficulty) {
   snakeStartOverlay.style.display = 'none';
   snakeGameStarted = true;
   snakeSpeed = difficulty;
+  generateObstacles(difficulty); // Genera gli ostacoli in base alla difficoltà
+  snakeFood = snakeRandomFood(); // Genera il cibo dopo gli ostacoli per evitare sovrapposizioni
   snakeGameLoop = setInterval(snakeGameTick, 1000 / snakeSpeed);
 }
 
@@ -510,7 +576,7 @@ function snakeGameTick() {
     clearInterval(snakeGameLoop);
     snakeGameStarted = false;
     
-    // Update highscore
+    // Aggiorna il punteggio più alto
     if (snakeScore > snakeHighscore) {
       snakeHighscore = snakeScore;
       localStorage.setItem('snakeHighscore', snakeHighscore);
@@ -527,14 +593,14 @@ function snakeGameTick() {
       snakeEatSound.currentTime = 0;
       snakeEatSound.play();
       
-      // INCREASE SPEED AFTER EATING A FOOD
+      // AUMENTA LA VELOCITÀ DOPO AVER MANGIATO
       if (snakeScore > 0 && snakeScore % 5 === 0) {
         snakeSpeed += 0.2;
         clearInterval(snakeGameLoop);
         snakeGameLoop = setInterval(snakeGameTick, 1000 / snakeSpeed);
       }
       
-      // New sparkle effect
+      // Nuovo effetto scintilla
       snakeSparks.push(...Array(50).fill().map(() => ({
         x: snakeFood.x + snakeBox / 2, y: snakeFood.y + snakeBox / 2, life: 5, dx: (Math.random() * 2 - 1) * 3, dy: (Math.random() * 2 - 1) * 3
       })));
@@ -546,8 +612,13 @@ function snakeGameTick() {
   }
 }
 
-// Key controls
+// Controlli da tastiera
 document.addEventListener('keydown', e => {
+  // Impedisci il comportamento di scorrimento predefinito per i tasti freccia
+  if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+    e.preventDefault();
+  }
+  
   if (!snakeGameStarted) return;
   switch (e.key) {
     case 'ArrowUp': if (snakeDirection !== 'down') snakeDirection = 'up'; break;
@@ -557,7 +628,7 @@ document.addEventListener('keydown', e => {
   }
 });
 
-// Button controls
+// Controlli da pulsanti
 document.getElementById('snakeControl-up').addEventListener('click', () => { if (snakeDirection !== 'down') snakeDirection = 'up'; });
 document.getElementById('snakeControl-down').addEventListener('click', () => { if (snakeDirection !== 'up') snakeDirection = 'down'; });
 document.getElementById('snakeControl-left').addEventListener('click', () => { if (snakeDirection !== 'right') snakeDirection = 'left'; });
@@ -579,13 +650,13 @@ snakeCanvas.addEventListener("touchend", e => {
   const dx = touch.clientX - snakeTouchStartX;
   const dy = touch.clientY - snakeTouchStartY;
 
-  if (Math.abs(dx) > Math.abs(dy)) { // Horizontal swipe
+  if (Math.abs(dx) > Math.abs(dy)) { // Swipe orizzontale
     if (dx > 0) {
       if (snakeDirection !== 'left') snakeDirection = 'right';
     } else {
       if (snakeDirection !== 'right') snakeDirection = 'left';
     }
-  } else { // Vertical swipe
+  } else { // Swipe verticale
     if (dy > 0) {
       if (snakeDirection !== 'up') snakeDirection = 'down';
     } else {
@@ -594,15 +665,14 @@ snakeCanvas.addEventListener("touchend", e => {
   }
 }, { passive: false });
 
-// UI event listeners
+// Listener per gli eventi dell'interfaccia utente
 snakeRestartBtn.addEventListener('click', snakeGameReset);
 snakeRestartOverlayBtn.addEventListener('click', snakeGameReset);
-// Modifica: la velocità iniziale di tutti i livelli è stata ridotta
 snakeEasyBtn.addEventListener('click', () => snakeStartGame(5));
 snakeMediumBtn.addEventListener('click', () => snakeStartGame(7.5));
 snakeHardBtn.addEventListener('click', () => snakeStartGame(10.5));
 
-// Initial game setup
+// Configurazione iniziale del gioco
 snakeGameReset();
 snakeHighscoreSpan.textContent = snakeHighscore;
 </script>
