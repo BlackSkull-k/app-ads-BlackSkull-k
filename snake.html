@@ -88,10 +88,15 @@ header img {
 .nav-left { left: 5px; }
 .nav-right { right: 5px; }
 
+/* CENTRATURA DEL GIOCO SU TUTTI GLI SCHERMI */
 main {
   flex: 1;
   max-width: 1000px;
-  margin: 20px auto;
+  /* Rimuove i margini automatici e usa flexbox per la centratura */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 10px;
 }
 
@@ -412,19 +417,19 @@ const snakeHardBtn = document.getElementById('snakeHardBtn');
 let snake;
 let snakeFood;
 let snakeDirection;
-let nextDirection; // Variabile per la direzione in attesa
+let nextDirection;
 let snakeSpeed;
 let snakeScore;
 let snakeHighscore = localStorage.getItem('snakeHighscore') || 0;
 let snakeGameLoop;
 let snakeSparks = [];
-let snakeObstacles = []; // Nuova variabile per gli ostacoli
+let snakeObstacles = [];
 const snakeBox = 16;
 let snakeGameStarted = false;
 
 // Audio
-const snakeEatSound = new Audio("https://cdn.glitch.global/c3f6f199-a9a7-4767-9d7a-5a9e3650212f/eat.mp3?v=1678829672689");
-const snakeDeathSound = new Audio("https://cdn.glitch.global/c3f6f199-a9a7-4767-9d7a-5a9e3650212f/death.mp3?v=1678829671689");
+const snakeEatSound = new Audio("audio/mangiaS.mp3");
+const snakeDeathSound = new Audio("audio/gameOverT.mp3");
 
 function snakeRandomFood() {
   let newFood;
