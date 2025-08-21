@@ -225,7 +225,9 @@ const activeLink = document.querySelector('.navbar a.active');
 function updateArrows() {
   if (nav.scrollWidth > nav.clientWidth) {
     leftArrow.style.display = nav.scrollLeft > 0 ? "block" : "none";
-    rightArrow.style.display = (nav.scrollLeft + nav.clientWidth < nav.scrollWidth) ? "block" : "none";
+    // La freccia destra scompare quando non c'è più spazio per scorrere
+    const isAtEnd = Math.abs(nav.scrollLeft + nav.clientWidth - nav.scrollWidth) < 1;
+    rightArrow.style.display = isAtEnd ? "none" : "block";
   } else {
     leftArrow.style.display = "none";
     rightArrow.style.display = "none";
