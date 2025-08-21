@@ -21,7 +21,6 @@ html, body {
   color: #ecf0f1;
   display: flex;
   flex-direction: column;
-  /* NUOVO: Rende lo sfondo fisso e non scorrevole */
   background-attachment: fixed;
 }
 
@@ -39,7 +38,6 @@ header img {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Modificato per un effetto semitrasparente */
   background-color: rgba(44, 62, 80, 0.8);
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
   padding: 10px 0;
@@ -51,6 +49,8 @@ header img {
   -webkit-overflow-scrolling: touch;
   scroll-behavior: smooth;
   padding: 0 30px;
+  /* Centra la navbar */
+  justify-content: center;
 }
 
 .navbar a {
@@ -107,7 +107,6 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
   bottom: 0;
   left: 0;
   width: 100%;
-  /* Modificato per un effetto semitrasparente */
   background-color: rgba(44, 62, 80, 0.8);
   color: #f0f0f0;
   text-align: center;
@@ -124,7 +123,6 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
   align-items: center;
 }
 .contact-form {
-  /* Modificato per un effetto semitrasparente */
   background: rgba(52, 73, 94, 0.8);
   padding: 30px;
   border-radius: 15px;
@@ -176,7 +174,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 }
 .contact-form button:active {
   transform: translateY(0);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  box-shadow: 2px 4px 4px rgba(0,0,0,0.3);
 }
 
 </style>
@@ -219,11 +217,13 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 </div>
 
 <script>
-// Gestione freccette navbar
+// Gestione delle frecce e della centratura del link attivo
 const nav = document.querySelector('.navbar');
 const leftArrow = document.querySelector('.nav-left');
 const rightArrow = document.querySelector('.nav-right');
+const activeLink = document.querySelector('.navbar a.active');
 
+// Funzione originale per aggiornare la visibilità delle frecce
 function updateArrows() {
   if (nav.scrollWidth > nav.clientWidth) {
     leftArrow.style.display = nav.scrollLeft > 0 ? "block" : "none";
@@ -234,6 +234,18 @@ function updateArrows() {
   }
 }
 
+// Funzione per centrare il link attivo
+function centerActiveLink() {
+  if (activeLink) {
+    // Calcola la posizione al centro della navbar
+    const scrollPosition = activeLink.offsetLeft - (nav.offsetWidth / 2) + (activeLink.offsetWidth / 2);
+    nav.scrollLeft = scrollPosition;
+    // Aggiorna subito le frecce dopo aver centrato
+    updateArrows();
+  }
+}
+
+// Event listener per le frecce originali
 leftArrow.addEventListener('click', () => {
   nav.scrollBy({ left: -150, behavior: 'smooth' });
 });
@@ -241,9 +253,12 @@ rightArrow.addEventListener('click', () => {
   nav.scrollBy({ left: 150, behavior: 'smooth' });
 });
 
+// Event listener per l'aggiornamento delle frecce durante lo scroll manuale
 nav.addEventListener('scroll', updateArrows);
-window.addEventListener('resize', updateArrows);
-window.addEventListener('load', updateArrows);
+
+// Centra il link attivo al caricamento della pagina e al ridimensionamento
+window.addEventListener('load', centerActiveLink);
+window.addEventListener('resize', centerActiveLink);
 </script>
 
 </body>
