@@ -636,6 +636,11 @@ function drawTetrisNextPiece() {
 
 // Handle keyboard controls
 document.addEventListener('keydown', e => {
+    // Aggiunto e.preventDefault() per fermare lo scorrimento della pagina
+    if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) {
+        e.preventDefault();
+    }
+    
     if (!tetrisGameRunning || tetrisPaused || tetrisLinesToClear.length > 0) return;
 
     if (e.key === 'ArrowLeft') {
