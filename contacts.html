@@ -7,15 +7,18 @@
 <link rel="icon" type="image/png" sizes="32x32" href="images/bskFavicon32x.png">
 <link rel="apple-touch-icon" sizes="180x180" href="images/bskFavicon180x.png">
 <link rel="manifest" href="/manifest.json">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
 /* STILE GENERALE */
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  font-family: Arial, sans-serif;
-  background: #9d9f9f;
-  color: #333;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #2c3e50, #1b2836);
+  color: #ecf0f1;
   display: flex;
   flex-direction: column;
 }
@@ -89,9 +92,9 @@ main {
   max-width: 1000px;
   margin: 20px auto;
   padding: 10px;
-  width: 95%; /* Modifica per mobile per dare un po' di margine laterale */
+  width: 95%;
 }
-h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
+h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 
 .content { padding-bottom: 60px; }
 
@@ -110,76 +113,65 @@ h2 { margin-bottom: 15px; text-align: center; color: #0b47a1; }
   z-index: 1000;
 }
 
-/* STILE DEL FORM DI CONTATTO */
+/* STILE DEL FORM DI CONTATTO AGGIORNATO */
 .contact-form-container {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .contact-form {
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+  background: #34495e;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
   width: 100%;
   max-width: 500px;
   display: flex;
   flex-direction: column;
+  border: 2px solid #556b7f;
 }
 .contact-form input, .contact-form textarea {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
-  border: 1px solid #ccc;
+  border: 1px solid #556b7f;
   border-radius: 5px;
   box-sizing: border-box;
+  background-color: #556b7f;
+  color: #fff;
+  transition: all 0.3s ease;
 }
+.contact-form input::placeholder, .contact-form textarea::placeholder {
+  color: #bdc3c7;
+}
+.contact-form input:focus, .contact-form textarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px #3498db;
+}
+
 .contact-form textarea {
   height: 150px;
   resize: vertical;
 }
 .contact-form button {
-  background-color: #0b47a1;
+  background: linear-gradient(45deg, #1e2db6, #3498db);
   color: #fff;
   border: none;
   padding: 12px 20px;
-  border-radius: 5px;
+  border-radius: 8px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-weight: bold;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.3);
 }
 .contact-form button:hover {
-  background-color: #083884;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.4);
 }
-
-/* MEDIA QUERIES per schermi più grandi */
-@media (min-width: 768px) {
-  main {
-    padding: 20px;
-  }
-  
-  .contact-form {
-    padding: 30px;
-  }
-}
-
-@media (min-width: 1024px) {
-  header img {
-    max-height: 250px;
-  }
-
-  .navbar a {
-    padding: 12px 22px;
-    font-size: 1.1em;
-  }
-
-  main {
-    max-width: 1200px; /* Aumento della larghezza massima del contenuto */
-  }
-  
-  .contact-form {
-    max-width: 600px; /* Aumento della larghezza massima del form */
-  }
+.contact-form button:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
 </style>
