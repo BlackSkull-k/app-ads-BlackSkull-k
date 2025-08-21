@@ -411,7 +411,8 @@
   function updateArrows() {
     if (nav.scrollWidth > nav.clientWidth) {
       leftArrow.style.display = nav.scrollLeft > 0 ? "block" : "none";
-      const atEnd = Math.floor(nav.scrollLeft + nav.clientWidth) >= nav.scrollWidth;
+      // Added a small tolerance for a more reliable check on mobile
+      const atEnd = (nav.scrollLeft + nav.clientWidth) >= (nav.scrollWidth - 1);
       rightArrow.style.display = atEnd ? "none" : "block";
     } else {
       leftArrow.style.display = "none";
