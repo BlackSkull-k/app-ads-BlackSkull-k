@@ -130,14 +130,15 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
     align-items: flex-start;
     justify-content: center;
     gap: 25px;
-    flex-wrap: wrap; /* Added flex-wrap for responsiveness */
+    flex-wrap: wrap; 
 }
-@media (max-width: 768px) {
+/* Rimosso il media query per mantenere il layout desktop su tutti i dispositivi */
+/* @media (max-width: 768px) {
     .tetris-game-container {
         flex-direction: column;
         align-items: center;
     }
-}
+} */
 
 .tetris-sidebar {
     display: flex;
