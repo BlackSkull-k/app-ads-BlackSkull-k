@@ -499,14 +499,28 @@ function snakeDraw() {
     snakeCtx.strokeRect(obs.x, obs.y, snakeBox, snakeBox);
   });
 
-  // Disegna il serpente con colori neon
+  // Disegna il serpente con colori neon e angoli arrotondati
   snake.forEach((part, index) => {
-    // La testa del serpente è di un verde più scuro ma più acceso
-    snakeCtx.fillStyle = index === 0 ? '#008000' : '#39FF14';
-    snakeCtx.fillRect(part.x, part.y, snakeBox, snakeBox);
-    snakeCtx.strokeStyle = '#1a1a1a';
-    snakeCtx.strokeRect(part.x, part.y, snakeBox, snakeBox);
+    snakeCtx.fillStyle = '#39FF14';
+    snakeCtx.strokeStyle = '#000000';
+    snakeCtx.lineWidth = 1;
+    
+    // Testa del serpente con ombra neon
+    if (index === 0) {
+        snakeCtx.fillStyle = '#008000';
+        snakeCtx.shadowColor = '#39FF14'; 
+        snakeCtx.shadowBlur = 10;
+    } else {
+        snakeCtx.shadowBlur = 0;
+    }
+
+    snakeCtx.beginPath();
+    snakeCtx.roundRect(part.x, part.y, snakeBox, snakeBox, 5); // Angoli arrotondati
+    snakeCtx.fill();
+    snakeCtx.stroke();
   });
+  
+  snakeCtx.shadowBlur = 0; // Azzera l'ombra per gli altri elementi
   
   // Disegna le scintille
   snakeCtx.fillStyle = 'rgba(255,255,255,0.7)';
