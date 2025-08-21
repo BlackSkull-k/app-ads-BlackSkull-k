@@ -412,6 +412,7 @@ const snakeHardBtn = document.getElementById('snakeHardBtn');
 let snake;
 let snakeFood;
 let snakeDirection;
+let nextDirection; // Variabile per la direzione in attesa
 let snakeSpeed;
 let snakeScore;
 let snakeHighscore = localStorage.getItem('snakeHighscore') || 0;
@@ -499,20 +500,21 @@ function snakeDraw() {
     snakeCtx.strokeRect(obs.x, obs.y, snakeBox, snakeBox);
   });
 
-  // Disegna il serpente con colori neon e angoli arrotondati
+  // Imposta le proprietà per l'effetto neon del serpente
+  snakeCtx.shadowColor = '#39FF14'; 
+  snakeCtx.shadowBlur = 10;
+  
+  // Disegna il serpente con angoli arrotondati
   snake.forEach((part, index) => {
-    snakeCtx.fillStyle = '#39FF14';
-    snakeCtx.strokeStyle = '#000000';
-    snakeCtx.lineWidth = 1;
-    
-    // Testa del serpente con ombra neon
+    // Se è la testa (index 0), usa un colore leggermente più scuro
     if (index === 0) {
-        snakeCtx.fillStyle = '#008000';
-        snakeCtx.shadowColor = '#39FF14'; 
-        snakeCtx.shadowBlur = 10;
+      snakeCtx.fillStyle = '#00A000'; // Testa del serpente più scura
     } else {
-        snakeCtx.shadowBlur = 0;
+      snakeCtx.fillStyle = '#00FF00'; // Corpo del serpente verde neon
     }
+    
+    snakeCtx.strokeStyle = '#008000'; // Bordo verde scuro per tutto il serpente
+    snakeCtx.lineWidth = 1;
 
     snakeCtx.beginPath();
     snakeCtx.roundRect(part.x, part.y, snakeBox, snakeBox, 5); // Angoli arrotondati
@@ -558,6 +560,7 @@ function snakeGameReset() {
   clearInterval(snakeGameLoop);
   snake = [{ x: 0, y: Math.floor(snakeCanvas.height / (2 * snakeBox)) * snakeBox }];
   snakeDirection = 'right';
+  nextDirection = 'right'; // Imposta la direzione iniziale in attesa
   snakeScore = 0;
   snakeObstacles = []; // Assicurati che gli ostacoli siano vuoti prima di iniziare
   snakeFood = snakeRandomFood();
@@ -578,6 +581,14 @@ function snakeStartGame(difficulty) {
 
 function snakeGameTick() {
   if (!snakeGameStarted) return;
+  
+  // Aggiorna la direzione solo una volta per tick
+  if ((nextDirection === 'up' && snakeDirection !== 'down') ||
+      (nextDirection === 'down' && snakeDirection !== 'up') ||
+      (nextDirection === 'left' && snakeDirection !== 'right') ||
+      (nextDirection === 'right' && snakeDirection !== 'left')) {
+      snakeDirection = nextDirection;
+  }
 
   const head = { x: snake[0].x, y: snake[0].y };
 
@@ -639,18 +650,18 @@ document.addEventListener('keydown', e => {
   
   if (!snakeGameStarted) return;
   switch (e.key) {
-    case 'ArrowUp': if (snakeDirection !== 'down') snakeDirection = 'up'; break;
-    case 'ArrowDown': if (snakeDirection !== 'up') snakeDirection = 'down'; break;
-    case 'ArrowLeft': if (snakeDirection !== 'right') snakeDirection = 'left'; break;
-    case 'ArrowRight': if (snakeDirection !== 'left') snakeDirection = 'right'; break;
+    case 'ArrowUp': if (snakeDirection !== 'down') nextDirection = 'up'; break;
+    case 'ArrowDown': if (snakeDirection !== 'up') nextDirection = 'down'; break;
+    case 'ArrowLeft': if (snakeDirection !== 'right') nextDirection = 'left'; break;
+    case 'ArrowRight': if (snakeDirection !== 'left') nextDirection = 'right'; break;
   }
 });
 
 // Controlli da pulsanti
-document.getElementById('snakeControl-up').addEventListener('click', () => { if (snakeDirection !== 'down') snakeDirection = 'up'; });
-document.getElementById('snakeControl-down').addEventListener('click', () => { if (snakeDirection !== 'up') snakeDirection = 'down'; });
-document.getElementById('snakeControl-left').addEventListener('click', () => { if (snakeDirection !== 'right') snakeDirection = 'left'; });
-document.getElementById('snakeControl-right').addEventListener('click', () => { if (snakeDirection !== 'left') snakeDirection = 'right'; });
+document.getElementById('snakeControl-up').addEventListener('click', () => { if (snakeDirection !== 'down') nextDirection = 'up'; });
+document.getElementById('snakeControl-down').addEventListener('click', () => { if (snakeDirection !== 'up') nextDirection = 'down'; });
+document.getElementById('snakeControl-left').addEventListener('click', () => { if (snakeDirection !== 'right') nextDirection = 'left'; });
+document.getElementById('snakeControl-right').addEventListener('click', () => { if (snakeDirection !== 'left') nextDirection = 'right'; });
 
 // Swipe touch
 let snakeTouchStartX = 0;
@@ -670,15 +681,15 @@ snakeCanvas.addEventListener("touchend", e => {
 
   if (Math.abs(dx) > Math.abs(dy)) { // Swipe orizzontale
     if (dx > 0) {
-      if (snakeDirection !== 'left') snakeDirection = 'right';
+      if (snakeDirection !== 'left') nextDirection = 'right';
     } else {
-      if (snakeDirection !== 'right') snakeDirection = 'left';
+      if (snakeDirection !== 'right') nextDirection = 'left';
     }
   } else { // Swipe verticale
     if (dy > 0) {
-      if (snakeDirection !== 'up') snakeDirection = 'down';
+      if (snakeDirection !== 'up') nextDirection = 'down';
     } else {
-      if (snakeDirection !== 'down') snakeDirection = 'up';
+      if (snakeDirection !== 'down') nextDirection = 'up';
     }
   }
 }, { passive: false });
