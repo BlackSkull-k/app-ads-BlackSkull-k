@@ -373,11 +373,6 @@
       color: #bdc3c7;
       text-align: center;
     }
-    .error-message {
-      color: #e74c3c;
-      font-weight: bold;
-      text-align: center;
-    }
   </style>
 </head>
 <body>
@@ -501,9 +496,19 @@
 </div>
 
 <script>
+  // Gemini API Configuration
+  // ATTENZIONE: La tua chiave API è esposta nel codice lato client.
+  // Questo non è un metodo sicuro per gestire una chiave API in produzione.
+  // Chiunque può visualizzare il codice sorgente della tua pagina web e rubare la chiave.
+  const GEMINI_API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=";
+  const API_KEY = "AIzaSyDo37G-qaDHLYTCNWitIiBQ5nyhnp9uigQ";
+  const MAX_RETRIES = 5;
+  const INITIAL_DELAY = 1000;
+
   // Chat history
   let chatHistory = [];
   const systemPrompts = {
+      // Modificato l'indirizzo email qui:
       'it': "Sei un assistente virtuale per il sito web BlackSkull-k. Rispondi alle domande degli utenti in modo amichevole e utile in italiano. Il tuo obiettivo è fornire informazioni sulle app e sul sito, e far sapere agli utenti che BlackSkull-k accetta commissioni per lo sviluppo di nuove app e siti web. Per richieste di commissioni o pubblicità, invita gli utenti a contattare BlackSkull-k via email all'indirizzo blackskull.k.info@gmail.com. Ecco alcune app che il sito offre: Piano, Torch Flash Light Plus, Memojiing, Infinity Jump Rabbit, Golf Wild.",
       'en': "You are a virtual assistant for the BlackSkull-k website. Answer user questions in a friendly and helpful way in English. Your goal is to provide information about the apps and the website, and let users know that BlackSkull-k accepts commissions for developing new apps and websites. For commission or advertising inquiries, invite users to contact BlackSkull-k via email at blackskull.k.info@gmail.com. Here are some apps the site offers: Piano, Torch Flash Light Plus, Memojiing, Infinity Jump Rabbit, Golf Wild.",
       'es': "Eres un asistente virtual para el sitio web de BlackSkull-k. Responde a las preguntas de los usuarios de forma amigable y útil en español. Tu objetivo es proporcionar información sobre las aplicaciones y el sitio web, y hacer saber a los usuarios que BlackSkull-k acepta encargos para el desarrollo de nuevas aplicaciones y sitios web. Para consultas sobre encargos o publicidad, invita a los usuarios a contactar a BlackSkull-k por correo electrónico en blackskull.k.info@gmail.com. Aquí hay algunas aplicaciones que el sitio ofrece: Piano, Torch Flash Light Plus, Memojiing, Infinity Jump Rabbit, Golf Wild."
@@ -544,48 +549,37 @@
   }
 
   async function callGeminiApi(history) {
-    let delay = 1000;
-    const MAX_RETRIES = 5;
+    let delay = INITIAL_DELAY;
     for (let i = 0; i < MAX_RETRIES; i++) {
       try {
-        console.log("Inviando richiesta alla funzione Netlify...");
-        console.log("Payload:", JSON.stringify({ contents: history }));
-
-        const response = await fetch('/.netlify/functions/gemini', {
+        const response = await fetch(GEMINI_API_URL + API_KEY, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ contents: history })
         });
 
         if (response.status === 429) {
-          console.warn(`Tentativo ${i + 1} fallito a causa di un 429. Riprovo in ${delay / 1000}s...`);
           await new Promise(resolve => setTimeout(resolve, delay));
           delay *= 2;
           continue;
         }
 
         if (!response.ok) {
-          console.error(`Errore di rete: HTTP status ${response.status} - ${response.statusText}`);
-          const errorBody = await response.text();
-          console.error("Corpo della risposta di errore:", errorBody);
           throw new Error(`API call failed with status: ${response.status}`);
         }
 
         const result = await response.json();
-        console.log("Risposta ricevuta:", result);
-
         if (result.candidates && result.candidates.length > 0 &&
             result.candidates[0].content && result.candidates[0].content.parts &&
             result.candidates[0].content.parts.length > 0) {
           return result.candidates[0].content.parts[0].text;
         } else {
-          console.error("Struttura di risposta non valida:", result);
-          throw new Error("Invalid response structure from backend");
+          throw new Error("Invalid response structure from Gemini API");
         }
       } catch (error) {
         console.error("Gemini API error:", error);
         if (i === MAX_RETRIES - 1) {
-          throw new Error("Si è verificato un errore durante la comunicazione con il modello.");
+          return "Si è verificato un errore durante la comunicazione con il modello.";
         }
       }
     }
@@ -610,8 +604,6 @@
 
     addMessageToChat(userMessage, "user");
     chatInput.value = "";
-    chatInput.disabled = true;
-    chatSendBtn.disabled = true;
 
     chatHistory.push({ role: "user", parts: [{ text: userMessage }] });
 
@@ -621,22 +613,13 @@
     chatHistoryDiv.appendChild(loadingMessage);
     chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
 
-    try {
-        const geminiResponse = await callGeminiApi(chatHistory);
-        addMessageToChat(geminiResponse, "gemini");
-        chatHistory.push({ role: "model", parts: [{ text: geminiResponse }] });
-    } catch (error) {
-        addMessageToChat(error.message, "error-message");
-        console.error("Errore finale:", error);
-    } finally {
-        const loadingIndicator = chatHistoryDiv.querySelector(".loading-indicator");
-        if (loadingIndicator) {
-            chatHistoryDiv.removeChild(loadingIndicator);
-        }
-        chatInput.disabled = false;
-        chatSendBtn.disabled = false;
-        chatInput.focus();
-    }
+    const geminiResponse = await callGeminiApi(chatHistory);
+
+    chatHistoryDiv.removeChild(loadingMessage);
+
+    addMessageToChat(geminiResponse, "gemini");
+
+    chatHistory.push({ role: "model", parts: [{ text: geminiResponse }] });
   }
 
   chatSendBtn.addEventListener("click", sendMessage);
@@ -646,21 +629,13 @@
     }
   });
 
-  // Funzione per l'animazione di fade-in
-  function fadeInCards() {
-    const cards = document.querySelectorAll(".card, .video-card, .admob-card");
-    cards.forEach((card, index) => {
-      setTimeout(() => {
-        card.classList.add("visible");
-      }, index * 150);
-    });
-  }
-
   // Fade-in + slide animation for cards
   document.addEventListener("DOMContentLoaded", function() {
-    fadeInCards();
+    const cards = document.querySelectorAll(".card, .video-card, .admob-card");
+    cards.forEach((card, index) => {
+      setTimeout(() => card.classList.add("visible"), index * 150);
+    });
     
-    // Inizializza la chat history con il prompt di sistema
     chatHistory = [{ role: "user", parts: [{ text: getPromptForLanguage() }] }];
     
     setPlaceholderForLanguage();
@@ -675,6 +650,7 @@
   function updateArrows() {
     if (nav.scrollWidth > nav.clientWidth) {
       leftArrow.style.display = nav.scrollLeft > 0 ? "block" : "none";
+      // Aggiunto il controllo per la freccia destra
       const atEnd = Math.floor(nav.scrollLeft + nav.clientWidth) >= nav.scrollWidth;
       rightArrow.style.display = atEnd ? "none" : "block";
     } else {
