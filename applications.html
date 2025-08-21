@@ -64,7 +64,7 @@ header img {
 }
 
 .navbar a:hover { background-color: #34495e; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
-.navbar a.active { background-color: #0b47a1; box-shadow: 0 4-10px rgba(0,0,0,0.3); }
+.navbar a.active { background-color: #0b47a1; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
 /* Freccette */
 .nav-arrow {
@@ -381,11 +381,13 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
-// Gestione freccette navbar
+// Gestione delle frecce e della centratura del link attivo
 const nav = document.querySelector('.navbar');
 const leftArrow = document.querySelector('.nav-left');
 const rightArrow = document.querySelector('.nav-right');
+const activeLink = document.querySelector('.navbar a.active');
 
+// Funzione per aggiornare la visibilità delle frecce
 function updateArrows() {
   if (nav.scrollWidth > nav.clientWidth) {
     leftArrow.style.display = nav.scrollLeft > 0 ? "block" : "none";
@@ -396,6 +398,18 @@ function updateArrows() {
   }
 }
 
+// Funzione per centrare il link attivo
+function centerActiveLink() {
+  if (activeLink) {
+    // Calcola la posizione al centro della navbar
+    const scrollPosition = activeLink.offsetLeft - (nav.offsetWidth / 2) + (activeLink.offsetWidth / 2);
+    nav.scrollLeft = scrollPosition;
+    // Aggiorna subito le frecce dopo aver centrato
+    updateArrows();
+  }
+}
+
+// Event listener per le frecce originali
 leftArrow.addEventListener('click', () => {
   nav.scrollBy({ left: -150, behavior: 'smooth' });
 });
@@ -403,9 +417,12 @@ rightArrow.addEventListener('click', () => {
   nav.scrollBy({ left: 150, behavior: 'smooth' });
 });
 
+// Event listener per l'aggiornamento delle frecce durante lo scroll manuale
 nav.addEventListener('scroll', updateArrows);
-window.addEventListener('resize', updateArrows);
-window.addEventListener('load', updateArrows);
+
+// Centra il link attivo al caricamento della pagina e al ridimensionamento
+window.addEventListener('load', centerActiveLink);
+window.addEventListener('resize', centerActiveLink);
 </script>
 
 </body>
