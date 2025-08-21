@@ -371,8 +371,12 @@ const rightArrow = document.querySelector('.nav-right');
 
 function updateArrows() {
   if (nav.scrollWidth > nav.clientWidth) {
-    leftArrow.style.display = nav.scrollLeft > 0 ? "block" : "none";
-    rightArrow.style.display = (nav.scrollLeft + nav.clientWidth < nav.scrollWidth) ? "block" : "none";
+    // Aggiungi una piccola tolleranza per risolvere i problemi su mobile
+    const atStart = nav.scrollLeft <= 1;
+    const atEnd = Math.ceil(nav.scrollLeft + nav.clientWidth) >= nav.scrollWidth;
+
+    leftArrow.style.display = atStart ? "none" : "block";
+    rightArrow.style.display = atEnd ? "none" : "block";
   } else {
     leftArrow.style.display = "none";
     rightArrow.style.display = "none";
