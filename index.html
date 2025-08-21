@@ -373,6 +373,11 @@
       color: #bdc3c7;
       text-align: center;
     }
+    .error-message {
+      color: #e74c3c;
+      font-weight: bold;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -580,7 +585,7 @@
       } catch (error) {
         console.error("Gemini API error:", error);
         if (i === MAX_RETRIES - 1) {
-          return "Si è verificato un errore durante la comunicazione con il modello.";
+          throw new Error("Si è verificato un errore durante la comunicazione con il modello.");
         }
       }
     }
@@ -616,16 +621,22 @@
     chatHistoryDiv.appendChild(loadingMessage);
     chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
 
-    const geminiResponse = await callGeminiApi(chatHistory);
-
-    chatHistoryDiv.removeChild(loadingMessage);
-
-    addMessageToChat(geminiResponse, "gemini");
-
-    chatHistory.push({ role: "model", parts: [{ text: geminiResponse }] });
-    chatInput.disabled = false;
-    chatSendBtn.disabled = false;
-    chatInput.focus();
+    try {
+        const geminiResponse = await callGeminiApi(chatHistory);
+        addMessageToChat(geminiResponse, "gemini");
+        chatHistory.push({ role: "model", parts: [{ text: geminiResponse }] });
+    } catch (error) {
+        addMessageToChat(error.message, "error-message");
+        console.error("Errore finale:", error);
+    } finally {
+        const loadingIndicator = chatHistoryDiv.querySelector(".loading-indicator");
+        if (loadingIndicator) {
+            chatHistoryDiv.removeChild(loadingIndicator);
+        }
+        chatInput.disabled = false;
+        chatSendBtn.disabled = false;
+        chatInput.focus();
+    }
   }
 
   chatSendBtn.addEventListener("click", sendMessage);
@@ -635,13 +646,21 @@
     }
   });
 
-  // Fade-in + slide animation for cards
-  document.addEventListener("DOMContentLoaded", function() {
+  // Funzione per l'animazione di fade-in
+  function fadeInCards() {
     const cards = document.querySelectorAll(".card, .video-card, .admob-card");
     cards.forEach((card, index) => {
-      setTimeout(() => card.classList.add("visible"), index * 150);
+      setTimeout(() => {
+        card.classList.add("visible");
+      }, index * 150);
     });
+  }
+
+  // Fade-in + slide animation for cards
+  document.addEventListener("DOMContentLoaded", function() {
+    fadeInCards();
     
+    // Inizializza la chat history con il prompt di sistema
     chatHistory = [{ role: "user", parts: [{ text: getPromptForLanguage() }] }];
     
     setPlaceholderForLanguage();
