@@ -210,11 +210,13 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 </div>
 
 <script>
-// Gestione freccette navbar
+// Gestione delle frecce e della centratura del link attivo
 const nav = document.querySelector('.navbar');
 const leftArrow = document.querySelector('.nav-left');
 const rightArrow = document.querySelector('.nav-right');
+const activeLink = document.querySelector('.navbar a.active');
 
+// Funzione originale per aggiornare la visibilità delle frecce
 function updateArrows() {
   if (nav.scrollWidth > nav.clientWidth) {
     leftArrow.style.display = nav.scrollLeft > 0 ? "block" : "none";
@@ -225,6 +227,18 @@ function updateArrows() {
   }
 }
 
+// Funzione per centrare il link attivo
+function centerActiveLink() {
+  if (activeLink) {
+    // Calcola la posizione al centro della navbar
+    const scrollPosition = activeLink.offsetLeft - (nav.offsetWidth / 2) + (activeLink.offsetWidth / 2);
+    nav.scrollLeft = scrollPosition;
+    // Aggiorna subito le frecce dopo aver centrato
+    updateArrows();
+  }
+}
+
+// Event listener per le frecce originali
 leftArrow.addEventListener('click', () => {
   nav.scrollBy({ left: -150, behavior: 'smooth' });
 });
@@ -232,9 +246,12 @@ rightArrow.addEventListener('click', () => {
   nav.scrollBy({ left: 150, behavior: 'smooth' });
 });
 
+// Event listener per l'aggiornamento delle frecce durante lo scroll manuale
 nav.addEventListener('scroll', updateArrows);
-window.addEventListener('resize', updateArrows);
-window.addEventListener('load', updateArrows);
+
+// Centra il link attivo al caricamento della pagina e al ridimensionamento
+window.addEventListener('load', centerActiveLink);
+window.addEventListener('resize', centerActiveLink);
 </script>
 
 </body>
