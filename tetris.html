@@ -354,7 +354,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 </div>
 
 <script>
-// Navbar arrow management
+// Gestione delle frecce della navbar
 const nav = document.querySelector('.navbar');
 const leftArrow = document.querySelector('.nav-left');
 const rightArrow = document.querySelector('.nav-right');
@@ -362,7 +362,7 @@ const rightArrow = document.querySelector('.nav-right');
 function updateArrows() {
   if (nav.scrollWidth > nav.clientWidth) {
     leftArrow.style.display = nav.scrollLeft > 0 ? "block" : "none";
-    rightArrow.style.display = (nav.scrollLeft + nav.clientWidth < nav.scrollWidth) ? "block" : "none";
+    rightArrow.style.display = (nav.scrollLeft + nav.clientWidth >= nav.scrollWidth) ? "none" : "block";
   } else {
     leftArrow.style.display = "none";
     rightArrow.style.display = "none";
