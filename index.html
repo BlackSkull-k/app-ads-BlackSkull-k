@@ -18,7 +18,6 @@
   <link rel="manifest" href="/manifest.json">
 
   <meta name="theme-color" content="#000000">
-
   <meta name="google-site-verification" content="p3WxNMSzZRIBQIWVgAqcBhdaD6CRG99rZ3fTvgYM1I8" />
 
   <meta name="description" content="Scopri tutte le app di BlackSkull-k, giochi e utility Android gratuiti.">
@@ -38,15 +37,21 @@
 
   <meta name="admob-app-id" content="ca-app-pub-6870698456420623~YOUR_APP_ID">
   
+  <!-- Importazione del font Poppins, come in contacts.html -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  
   <style>
     /* STILE GENERALE */
     html, body {
       height: 100%;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
-      background: #9d9f9f;
-      color: #333;
+      font-family: 'Poppins', sans-serif;
+      /* Sfondo con gradiente, come in contacts.html */
+      background: linear-gradient(135deg, #2c3e50, #1b2836);
+      color: #ecf0f1;
       display: flex;
       flex-direction: column;
     }
@@ -122,11 +127,16 @@
       padding:10px;
     }
     .section { margin-bottom:30px; padding:10px; }
-    .divider { height:2px; background:#222; margin:20px 0; border-radius:2px; }
+    .divider { height:2px; background:#556b7f; margin:20px 0; border-radius:2px; }
 
-    h2 { margin-bottom:15px; text-align:center; color:#0b47a1; }
+    h2 { 
+      margin-bottom:15px; 
+      text-align:center; 
+      /* Colore del titolo aggiornato per abbinare contacts.html */
+      color:#3498db; 
+    }
 
-    /* APP CARDS */
+    /* APP CARDS AGGIORNATE */
     .apps-grid, .videos-grid { 
       display:flex; 
       flex-wrap:wrap; 
@@ -134,52 +144,61 @@
       gap:15px; 
     }
     .card {
-      background:#fff; 
-      border-radius:10px; 
+      /* Stile aggiornato per le card */
+      background: #34495e; 
+      border-radius:15px; 
       width:180px; 
       padding:15px; 
       display:flex; 
       flex-direction:column; 
       align-items:center; 
-      justify-content: space-between; /* Aggiunto per allineare come la pagina Applications */
-      box-shadow:0 3px 6px rgba(0,0,0,0.1); 
+      justify-content: space-between; 
+      box-shadow: 0 10px 20px rgba(0,0,0,0.5); 
+      border: 2px solid #556b7f;
       transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
       opacity: 0; 
       transform: translateY(20px);
-      text-align: center; /* Aggiunto per allineare come la pagina Applications */
+      text-align: center;
     }
     .card.visible { opacity:1; transform: translateY(0); }
-    .card:hover, .card:active { transform: scale(1.05); box-shadow:0 15px 25px rgba(0,0,0,0.35); }
-    .card img { width:80px; height:80px; margin-bottom:10px; }
+    .card:hover, .card:active { transform: scale(1.05); box-shadow: 0 15px 25px rgba(0,0,0,0.6); }
+    .card img { width:80px; height:80px; margin-bottom:10px; border-radius: 10px; }
     .card span { font-weight:bold; margin-bottom:10px; text-align:center; }
     .card a { 
       text-decoration:none; 
       color:#fff; 
-      background:#28a745; 
+      /* Gradiente per il bottone, come in contacts.html */
+      background: linear-gradient(45deg, #1e2db6, #3498db); 
       padding:6px 12px; 
-      border-radius:5px; 
+      border-radius:8px; 
       font-weight:bold; 
-      margin-top:auto; /* Spinge il pulsante verso il basso */
+      margin-top:auto;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: all 0.2s ease;
     }
-    .card a:hover { background:#218838; }
+    .card a:hover { transform: translateY(-2px); box-shadow: 0 6px 10px rgba(0,0,0,0.4); }
     .card p { 
       font-size: 0.9em;
       text-align: center;
       margin: 5px 0 5px;
-      min-height: 2.4em; /* Aggiunto per uniformare l'altezza delle schede */
+      min-height: 2.4em;
     }
 
-    /* VIDEO CARDS */
+    /* VIDEO CARDS AGGIORNATE */
     .video-card {
-      background:#fff; 
-      border-radius:10px; 
+      background: #34495e; 
+      border-radius:15px; 
       width:300px;
       max-width: 100%;
       padding:15px;
-      box-shadow:0 3px 6px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+      border: 2px solid #556b7f;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
+      opacity: 0;
+      transform: translateY(20px);
     }
-    .video-card:hover { transform: scale(1.03); box-shadow:0 15px 25px rgba(0,0,0,0.35); }
+    .video-card.visible { opacity:1; transform: translateY(0); }
+    .video-card:hover { transform: scale(1.03); box-shadow: 0 15px 25px rgba(0,0,0,0.6); }
     .video-card .video-wrapper {
       position: relative;
       width: 100%;
@@ -198,11 +217,12 @@
       text-align: center;
       margin: 10px 0 5px;
       font-size: 1.1em;
+      color: #ecf0f1;
     }
     .video-card p {
       font-size: 0.9em;
       text-align: center;
-      color: #666;
+      color: #bdc3c7;
     }
 
     @media (max-width: 600px) {
@@ -210,7 +230,6 @@
         width: 45%; 
         padding: 12px; 
         min-height: auto;
-        /* Aggiunti stili dalla pagina applications.html per consistenza */
         flex: 0 0 calc(50% - 15px);
         box-sizing: border-box;
         justify-content: flex-start;
@@ -222,7 +241,7 @@
     }
 
     /* CONTACTS */
-    .contact a { color:#1a73e8; text-decoration:none; font-weight:bold; }
+    .contact a { color:#3498db; text-decoration:none; font-weight:bold; }
     .contact a:hover { text-decoration:underline; }
 
     /* ADS BUTTONS */
@@ -254,23 +273,30 @@
       display:flex;
       flex-direction:column;
       align-items:center;
-      background:#fff;
+      /* Stile aggiornato per la card AdMob */
+      background: #34495e;
       padding:20px;
-      border-radius:10px;
-      box-shadow:0 3px 6px rgba(0,0,0,0.1);
+      border-radius:15px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+      border: 2px solid #556b7f;
       max-width:200px;
       margin:0 auto;
       transition: all 0.3s ease;
+      opacity: 0;
+      transform: translateY(20px);
     }
-    .admob-card:hover { transform: translateY(-5px); box-shadow:0 10px 20px rgba(0,0,0,0.25);}
+    .admob-card.visible { opacity:1; transform: translateY(0); }
+    .admob-card:hover { transform: translateY(-5px); box-shadow:0 15px 25px rgba(0,0,0,0.6);}
 
     /* ADDITIONAL STYLES FOR GEMINI CHAT */
     .gemini-chat-container {
         max-width: 800px;
         margin: 20px auto;
-        background: #73a0ce;
-        border-radius: 10px;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        /* Stile aggiornato per il contenitore della chat */
+        background: #34495e;
+        border-radius: 15px;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        border: 2px solid #556b7f;
         padding: 20px;
         display: flex;
         flex-direction: column;
@@ -278,13 +304,13 @@
     #chat-history {
         height: 300px;
         overflow-y: auto;
-        border: 1px solid #ddd;
+        border: 1px solid #556b7f;
         border-radius: 8px;
         padding: 10px;
         margin-bottom: 10px;
         display: flex;
         flex-direction: column;
-        background: #e0e9f4;
+        background: #1b2836;
     }
     .message {
         padding: 8px 12px;
@@ -293,12 +319,12 @@
         max-width: 80%;
     }
     .message.user {
-        background-color: #0b47a1;
+        background-color: #3498db;
         color: white;
         align-self: flex-end;
     }
     .message.gemini {
-        background-color: #e0e0e0;
+        background-color: #bdc3c7;
         color: #333;
         align-self: flex-start;
         white-space: pre-wrap;
@@ -311,22 +337,31 @@
         flex-grow: 1;
         padding: 10px;
         border-radius: 8px;
-        border: 1px solid #ccc;
+        border: 1px solid #556b7f;
+        background-color: #556b7f;
+        color: #fff;
+    }
+    #chat-input::placeholder {
+        color: #bdc3c7;
     }
     #chat-send-btn {
         padding: 10px 20px;
-        background-color: #28a745;
+        background: linear-gradient(45deg, #1e2db6, #3498db);
         color: white;
         border: none;
         border-radius: 8px;
         cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        transition: all 0.2s ease;
     }
     #chat-send-btn:hover {
-        background-color: #218838;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 10px rgba(0,0,0,0.4);
     }
     .loading-indicator {
       font-style: italic;
-      color: #777;
+      color: #bdc3c7;
       text-align: center;
     }
   </style>
@@ -586,7 +621,7 @@
 
   // Fade-in + slide animation for cards
   document.addEventListener("DOMContentLoaded", function() {
-    const cards = document.querySelectorAll(".card, .video-card");
+    const cards = document.querySelectorAll(".card, .video-card, .admob-card");
     cards.forEach((card, index) => {
       setTimeout(() => card.classList.add("visible"), index * 150);
     });
