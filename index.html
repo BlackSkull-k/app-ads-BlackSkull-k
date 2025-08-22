@@ -134,7 +134,7 @@
     }
 
     /* UPDATED APP CARDS */
-    .apps-grid, .videos-grid { 
+    .apps-grid { 
       display:flex; 
       flex-wrap:wrap; 
       justify-content:center; 
@@ -179,47 +179,6 @@
       min-height: 2.4em;
     }
 
-    /* VIDEO CARDS */
-    .video-card {
-      background: rgba(52, 73, 94, 0.8);
-      border-radius:15px; 
-      width:300px;
-      max-width: 100%;
-      padding:15px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-      border: 2px solid #556b7f;
-      transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.5s ease;
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    .video-card.visible { opacity:1; transform: translateY(0); }
-    .video-card:hover { transform: scale(1.03); box-shadow: 0 15px 25px rgba(0,0,0,0.6); }
-    .video-card .video-wrapper {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%;
-      height: 0;
-    }
-    .video-card iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border-radius: 8px;
-    }
-    .video-card h3 { 
-      text-align: center;
-      margin: 10px 0 5px;
-      font-size: 1.1em;
-      color: #ecf0f1;
-    }
-    .video-card p {
-      font-size: 0.9em;
-      text-align: center;
-      color: #bdc3c7;
-    }
-
     @media (max-width: 600px) {
       .card { 
         width: 45%; 
@@ -232,7 +191,6 @@
       .card img { width:70px; height:70px; }
       .card span { font-size:0.9em; }
       .card:active { transform: scale(1.08); box-shadow:0 20px 30px rgba(0,0,0,0.4); }
-      .video-card { width: 90%; }
     }
 
     /* CONTACTS */
@@ -337,35 +295,6 @@
   
   <div class="divider"></div>
 
-  <div class="section" id="videos">
-    <h2>App Videos</h2>
-    <div class="videos-grid">
-      <div class="video-card">
-        <h3>Piano App Demonstration</h3>
-        <div class="video-wrapper">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/KgLWTpTnNoc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <p>Watch the Piano app in action!</p>
-      </div>
-      <div class="video-card">
-        <h3>Memojiing Gameplay</h3>
-        <div class="video-wrapper">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/tuZWIbJ85E4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <p>A gameplay video to discover the Memojiing app.</p>
-      </div>
-      <div class="video-card">
-        <h3>Infinity Jump Rabbit Gameplay</h3>
-        <div class="video-wrapper">
-          <iframe width="560" height="315" src="https://www.youtube.com/embed/dV6qsICPfMQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <p>A short gameplay video to show the game mechanics.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="divider"></div>
-
   <div class="section contact" id="contact">
     <div class="admob-card" style="max-width:200px;">
       <a href="https://play.google.com/store/apps/dev?id=6316655378671230760&hl=it" style="color:inherit; text-decoration:none;">
@@ -395,7 +324,7 @@
 <script>
   // Fade-in + slide animation for cards
   document.addEventListener("DOMContentLoaded", function() {
-    const cards = document.querySelectorAll(".card, .video-card, .admob-card");
+    const cards = document.querySelectorAll(".card, .admob-card");
     cards.forEach((card, index) => {
       setTimeout(() => card.classList.add("visible"), index * 150);
     });
