@@ -1,15 +1,16 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>BlackSkull-k Apps - Snake</title>
-<link rel="icon" type="image/png" sizes="32x32" href="images/bskFavicon32x.png">
-<link rel="apple-touch-icon" sizes="180x180" href="images/bskFavicon180x.png">
-<link rel="manifest" href="/manifest.json">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="images/bskFavicon32x.png" rel="icon" sizes="32x32" type="image/png"/>
+<link href="images/bskFavicon180x.png" rel="apple-touch-icon" sizes="180x180"/>
+<link href="/manifest.json" rel="manifest"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
 <style>
 /* STILI GENERALI */
 html, body {
@@ -304,65 +305,58 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 </style>
 </head>
 <body>
-
 <header>
-  <img src="images/Logo1.png" alt="BlackSkull-k Logo">
+<img alt="BlackSkull-k Logo" fetchpriority="high" src="images/Logo1.png"/>
 </header>
-
 <div class="navbar-container">
-  <div class="nav-arrow nav-left">&#10094;</div>
-  <div class="navbar">
-    <a href="index.html">Home</a>
-    <a href="applications.html">Applications</a>
-    <a href="flashgames.html" class="active">Flash Games</a>
-    <a href="contacts.html">Contacts</a>
-    <a href="affiliatesites.html">Affiliate Sites</a>
-  </div>
-  <div class="nav-arrow nav-right">&#10095;</div>
+<div class="nav-arrow nav-left">❮</div>
+<div class="navbar">
+<a href="index.html">Home</a>
+<a href="applications.html">Applications</a>
+<a class="active" href="flashgames.html">Flash Games</a>
+<a href="contacts.html">Contacts</a>
+<a href="affiliatesites.html">Affiliate Sites</a>
 </div>
-
+<div class="nav-arrow nav-right">❯</div>
+</div>
 <main class="content">
-  <div class="white-card">
-    <div id="snake-game">
-      <h2>Snake</h2>
-      <div id="snake-game-ui">
-        <span id="snakeScoreDisplay">Score: <span id="snakeScoreSpan">0</span></span>
-        <span id="snakeHighscoreDisplay">Highscore: <span id="snakeHighscoreSpan">0</span></span>
-        <button id="snake-restart-btn">Restart</button>
-      </div>
-      <canvas id="snakeGameCanvas" width="320" height="320"></canvas>
-      <div class="controls">
-        <button id="snakeControl-up" class="control-btn">&#9650;</button>
-        <button id="snakeControl-left" class="control-btn">&#9664;</button>
-        <div id="snakeControl-center"></div>
-        <button id="snakeControl-right" class="control-btn">&#9654;</button>
-        <button id="snakeControl-down" class="control-btn">&#9660;</button>
-      </div>
-
-      <!-- Overlays -->
-      <div id="snakeGameOverOverlay">
-        <h3>Game Over!</h3>
-        <p>Your Score: <span id="snakeFinalScore">0</span></p>
-        <p>Highscore: <span id="snakeFinalHighscore">0</span></p>
-        <button id="snakeRestartOverlayBtn">Play Again</button>
-      </div>
-
-      <div id="snakeStartOverlay">
-        <div id="snakeDifficultyCard">
-          <h2>Select Difficulty</h2>
-          <button id="snakeEasyBtn">Easy</button>
-          <button id="snakeMediumBtn">Medium</button>
-          <button id="snakeHardBtn">Hard</button>
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="white-card">
+<div id="snake-game">
+<h2>Snake</h2>
+<div id="snake-game-ui">
+<span id="snakeScoreDisplay">Score: <span id="snakeScoreSpan">0</span></span>
+<span id="snakeHighscoreDisplay">Highscore: <span id="snakeHighscoreSpan">0</span></span>
+<button id="snake-restart-btn">Restart</button>
+</div>
+<canvas height="320" id="snakeGameCanvas" width="320"></canvas>
+<div class="controls">
+<button class="control-btn" id="snakeControl-up">▲</button>
+<button class="control-btn" id="snakeControl-left">◀</button>
+<div id="snakeControl-center"></div>
+<button class="control-btn" id="snakeControl-right">▶</button>
+<button class="control-btn" id="snakeControl-down">▼</button>
+</div>
+<!-- Overlays -->
+<div id="snakeGameOverOverlay">
+<h3>Game Over!</h3>
+<p>Your Score: <span id="snakeFinalScore">0</span></p>
+<p>Highscore: <span id="snakeFinalHighscore">0</span></p>
+<button id="snakeRestartOverlayBtn">Play Again</button>
+</div>
+<div id="snakeStartOverlay">
+<div id="snakeDifficultyCard">
+<h2>Select Difficulty</h2>
+<button id="snakeEasyBtn">Easy</button>
+<button id="snakeMediumBtn">Medium</button>
+<button id="snakeHardBtn">Hard</button>
+</div>
+</div>
+</div>
+</div>
 </main>
-
 <div class="bottom-bar">
     BlackSkull-k ® 2021-2025
 </div>
-
 <script>
 // Gestione freccette navbar
 const nav = document.querySelector('.navbar');
@@ -721,6 +715,5 @@ snakeHardBtn.addEventListener('click', () => snakeStartGame(10.5));
 snakeGameReset();
 snakeHighscoreSpan.textContent = snakeHighscore;
 </script>
-
 </body>
 </html>
