@@ -11,7 +11,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* STILE GENERALE */
+/* GENERAL STYLE */
 html, body {
   height: 100%;
   margin: 0;
@@ -21,7 +21,7 @@ html, body {
   color: #ecf0f1;
   display: flex;
   flex-direction: column;
-  /* NUOVO: Rende lo sfondo fisso e non scorrevole */
+  /* NEW: Makes the background fixed and not scrollable */
   background-attachment: fixed;
 }
 
@@ -33,13 +33,13 @@ header img {
   margin-bottom: 10px;
 }
 
-/* Navbar scrollabile con freccette */
+/* Scrollable Navbar with arrows */
 .navbar-container {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Modificato per un effetto semitrasparente */
+  /* Modified for a semi-transparent effect */
   background-color: rgba(44, 62, 80, 0.8);
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
   padding: 10px 0;
@@ -67,7 +67,7 @@ header img {
 .navbar a:hover { background-color: #34495e; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
 .navbar a.active { background-color: #0b47a1; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-/* Freccette */
+/* Arrows */
 .nav-arrow {
   position: absolute;
   top: 50%;
@@ -100,13 +100,13 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 
 .content { padding-bottom: 60px; }
 
-/* Barra inferiore */
+/* Bottom bar */
 .bottom-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  /* Modificato per un effetto semitrasparente */
+  /* Modified for a semi-transparent effect */
   background-color: rgba(44, 62, 80, 0.8);
   color: #f0f0f0;
   text-align: center;
@@ -116,9 +116,9 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
   z-index: 1000;
 }
 
-/* Nuova classe per la scheda bianca */
+/* White card styles */
 .white-card {
-  /* Modificato per un effetto semitrasparente */
+  /* Modified for a semi-transparent effect */
   background: rgba(52, 73, 94, 0.8);
   border-radius: 15px;
   padding: 30px;
@@ -128,7 +128,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
   border: 2px solid #556b7f;
 }
 
-/* STILE DEL MENU DI SELEZIONE */
+/* SELECTION MENU STYLE */
 #game-selection {
     display: flex;
     flex-direction: column;
@@ -151,7 +151,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
     align-items: center;
     background: linear-gradient(135deg, #1e2db6, #3498db);
     box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-    /* NUOVO: Aggiungi proprietà per l'animazione di entrata */
+    /* NEW: Add properties for the entry animation */
     opacity: 0;
     transform: translateY(20px);
 }
@@ -175,18 +175,18 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 <body>
 
 <header>
-  <!-- Aggiunti attributi di larghezza e altezza per prevenire lo spostamento del layout -->
+  <!-- Added width and height attributes to prevent layout shift -->
   <img src="images/Logo1.png" alt="BlackSkull-k Logo" width="1000" height="200">
 </header>
 
 <div class="navbar-container">
   <div class="nav-arrow nav-left">&#10094;</div>
   <div class="navbar">
-    <a href="index.html">Home</a>
-    <a href="applications.html">Applications</a>
-    <a href="flashgames.html" class="active">Flash Games</a>
-    <a href="contacts.html">Contacts</a>
-    <a href="affiliate.html">Affiliate Sites</a>
+    <a href="index.html" title="Go to the main page">Home</a>
+    <a href="applications.html" title="Discover all our Android apps">Applications</a>
+    <a href="flashgames.html" class="active" title="Play our fun flash games for free">Flash Games</a>
+    <a href="contacts.html" title="Contact us for support or information">Contacts</a>
+    <a href="affiliate.html" title="Visit our affiliated websites">Affiliate Sites</a>
   </div>
   <div class="nav-arrow nav-right">&#10095;</div>
 </div>
@@ -195,8 +195,8 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
   <div class="white-card">
     <div id="game-selection">
         <h2>Select Game</h2>
-        <a href="snake.html" id="snake-btn">Snake</a>
-        <a href="tetris.html" id="tetris-btn">Tetris</a>
+        <a href="snake.html" id="snake-btn" title="Play Snake">Snake</a>
+        <a href="tetris.html" id="tetris-btn" title="Play Tetris">Tetris</a>
     </div>
   </div>
 </main>
@@ -214,37 +214,40 @@ document.addEventListener("DOMContentLoaded", function() {
   });
 });
 
-// Gestione delle frecce e della centratura del link attivo
+// Navbar arrows and active link centering management
 const nav = document.querySelector('.navbar');
 const leftArrow = document.querySelector('.nav-left');
 const rightArrow = document.querySelector('.nav-right');
 const activeLink = document.querySelector('.navbar a.active');
 
-// Funzione per aggiornare la visibilità delle frecce
+// Function to update arrow visibility
 function updateArrows() {
   if (nav.scrollWidth > nav.clientWidth) {
+    // Left arrow is only visible if we are not at the beginning
     leftArrow.style.display = nav.scrollLeft > 0 ? "block" : "none";
-    // La freccia destra scompare quando non c'è più spazio per scorrere
+    // Right arrow is only visible if we are not at the end
+    // Added a small margin for cross-browser compatibility
     const isAtEnd = Math.abs(nav.scrollLeft + nav.clientWidth - nav.scrollWidth) < 1;
     rightArrow.style.display = isAtEnd ? "none" : "block";
   } else {
+    // Hide arrows if there is no scroll
     leftArrow.style.display = "none";
     rightArrow.style.display = "none";
   }
 }
 
-// Funzione per centrare il link attivo
+// Function to center the active link
 function centerActiveLink() {
   if (activeLink) {
-    // Calcola la posizione al centro della navbar
+    // Calculate the center position of the navbar
     const scrollPosition = activeLink.offsetLeft - (nav.offsetWidth / 2) + (activeLink.offsetWidth / 2);
     nav.scrollLeft = scrollPosition;
-    // Aggiorna subito le frecce dopo aver centrato
+    // Update the arrows immediately after centering
     updateArrows();
   }
 }
 
-// Event listener per le frecce
+// Event listener for the arrows
 leftArrow.addEventListener('click', () => {
   nav.scrollBy({ left: -150, behavior: 'smooth' });
 });
@@ -252,10 +255,10 @@ rightArrow.addEventListener('click', () => {
   nav.scrollBy({ left: 150, behavior: 'smooth' });
 });
 
-// Event listener per l'aggiornamento delle frecce durante lo scroll manuale
+// Event listener for updating arrows during manual scroll
 nav.addEventListener('scroll', updateArrows);
 
-// Centra il link attivo al caricamento della pagina e al ridimensionamento
+// Center the active link on page load and resize
 window.addEventListener('load', centerActiveLink);
 window.addEventListener('resize', centerActiveLink);
 </script>
