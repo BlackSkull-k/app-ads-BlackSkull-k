@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+   <!-- Pagina principale -->
+   <url>
+      <loc>https://blackskullk.netlify.app/index.html</loc>
+      <lastmod>2025-08-24</lastmod>
+      <changefreq>weekly</changefreq>
+      <priority>1.0</priority>
+   </url>
+
+   <!-- Pagina delle applicazioni -->
+   <url>
+      <loc>https://blackskullk.netlify.app/applications.html</loc>
+      <lastmod>2025-08-24</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+
+   <!-- Pagina dei contatti -->
+   <url>
+      <loc>https://blackskullk.netlify.app/contacts.html</loc>
+      <lastmod>2025-08-24</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.8</priority>
+   </url>
+
+   <!-- Pagina degli affiliati -->
+   <url>
+      <loc>https://blackskullk.netlify.app/affiliate.html</loc>
+      <lastmod>2025-08-24</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+   </url>
+
+   <!-- Pagina dei flash games -->
+   <url>
+      <loc>https://blackskullk.netlify.app/flashgames.html</loc>
+      <lastmod>2025-08-24</lastmod>
+      <changefreq>monthly</changefreq>
+      <priority>0.7</priority>
+   </url>
+
+   <!-- File app-ads.txt per gli annunci, importante da includere -->
+   <url>
+      <loc>https://blackskullk.netlify.app/app-ads.txt</loc>
+      <lastmod>2025-08-24</lastmod>
+      <changefreq>yearly</changefreq>
+      <priority>0.5</priority>
+   </url>
+
+</urlset>
