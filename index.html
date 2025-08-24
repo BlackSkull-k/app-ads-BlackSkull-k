@@ -41,8 +41,8 @@
     Precarico i font per risolvere il problema segnalato nel test del sito.
     Questo fa sì che il browser inizi a scaricarli subito, senza aspettare il file CSS.
   -->
-  <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v23/pxiByp8kv8J/pxiByp8kv8J.woff2" as="font" crossorigin>
-  <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v23/pxiEyp8kv8J/pxiEyp8kv8J.woff2" as="font" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v23/pxiByp8kv8JHgFVrLCz7Z1xlFd2JQEk.woff2" as="font" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v23/pxiEyp8kv8JHgFVrJJfecnFHGPc.woff2" as="font" crossorigin>
 
   <!-- Poppins font import -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -169,6 +169,7 @@
     /* Updated class for fade-in effect */
     .card.visible { opacity:1; }
     .card:hover, .card:active { transform: scale(1.05); box-shadow: 0 15px 25px rgba(0,0,0,0.6); }
+    /* Aggiunti attributi width e height per prevenire il CLS */
     .card img { width:80px; height:80px; margin-bottom:10px; border-radius: 10px; }
     .card span { font-weight:bold; margin-bottom:10px; text-align:center; }
     .card a { 
@@ -292,34 +293,34 @@
   <h2>Welcome to BlackSkull-k Apps</h2>
   
   <div class="apps-grid">
-    <!-- Aggiornati i link delle app con l'attributo title in inglese -->
+    <!-- Aggiunti attributi width e height per prevenire il CLS -->
     <div class="card">
       <span>Piano</span>
-      <img src="images/Pianoicon.png" alt="Piano">
+      <img src="images/Pianoicon.png" alt="Piano" width="80" height="80">
       <p>A portable virtual piano, with a comfortable and realistic sound.</p>
       <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" target="_blank" title="Open Piano app on Google Play">Open</a>
     </div>
     <div class="card">
       <span>Torch Flash Light Plus</span>
-      <img src="images/Torchicon.png" alt="Torch Flash Light Plus">
+      <img src="images/Torchicon.png" alt="Torch Flash Light Plus" width="80" height="80">
       <p>A simple and practical flashlight, always with you, for any need.</p>
       <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" target="_blank" title="Open Torch Flash Light Plus on Google Play">Open</a>
     </div>
     <div class="card">
       <span>Memojiing</span>
-      <img src="images/Memoicon.png" alt="Memojiing">
+      <img src="images/Memoicon.png" alt="Memojiing" width="80" height="80">
       <p>An educational game for training your memory, both for adults and children.</p>
       <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank" title="Open Memojiing on Google Play">Open</a>
     </div>
     <div class="card">
       <span>Infinity Jump Rabbit</span>
-      <img src="images/IJRicon.png" alt="Infinity Jump Rabbit">
+      <img src="images/IJRicon.png" alt="Infinity Jump Rabbit" width="80" height="80">
       <p>Jump to infinity with your rabbit to avoid obstacles!</p>
       <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" target="_blank" title="Open Infinity Jump Rabbit on Google Play">Open</a>
     </div>
     <div class="card">
       <span>Golf Wild</span>
-      <img src="images/Golficon.png" alt="Golf Wild">
+      <img src="images/Golficon.png" alt="Golf Wild" width="80" height="80">
       <p>A fun and wild golf game, with original courses and unique adventures.</p>
       <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" target="_blank" title="Open Golf Wild on Google Play">Open</a>
     </div>
@@ -330,8 +331,9 @@
   <div class="section contact" id="contact">
     <div class="admob-card" style="max-width:200px;">
       <!-- Updated the link to the developer page with the title attribute in English -->
+      <!-- Aggiunto attributo width e height per prevenire il CLS -->
       <a href="https://play.google.com/store/apps/dev?id=6316655378671230760&hl=it" style="color:inherit; text-decoration:none;" title="Visit our developer page on Google Play">
-        <img src="images/PlayStoreicon.png" alt="BlackSkull-k Developer Page on Play Store" style="width:100%; max-width:150px; height:auto; display:block; margin:0 auto;">
+        <img src="images/PlayStoreicon.png" alt="BlackSkull-k Developer Page on Play Store" width="150" height="150" style="width:100%; max-width:150px; height:auto; display:block; margin:0 auto;">
       </a>
     </div>
   </div>
