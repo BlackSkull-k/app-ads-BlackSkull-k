@@ -92,6 +92,19 @@ main {
   margin: 20px auto;
   padding: 10px;
 }
+
+/* CSS to hide elements visually but keep them for screen readers/SEO */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
 h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 .content { padding-bottom: 60px; }
 
@@ -194,7 +207,10 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 </div>
 
 <main class="content">
-  <h2>Our Affiliates</h2>
+  <!-- The H2 tag is now hidden visually, but still present for SEO purposes -->
+  <h2 class="visually-hidden">Our Affiliates</h2>
+  <!-- This H3 tag is also now hidden visually -->
+  <h3 class="visually-hidden">BlackSkull-k Apps - Affiliate Sites</h3>
   <div class="affiliate-card">
     <img src="images/jfkicon1.png" alt="JFKar Auto Logo">
     <div class="affiliate-card-content">
