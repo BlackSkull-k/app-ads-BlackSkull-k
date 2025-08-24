@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-/* STILE GENERALE */
+/* GENERAL STYLE */
 html, body {
   height: 100%;
   margin: 0;
@@ -20,7 +20,7 @@ html, body {
   color: #ecf0f1;
   display: flex;
   flex-direction: column;
-  /* NUOVO: Rende lo sfondo fisso e non scorrevole */
+  /* NEW: Makes the background fixed and not scrollable */
   background-attachment: fixed;
 }
 
@@ -32,13 +32,13 @@ header img {
   margin-bottom: 10px;
 }
 
-/* Navbar scrollabile con freccette */
+/* Scrollable Navbar with arrows */
 .navbar-container {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Modificato per un effetto semitrasparente */
+  /* Modified for a semi-transparent effect */
   background-color: rgba(44, 62, 80, 0.8);
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
   padding: 10px 0;
@@ -66,7 +66,7 @@ header img {
 .navbar a:hover { background-color: #34495e; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
 .navbar a.active { background-color: #0b47a1; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
 
-/* Freccette */
+/* Arrows */
 .nav-arrow {
   position: absolute;
   top: 50%;
@@ -97,19 +97,19 @@ main {
 }
 h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 
-/* Grid applicazioni */
+/* Apps grid */
 .apps-grid {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 25px; /* Aumento dello spazio tra le card */
+  gap: 25px; /* Increased space between cards */
 }
 
 .card {
-  /* Modificato per un effetto semitrasparente */
+  /* Modified for a semi-transparent effect */
   background: rgba(52, 73, 94, 0.8);
   border-radius: 15px;
-  width: 200px; /* Aumento della larghezza della card */
+  width: 200px; /* Increased card width */
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -128,7 +128,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 .card:active { transform: scale(1); box-shadow: 0 5px 10px rgba(0,0,0,0.4); }
 
 .card img {
-  width: 90px; /* Aumento della dimensione dell'icona */
+  width: 90px; /* Increased icon size */
   height: 90px;
   margin-bottom: 15px;
   border-radius: 10px;
@@ -138,7 +138,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
   font-size: 0.9em; 
   color: #bdc3c7; 
   margin-bottom: 10px; 
-  min-height: 2.8em; /* Altezza minima per uniformare */
+  min-height: 2.8em; /* Minimum height for uniformity */
 }
 
 .card a { 
@@ -163,9 +163,9 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
   box-shadow: 0 2px 4px rgba(0,0,0,0.3);
 }
 
-/* STILI PER LE CARD DELLE IDEE AI */
+/* AI ideas card styles */
 .ai-card {
-  /* Modificato per un effetto semitrasparente */
+  /* Modified for a semi-transparent effect */
   background: rgba(52, 73, 94, 0.8);
   border-radius: 15px;
   padding: 30px;
@@ -262,13 +262,13 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
   .card:active { transform: scale(1.08); box-shadow: 0 20px 30px rgba(0,0,0,0.4); }
 }
 
-/* Barra inferiore */
+/* Bottom bar */
 .bottom-bar {
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
-  /* Modificato per un effetto semitrasparente */
+  /* Modified for a semi-transparent effect */
   background-color: rgba(44, 62, 80, 0.8);
   color: #f0f0f0;
   text-align: center;
@@ -278,7 +278,7 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
   z-index: 1000;
 }
 
-/* Spazio per la barra */
+/* Space for the bar */
 .content { padding-bottom: 60px; }
 
 </style>
@@ -286,18 +286,18 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 <body>
 
 <header>
-  <!-- Aggiunti attributi di larghezza e altezza per prevenire lo spostamento del layout -->
+  <!-- Added width and height attributes to prevent layout shift -->
   <img src="images/Logo1.png" alt="BlackSkull-k Logo" width="1000" height="200">
 </header>
 
 <div class="navbar-container">
   <div class="nav-arrow nav-left">&#10094;</div>
   <div class="navbar">
-    <a href="index.html">Home</a>
-    <a href="applications.html" class="active">Applications</a>
-    <a href="flashgames.html">Flash Games</a>
-    <a href="contacts.html">Contacts</a>
-    <a href="affiliate.html">Affiliate Sites</a>
+    <a href="index.html" title="Go to the main page">Home</a>
+    <a href="applications.html" class="active" title="Discover all our Android apps">Applications</a>
+    <a href="flashgames.html" title="Play our fun flash games for free">Flash Games</a>
+    <a href="contacts.html" title="Contact us for support or information">Contacts</a>
+    <a href="affiliate.html" title="Visit our affiliated websites">Affiliate Sites</a>
   </div>
   <div class="nav-arrow nav-right">&#10095;</div>
 </div>
@@ -309,31 +309,31 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
       <span>Piano</span>
       <img src="images/Pianoicon.png" alt="Piano">
       <p>A virtual keyboard to play the piano.</p>
-      <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" target="_blank">Open</a>
+      <a href="https://play.google.com/store/apps/details?id=com.PianoBlackskullk.com" target="_blank" title="Open Piano app on Google Play">Open</a>
     </div>
     <div class="card">
       <span>Memojiing</span>
       <img src="images/Memoicon.png" alt="Memojiing">
       <p>Match the pair of cards before time runs out!</p>
-      <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank">Open</a>
+      <a href="https://play.google.com/store/apps/details?id=com.memojingblackskullk.com" target="_blank" title="Open Memojiing on Google Play">Open</a>
     </div>
     <div class="card">
       <span>Infinity Jump Rabbit</span>
       <img src="images/IJRicon.png" alt="Infinity Jump Rabbit">
       <p>Help a bunny jump endlessly, be first on the Play Games leaderboard.</p>
-      <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" target="_blank">Open</a>
+      <a href="https://play.google.com/store/apps/details?id=com.infinityjumprabbit.com" target="_blank" title="Open Infinity Jump Rabbit on Google Play">Open</a>
     </div>
     <div class="card">
       <span>Torch Flash Light Plus</span>
       <img src="images/Torchicon.png" alt="Torch Flash Light Plus">
       <p>Emergency flashlight, you can even use it when your device is on low battery.</p>
-      <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" target="_blank">Open</a>
+      <a href="https://play.google.com/store/apps/details?id=com.TorchFlashLightPlusBlackskullk.com" target="_blank" title="Open Torch Flash Light Plus on Google Play">Open</a>
     </div>
     <div class="card">
       <span>Golf Wild</span>
       <img src="images/Golficon.png" alt="Golf Wild">
       <p>A fun and wild golf game, with original courses and unique adventures.</p>
-      <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" target="_blank">Open</a>
+      <a href="https://play.google.com/store/apps/details?id=com.golfwildblackskullk.com" target="_blank" title="Open Golf Wild on Google Play">Open</a>
     </div>
   </div>
 </main>
@@ -347,44 +347,44 @@ h2 { margin-bottom: 15px; text-align: center; color: #3498db; }
 document.addEventListener("DOMContentLoaded", function() {
   const cards = document.querySelectorAll('.card');
   cards.forEach((card, index) => {
-    // La nuova transizione non sposta le card, prevenendo il CLS
+    // The new transition doesn't move the cards, preventing CLS
     setTimeout(() => { card.classList.add('visible'); }, 150 * index);
   });
 });
 
-// Gestione delle frecce e della centratura del link attivo
+// Navbar arrows and active link centering management
 const nav = document.querySelector('.navbar');
 const leftArrow = document.querySelector('.nav-left');
 const rightArrow = document.querySelector('.nav-right');
 const activeLink = document.querySelector('.navbar a.active');
 
-// Funzione per aggiornare la visibilità delle frecce
+// Function to update arrow visibility
 function updateArrows() {
   if (nav.scrollWidth > nav.clientWidth) {
-    // La freccia sinistra è visibile solo se non siamo all'inizio
+    // Left arrow is only visible if we are not at the beginning
     leftArrow.style.display = nav.scrollLeft > 0 ? "block" : "none";
-    // La freccia destra è visibile solo se non siamo alla fine
-    // Aggiungiamo un piccolo margine per la compatibilità tra browser
+    // Right arrow is only visible if we are not at the end
+    // Added a small margin for cross-browser compatibility
     rightArrow.style.display = (nav.scrollLeft + nav.clientWidth >= nav.scrollWidth - 1) ? "none" : "block";
   } else {
-    // Nascondi le frecce se non c'è scroll
+    // Hide arrows if there is no scroll
     leftArrow.style.display = "none";
     rightArrow.style.display = "none";
   }
 }
 
-// Funzione per centrare il link attivo
+// Function to center the active link
 function centerActiveLink() {
   if (activeLink) {
-    // Calcola la posizione al centro della navbar
+    // Calculate the center position of the navbar
     const scrollPosition = activeLink.offsetLeft - (nav.offsetWidth / 2) + (activeLink.offsetWidth / 2);
     nav.scrollLeft = scrollPosition;
-    // Aggiorna subito le frecce dopo aver centrato
+    // Update the arrows immediately after centering
     updateArrows();
   }
 }
 
-// Event listener per le frecce originali
+// Event listener for the original arrows
 leftArrow.addEventListener('click', () => {
   nav.scrollBy({ left: -150, behavior: 'smooth' });
 });
@@ -392,10 +392,10 @@ rightArrow.addEventListener('click', () => {
   nav.scrollBy({ left: 150, behavior: 'smooth' });
 });
 
-// Event listener per l'aggiornamento delle frecce durante lo scroll manuale
+// Event listener for updating arrows during manual scroll
 nav.addEventListener('scroll', updateArrows);
 
-// Centra il link attivo al caricamento della pagina e al ridimensionamento
+// Center the active link on page load and resize
 window.addEventListener('load', centerActiveLink);
 window.addEventListener('resize', centerActiveLink);
 </script>
