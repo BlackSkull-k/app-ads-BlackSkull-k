@@ -466,29 +466,31 @@ function generateObstacles(difficulty) {
     snakeObstacles.push({ x: centerX, y: centerY - snakeBox });
     snakeObstacles.push({ x: centerX, y: centerY + snakeBox });
   } else if (difficulty === 10.5) { // Difficoltà difficile
-    const numWalls = Math.floor(Math.random() * 3) + 2; // 2-4 muri
-    for (let i = 0; i < numWalls; i++) {
-      let wallLength = Math.floor(Math.random() * 3) + 2; // Lunghezza 2-4
-      let isVertical = Math.random() < 0.5;
-      let startX, startY;
-
-      // Trova una posizione casuale valida per l'ostacolo
-      do {
-        startX = Math.floor(Math.random() * (snakeCanvas.width / snakeBox)) * snakeBox;
-        startY = Math.floor(Math.random() * (snakeCanvas.height / snakeBox)) * snakeBox;
-      } while ((startX < snakeBox * 5 && startY < snakeBox * 5) || // Evita la zona di partenza
-               (isVertical && startY + wallLength * snakeBox > snakeCanvas.height) ||
-               (!isVertical && startX + wallLength * snakeBox > snakeCanvas.width));
-      
-      // Aggiungi le parti dell'ostacolo
-      for (let j = 0; j < wallLength; j++) {
-        if (isVertical) {
-          snakeObstacles.push({ x: startX, y: startY + j * snakeBox });
-        } else {
-          snakeObstacles.push({ x: startX + j * snakeBox, y: startY });
-        }
-      }
-    }
+    // Posizioni predefinite per i muri
+    const wallConfigurations = [
+      // Muro verticale a sinistra e muro orizzontale in basso
+      [
+        {x: 6*snakeBox, y: 3*snakeBox}, {x: 6*snakeBox, y: 4*snakeBox}, {x: 6*snakeBox, y: 5*snakeBox}, {x: 6*snakeBox, y: 6*snakeBox},
+        {x: 14*snakeBox, y: 14*snakeBox}, {x: 15*snakeBox, y: 14*snakeBox}, {x: 16*snakeBox, y: 14*snakeBox}
+      ],
+      // Muro orizzontale in alto e muro verticale a destra
+      [
+        {x: 5*snakeBox, y: 5*snakeBox}, {x: 6*snakeBox, y: 5*snakeBox}, {x: 7*snakeBox, y: 5*snakeBox},
+        {x: 15*snakeBox, y: 10*snakeBox}, {x: 15*snakeBox, y: 11*snakeBox}, {x: 15*snakeBox, y: 12*snakeBox}, {x: 15*snakeBox, y: 13*snakeBox}
+      ],
+      // Due muri verticali al centro
+      [
+        {x: 6*snakeBox, y: 4*snakeBox}, {x: 6*snakeBox, y: 5*snakeBox}, {x: 6*snakeBox, y: 6*snakeBox}, {x: 6*snakeBox, y: 7*snakeBox},
+        {x: 14*snakeBox, y: 10*snakeBox}, {x: 14*snakeBox, y: 11*snakeBox}, {x: 14*snakeBox, y: 12*snakeBox}, {x: 14*snakeBox, y: 13*snakeBox}
+      ]
+    ];
+    
+    // Scegli una configurazione casuale
+    const selectedWalls = wallConfigurations[Math.floor(Math.random() * wallConfigurations.length)];
+    snakeObstacles = selectedWalls.map(wall => ({
+      x: wall.x,
+      y: wall.y
+    }));
   }
 }
 
