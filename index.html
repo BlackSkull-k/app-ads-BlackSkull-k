@@ -37,6 +37,13 @@
   <meta name="twitter:description" content="Discover all BlackSkull-k apps, free Android games and utilities.">
   <meta name="twitter:image" content="images/bskFavicon180x.png">
   
+  <!--
+    Precarico i font per risolvere il problema segnalato nel test del sito.
+    Questo fa sì che il browser inizi a scaricarli subito, senza aspettare il file CSS.
+  -->
+  <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v23/pxiByp8kv8J/pxiByp8kv8J.woff2" as="font" crossorigin>
+  <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v23/pxiEyp8kv8J/pxiEyp8kv8J.woff2" as="font" crossorigin>
+
   <!-- Poppins font import -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
