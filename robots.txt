@@ -1,5 +1,7 @@
 User-agent: *
 Disallow:
 
+Sitemap: https://blackskullk.netlify.app/sitemap.xml
+
 User-agent: Google-adstxt
 Allow: /app-ads.txt
